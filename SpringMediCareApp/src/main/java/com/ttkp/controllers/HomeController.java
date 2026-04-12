@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class HomeController {
@@ -86,8 +88,26 @@ public class HomeController {
             return "register";
         }
 
-        repo.registerPatient(firstName, lastName, email, phone, username, password,
-                dateOfBirth, gender, address);
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dob = LocalDate.parse(dateOfBirth, formatter);
+
+            repo.registerPatient(
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    username,
+                    password,
+                    dob.toString(),
+                    gender,
+                    address
+            );
+
+        } catch (Exception ex) {
+            model.addAttribute("error", "Ngày sinh phải đúng định dạng dd/MM/yyyy");
+            return "register";
+        }
 
         model.addAttribute("success", "Đăng ký thành công, hãy đăng nhập");
         return "login";

@@ -1,7 +1,7 @@
 package com.ttkp.repositories;
 
 import com.ttkp.configs.JdbcConfigs;
-import com.ttkp.pojo.SpecialtyView;
+import com.ttkp.pojo.Specialty;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +10,8 @@ import java.util.List;
 
 public class SpecialtyRepository {
 
-    public List<SpecialtyView> getSpecialties() {
-        List<SpecialtyView> specialties = new ArrayList<>();
+    public List<Specialty> getSpecialties() {
+        List<Specialty> specialties = new ArrayList<>();
 
         String sql = """
             SELECT specialty_id, name, description, image
@@ -22,12 +22,12 @@ public class SpecialtyRepository {
         try (Connection conn = JdbcConfigs.getConn(); PreparedStatement stm = conn.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
 
             while (rs.next()) {
-                SpecialtyView s = new SpecialtyView(
-                        rs.getInt("specialty_id"),
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getString("image")
-                );
+                Specialty s = new Specialty();
+                s.setSpecialtyId(rs.getInt("specialty_id"));
+                s.setName(rs.getString("name"));
+                s.setDescription(rs.getString("description"));
+                s.setImage(rs.getString("image"));
+
                 specialties.add(s);
             }
 

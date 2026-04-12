@@ -1,20 +1,18 @@
 package com.ttkp.controllers;
 
+import com.ttkp.pojo.User;
 import com.ttkp.repositories.DoctorRepository;
 import com.ttkp.repositories.SpecialtyRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.ttkp.pojo.UserAccount;
 import com.ttkp.repositories.UserRepository;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.GetMapping;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
@@ -31,6 +29,13 @@ public class HomeController {
         return "doctor";
     }
 
+    @RequestMapping("/specialties")
+    public String specialties(Model model) {
+        SpecialtyRepository repo = new SpecialtyRepository();
+        model.addAttribute("specialties", repo.getSpecialties());
+        return "specialties";
+    }
+
     @RequestMapping("/login")
     public String login() {
         return "login";
@@ -42,7 +47,7 @@ public class HomeController {
             Model model,
             HttpSession session) {
         UserRepository repo = new UserRepository();
-        UserAccount user = repo.login(username, password);
+        User user = repo.login(username, password);
 
         if (user == null) {
             model.addAttribute("error", "Sai tên đăng nhập/email hoặc mật khẩu");
@@ -111,12 +116,5 @@ public class HomeController {
 
         model.addAttribute("success", "Đăng ký thành công, hãy đăng nhập");
         return "login";
-    }
-
-    @RequestMapping("/specialties")
-    public String specialties(Model model) {
-        SpecialtyRepository repo = new SpecialtyRepository();
-        model.addAttribute("specialties", repo.getSpecialties());
-        return "specialties";
     }
 }

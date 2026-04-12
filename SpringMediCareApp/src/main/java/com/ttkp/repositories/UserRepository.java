@@ -1,7 +1,7 @@
 package com.ttkp.repositories;
 
 import com.ttkp.configs.JdbcConfigs;
-import com.ttkp.pojo.UserAccount;
+import com.ttkp.pojo.User;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,9 +10,9 @@ import java.sql.Statement;
 
 public class UserRepository {
 
-    public UserAccount login(String usernameOrEmail, String password) {
+    public User login(String usernameOrEmail, String password) {
         String sql = """
-            SELECT id, first_name, last_name, username, role
+            SELECT id, first_name, last_name, email, phone, username, password, role
             FROM user
             WHERE (username = ? OR email = ?) AND password = ?
             LIMIT 1
@@ -26,15 +26,19 @@ public class UserRepository {
 
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
-                    return new UserAccount(
-                            rs.getInt("id"),
-                            rs.getString("first_name"),
-                            rs.getString("last_name"),
-                            rs.getString("username"),
-                            rs.getString("role")
-                    );
+                    User u = new User();
+                    u.setId(rs.getInt("id"));
+                    u.setFirstName(rs.getString("first_name"));
+                    u.setLastName(rs.getString("last_name"));
+                    u.setEmail(rs.getString("email"));
+                    u.setPhone(rs.getString("phone"));
+                    u.setUsername(rs.getString("username"));
+                    u.setPassword(rs.getString("password"));
+                    u.setRole(rs.getString("role"));
+                    return u;
                 }
             }
+
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new RuntimeException("LOI DANG NHAP: " + ex.getMessage(), ex);
@@ -53,6 +57,7 @@ public class UserRepository {
             try (ResultSet rs = stm.executeQuery()) {
                 return rs.next();
             }
+
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new RuntimeException("LOI KIEM TRA USERNAME", ex);
@@ -69,6 +74,7 @@ public class UserRepository {
             try (ResultSet rs = stm.executeQuery()) {
                 return rs.next();
             }
+
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new RuntimeException("LOI KIEM TRA EMAIL", ex);

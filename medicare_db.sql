@@ -27,8 +27,8 @@ CREATE TABLE `appointment` (
   `patient_id` int NOT NULL,
   `doctor_id` int NOT NULL,
   `appointment_date` datetime NOT NULL,
-  `status` enum('pending','confirmed','completed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `notes` text COLLATE utf8mb4_unicode_ci,
+  `status` enum('pending','confirmed','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`appointment_id`),
   KEY `idx_appointment_patient_id` (`patient_id`),
@@ -49,6 +49,33 @@ INSERT INTO `appointment` VALUES (1,1,1,'2026-04-10 09:00:00','confirmed','Kham 
 UNLOCK TABLES;
 
 --
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category` (
+  `category_id` int NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  PRIMARY KEY (`category_id`),
+  UNIQUE KEY `uk_drug_category_name` (`category_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'Thuốc giảm đau - hạ sốt','Nhóm thuốc dùng để giảm đau nhẹ đến vừa và hạ sốt.','active'),(2,'Vitamin và khoáng chất','Nhóm thuốc bổ sung vitamin, khoáng chất, tăng sức đề kháng.','active'),(3,'Thuốc chống dị ứng','Nhóm thuốc hỗ trợ điều trị dị ứng, nổi mề đay, viêm mũi dị ứng.','active'),(4,'Thuốc tiêu hóa','Nhóm thuốc điều trị trào ngược dạ dày, khó tiêu, tiêu chảy.','active'),(5,'Thuốc kháng sinh','Nhóm thuốc điều trị nhiễm khuẩn, dùng theo chỉ định bác sĩ.','active'),(6,'Thuốc tim mạch - huyết áp','Nhóm thuốc điều trị tăng huyết áp, đau thắt ngực, bệnh tim mạch.','active'),(7,'Thuốc hô hấp','Nhóm thuốc hỗ trợ điều trị hen suyễn, co thắt phế quản.','active'),(8,'Thuốc kháng viêm','Nhóm thuốc giảm viêm, dùng theo chỉ định.','active'),(9,'Thuốc tẩy giun','Nhóm thuốc điều trị và dự phòng nhiễm giun sán.','active'),(10,'Thuốc răng hàm mặt','Nhóm thuốc điều trị nhiễm trùng răng miệng, viêm lợi, sâu răng.','active');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `doctor`
 --
 
@@ -58,10 +85,10 @@ DROP TABLE IF EXISTS `doctor`;
 CREATE TABLE `doctor` (
   `doctor_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `full_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `full_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `specialty_id` int NOT NULL,
   `experience_years` int NOT NULL DEFAULT '0',
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`doctor_id`),
   UNIQUE KEY `uk_doctor_user_id` (`user_id`),
   KEY `idx_doctor_specialty_id` (`specialty_id`),
@@ -89,11 +116,23 @@ DROP TABLE IF EXISTS `drug`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `drug` (
   `drug_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `category_id` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `price` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`drug_id`)
+  `quantity` int NOT NULL DEFAULT '0',
+  `min_quantity` int NOT NULL DEFAULT '20',
+  `production_date` date DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
+  `dosage_form` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `unit` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `strength` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `manufacturer` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('available','low_stock','expired','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'available',
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`drug_id`),
+  KEY `idx_drug_category_id` (`category_id`),
+  CONSTRAINT `fk_drug_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -103,37 +142,8 @@ CREATE TABLE `drug` (
 
 LOCK TABLES `drug` WRITE;
 /*!40000 ALTER TABLE `drug` DISABLE KEYS */;
-INSERT INTO `drug` VALUES (1,'Paracetamol','Giam dau ha sot',5000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726283/Paracetamol_ewnf42.jpg'),(2,'Vitamin C','Tang suc de khang',3000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726425/Vitamin_C_vmc8io.png'),(3,'Cetirizine','Thuoc chong di ung',7000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726456/Cetirizine_nlrkhh.jpg'),(4,'Panadol Extra','Giam dau nhanh, ha sot, co cafein giup tinh tao',6000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726587/PanadolExtra_en6wuf.jpg'),(5,'Gaviscon','Dieu tri trao nguoc da day va o chua',2000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726805/Gaviscon_evnufe.jpg'),(6,'Augmentin','Khang sinh dieu tri nhiem khuan duong ho hap',50000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726846/Augmentin_c2k4mg.jpg'),(7,'Amlodipine','Dieu tri cao huyet ap va dau that nguc',40000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726876/Amlodipine_qr9yot.jpg'),(8,'Salbutamol','Thuoc xit gian phe quan, dieu tri hen suyen',100000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726914/Salbutamol_hlfvob.jpg'),(9,'Efferalgan','Giam dau, ha sot dang sui bot',50000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775726960/Efferalgan_jqcfn7.jpg'),(10,'Hapacol 150','Thuoc ha sot chuyen dung cho tre em',30000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775727012/Hapacol150_hgtmz5.jpg'),(11,'Dexamethasone','Thuoc khang viem manh, dieu tri di ung nang',10000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775727049/Dexamethasone_imzdmn.jpg'),(12,'Mebendazole','Thuoc tay giun dinh ky cho nguoi lon va tre em',55000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775727101/Mebendazole_qr5iyw.jpg'),(13,'Smecta','Thuoc dieu tri tieu chay va dau thuc quan, da day',60000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775727107/Smecta_pxtqnu.jpg'),(14,'Rodogyl','Khang sinh dac tri nhiem trung rang mieng, viem loi',70000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775727161/Rodogyl_yzm4vf.jpg'),(15,'Franrogyl','Dieu tri sau rang, viem chan rang va phu ne',10000.00,'https://res.cloudinary.com/dczz59gpu/image/upload/v1775727167/Franrogyl_zztcjg.jpg');
+INSERT INTO `drug` VALUES (1,1,'Paracetamol','Giam dau ha sot',5000.00,100,20,'2025-01-01','2027-12-31','Viên nén','viên','500mg','DHG Pharma','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726283/Paracetamol_ewnf42.jpg'),(2,2,'Vitamin C','Tang suc de khang',3000.00,200,20,'2024-10-15','2027-10-15','Viên nén','viên','500mg','Domesco','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726425/Vitamin_C_vmc8io.png'),(3,3,'Cetirizine','Thuoc chong di ung',7000.00,150,20,'2024-08-20','2027-08-20','Viên nén','viên','10mg','Stada','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726456/Cetirizine_nlrkhh.jpg'),(4,1,'Panadol Extra','Giam dau nhanh, ha sot, co cafein giup tinh tao',6000.00,300,20,'2025-02-10','2028-02-10','Viên nén','viên','500mg + 65mg','GSK','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726587/PanadolExtra_en6wuf.jpg'),(5,4,'Gaviscon','Dieu tri trao nguoc da day va o chua',2000.00,120,20,'2025-03-01','2028-03-01','Gói hỗn dịch','gói','10ml','Reckitt','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726805/Gaviscon_evnufe.jpg'),(6,5,'Augmentin','Khang sinh dieu tri nhiem khuan duong ho hap',50000.00,150,20,'2025-01-15','2027-01-15','Viên nén','viên','625mg','GSK','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726846/Augmentin_c2k4mg.jpg'),(7,6,'Amlodipine','Dieu tri cao huyet ap va dau that nguc',40000.00,50,20,'2024-12-01','2027-12-01','Viên nén','viên','5mg','Stella','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726876/Amlodipine_qr9yot.jpg'),(8,7,'Salbutamol','Thuoc xit gian phe quan, dieu tri hen suyen',100000.00,60,20,'2025-02-20','2027-02-20','Bình xịt','bình','100mcg/liều','GSK','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726914/Salbutamol_hlfvob.jpg'),(9,1,'Efferalgan','Giam dau, ha sot dang sui bot',50000.00,15,20,'2025-01-10','2028-01-10','Viên sủi','viên','500mg','UPSA','low_stock','https://res.cloudinary.com/dczz59gpu/image/upload/v1775726960/Efferalgan_jqcfn7.jpg'),(10,1,'Hapacol 150','Thuoc ha sot chuyen dung cho tre em',30000.00,70,20,'2025-03-15','2028-03-15','Gói bột','gói','150mg','DHG Pharma','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775727012/Hapacol150_hgtmz5.jpg'),(11,8,'Dexamethasone','Thuoc khang viem manh, dieu tri di ung nang',10000.00,80,20,'2025-02-05','2027-02-05','Viên nén','viên','0.5mg','Mekophar','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775727049/Dexamethasone_imzdmn.jpg'),(12,9,'Mebendazole','Thuoc tay giun dinh ky cho nguoi lon va tre em',55000.00,90,20,'2024-11-20','2027-11-20','Viên nén','viên','500mg','Mebiphar','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775727101/Mebendazole_qr5iyw.jpg'),(13,4,'Smecta','Thuoc dieu tri tieu chay va dau thuc quan, da day',60000.00,45,20,'2025-01-25','2028-01-25','Gói bột','gói','3g','Ipsen','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775727107/Smecta_pxtqnu.jpg'),(14,10,'Rodogyl','Khang sinh dac tri nhiem trung rang mieng, viem loi',70000.00,70,20,'2025-03-10','2028-03-10','Viên nén','viên','Spiramycin + Metronidazole','Sanofi','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775727161/Rodogyl_yzm4vf.jpg'),(15,10,'Franrogyl','Dieu tri sau rang, viem chan rang va phu ne',10000.00,120,20,'2025-02-28','2028-02-28','Viên nén','viên','Spiramycin + Metronidazole','OPV','available','https://res.cloudinary.com/dczz59gpu/image/upload/v1775727167/Franrogyl_zztcjg.jpg');
 /*!40000 ALTER TABLE `drug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `inventory`
---
-
-DROP TABLE IF EXISTS `inventory`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `inventory` (
-  `inventory_id` int NOT NULL AUTO_INCREMENT,
-  `drug_id` int NOT NULL,
-  `quantity` int NOT NULL DEFAULT '0',
-  `production_date` date DEFAULT NULL,
-  `expiry_date` date DEFAULT NULL,
-  PRIMARY KEY (`inventory_id`),
-  KEY `idx_inventory_drug_id` (`drug_id`),
-  CONSTRAINT `fk_inventory_drug` FOREIGN KEY (`drug_id`) REFERENCES `drug` (`drug_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `inventory`
---
-
-LOCK TABLES `inventory` WRITE;
-/*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-INSERT INTO `inventory` VALUES (1,1,100,'2025-01-01','2027-12-31'),(2,2,200,'2024-10-15','2027-10-15'),(3,3,150,'2024-08-20','2027-08-20'),(4,4,300,'2025-02-10','2028-02-10'),(5,5,120,'2025-03-01','2028-03-01'),(6,6,150,'2025-01-15','2027-01-15'),(7,7,50,'2024-12-01','2027-12-01'),(8,8,60,'2025-02-20','2027-02-20'),(9,9,15,'2025-01-10','2028-01-10'),(10,10,70,'2025-03-15','2028-03-15'),(11,11,80,'2025-02-05','2027-02-05'),(12,12,90,'2024-11-20','2027-11-20'),(13,13,45,'2025-01-25','2028-01-25'),(14,14,70,'2025-03-10','2028-03-10'),(15,15,120,'2025-02-28','2028-02-28');
-/*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -147,8 +157,8 @@ CREATE TABLE `medical_record` (
   `record_id` int NOT NULL AUTO_INCREMENT,
   `patient_id` int NOT NULL,
   `doctor_id` int NOT NULL,
-  `diagnosis` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `treatment` text COLLATE utf8mb4_unicode_ci,
+  `diagnosis` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `treatment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`record_id`),
   KEY `idx_medical_record_patient_id` (`patient_id`),
@@ -178,7 +188,7 @@ DROP TABLE IF EXISTS `notification`;
 CREATE TABLE `notification` (
   `notification_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_read` tinyint(1) NOT NULL DEFAULT '0',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`notification_id`),
@@ -207,11 +217,11 @@ DROP TABLE IF EXISTS `patient`;
 CREATE TABLE `patient` (
   `patient_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `full_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `full_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `gender` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`patient_id`),
   UNIQUE KEY `uk_patient_user_id` (`user_id`),
   CONSTRAINT `fk_patient_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
@@ -240,8 +250,8 @@ CREATE TABLE `payment` (
   `patient_id` int NOT NULL,
   `appointment_id` int NOT NULL,
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `payment_method` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`payment_id`),
   KEY `idx_payment_patient_id` (`patient_id`),
@@ -306,7 +316,7 @@ CREATE TABLE `prescription_detail` (
   `prescription_id` int NOT NULL,
   `drug_id` int NOT NULL,
   `quantity` int NOT NULL DEFAULT '1',
-  `dosage` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dosage` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_prescription_detail_prescription_id` (`prescription_id`),
   KEY `idx_prescription_detail_drug_id` (`drug_id`),
@@ -334,9 +344,9 @@ DROP TABLE IF EXISTS `specialty`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `specialty` (
   `specialty_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`specialty_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -361,8 +371,8 @@ DROP TABLE IF EXISTS `test_result`;
 CREATE TABLE `test_result` (
   `test_id` int NOT NULL AUTO_INCREMENT,
   `record_id` int NOT NULL,
-  `test_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `result` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `test_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `result` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`test_id`),
   KEY `idx_test_result_record_id` (`record_id`),
@@ -389,15 +399,15 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` enum('patient','doctor','staff','admin') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('patient','doctor','staff','admin') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_user_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -422,4 +432,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-10 13:34:17
+-- Dump completed on 2026-04-25  1:01:29

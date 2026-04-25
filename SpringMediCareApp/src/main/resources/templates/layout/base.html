@@ -31,6 +31,31 @@
 
                     <!-- Đã đăng nhập -->
                     <th:block th:if="${session.currentUser != null}">
+                        <a th:if="${session.currentUser.role == 'patient'}"
+                           th:href="@{/appointments}">Đặt lịch</a>
+
+                        <a th:if="${session.currentUser.role == 'patient'}"
+                           th:href="@{/medical-records}">Hồ sơ của tôi</a>
+
+                        <a th:if="${session.currentUser.role == 'doctor'}"
+                           th:href="@{/doctor/appointments}">Lịch khám</a>
+
+                        <a th:if="${session.currentUser.role == 'doctor'}"
+                           th:href="@{/prescriptions}">Kê đơn</a>
+
+                        <a th:if="${session.currentUser.role == 'staff' or session.currentUser.role == 'admin'}"
+                           th:href="@{/drugs}">Quản lý thuốc</a>
+
+                        <a th:if="${session.currentUser.role == 'staff' or session.currentUser.role == 'admin'}"
+                           th:href="@{/categories}">Danh mục thuốc</a>
+
+                        <a th:if="${session.currentUser.role == 'admin'}"
+                           th:href="@{/reports}">Báo cáo</a>
+
+                        <span class="hello-user"
+                              th:text="'Xin chào, ' + ${session.currentUser.firstName}">
+                        </span>
+
                         <a th:href="@{/logout}" class="btn-nav logout-btn">Đăng xuất</a>
                     </th:block>
                 </nav>

@@ -14,7 +14,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
-    "com.ttkp.controllers"
+    "com.ttkp.controllers",
+    "com.ttkp.repositories",
+    "com.ttkp.services",
+    "com.ttkp.configs"
 })
 public class WebAppContextConfigs implements WebMvcConfigurer {
 

@@ -13,10 +13,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class HomeController {
+    @Autowired
+    private DoctorRepository doctorRepository;
 
+    @Autowired
+    private SpecialtyRepository specialtyRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+    
     @RequestMapping({"/", "/home"})
     public String home() {
         return "index";
@@ -24,15 +33,13 @@ public class HomeController {
 
     @RequestMapping("/doctors")
     public String doctors(Model model) {
-        DoctorRepository repo = new DoctorRepository();
-        model.addAttribute("doctors", repo.getDoctors());
+        model.addAttribute("doctors", this.doctorRepository.getDoctors());
         return "doctor";
     }
 
     @RequestMapping("/specialties")
     public String specialties(Model model) {
-        SpecialtyRepository repo = new SpecialtyRepository();
-        model.addAttribute("specialties", repo.getSpecialties());
+        model.addAttribute("specialties", this.specialtyRepository.getSpecialties());
         return "specialties";
     }
 
@@ -46,8 +53,7 @@ public class HomeController {
             @RequestParam("password") String password,
             Model model,
             HttpSession session) {
-        UserRepository repo = new UserRepository();
-        User user = repo.login(username, password);
+        User user = this.userRepository.login(username, password);
 
         if (user == null) {
             model.addAttribute("error", "Sai tên đăng nhập/email hoặc mật khẩu");
@@ -81,14 +87,12 @@ public class HomeController {
             @RequestParam("address") String address,
             Model model) {
 
-        UserRepository repo = new UserRepository();
-
-        if (repo.existsUsername(username)) {
+        if (this.userRepository.existsUsername(username)) {
             model.addAttribute("error", "Tên đăng nhập đã tồn tại");
             return "register";
         }
 
-        if (repo.existsEmail(email)) {
+        if (this.userRepository.existsEmail(email)) {
             model.addAttribute("error", "Email đã tồn tại");
             return "register";
         }
@@ -97,7 +101,7 @@ public class HomeController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate dob = LocalDate.parse(dateOfBirth, formatter);
 
-            repo.registerPatient(
+            this.userRepository.registerPatient(
                     firstName,
                     lastName,
                     email,

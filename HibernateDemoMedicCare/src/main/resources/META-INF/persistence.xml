@@ -11,7 +11,6 @@
     <class>com.ttkp.pojo.MedicalRecord</class>
     <class>com.ttkp.pojo.Notification</class>
     <class>com.ttkp.pojo.Payment</class>
-    <class>com.ttkp.pojo.Inventory</class>
     <class>com.ttkp.pojo.User</class>
     <class>com.ttkp.pojo.Doctor</class>
     <class>com.ttkp.pojo.Specialty</class>

@@ -7,7 +7,7 @@ package com.ttkp.hibernatedemomedicare;
 import com.ttkp.pojo.Appointment;
 import com.ttkp.pojo.Doctor;
 import com.ttkp.pojo.Drug;
-import com.ttkp.pojo.Inventory;
+import com.ttkp.pojo.Category;
 import com.ttkp.pojo.MedicalRecord;
 import com.ttkp.pojo.Notification;
 import com.ttkp.pojo.Patient;
@@ -47,7 +47,7 @@ public class HibernateUtils {
         conf.addAnnotatedClass(Appointment.class);
         conf.addAnnotatedClass(Doctor.class);
         conf.addAnnotatedClass(Drug.class);
-        conf.addAnnotatedClass(Inventory.class);
+        conf.addAnnotatedClass(Category.class);
         conf.addAnnotatedClass(MedicalRecord.class);
         conf.addAnnotatedClass(Notification.class);
         conf.addAnnotatedClass(Patient.class);

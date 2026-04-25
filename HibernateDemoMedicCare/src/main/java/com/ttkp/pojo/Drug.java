@@ -1,29 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.ttkp.pojo;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Set;
 
-/**
- *
- * @author MY PC
- */
 @Entity
 @Table(name = "drug")
 @NamedQueries({
@@ -31,29 +13,69 @@ import java.util.Set;
     @NamedQuery(name = "Drug.findByDrugId", query = "SELECT d FROM Drug d WHERE d.drugId = :drugId"),
     @NamedQuery(name = "Drug.findByName", query = "SELECT d FROM Drug d WHERE d.name = :name"),
     @NamedQuery(name = "Drug.findByPrice", query = "SELECT d FROM Drug d WHERE d.price = :price"),
-    @NamedQuery(name = "Drug.findByImage", query = "SELECT d FROM Drug d WHERE d.image = :image")})
+    @NamedQuery(name = "Drug.findByImage", query = "SELECT d FROM Drug d WHERE d.image = :image")
+})
 public class Drug implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "drug_id")
     private Integer drugId;
+
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @ManyToOne(optional = false)
+    private Category categoryId;
+
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+
     @Lob
     @Column(name = "description")
     private String description;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+
     @Basic(optional = false)
     @Column(name = "price")
     private BigDecimal price;
+
+    @Basic(optional = false)
+    @Column(name = "quantity")
+    private int quantity;
+
+    @Basic(optional = false)
+    @Column(name = "min_quantity")
+    private int minQuantity;
+
+    @Column(name = "production_date")
+    @Temporal(TemporalType.DATE)
+    private Date productionDate;
+
+    @Column(name = "expiry_date")
+    @Temporal(TemporalType.DATE)
+    private Date expiryDate;
+
+    @Column(name = "dosage_form")
+    private String dosageForm;
+
+    @Column(name = "unit")
+    private String unit;
+
+    @Column(name = "strength")
+    private String strength;
+
+    @Column(name = "manufacturer")
+    private String manufacturer;
+
+    @Basic(optional = false)
+    @Column(name = "status")
+    private String status;
+
     @Column(name = "image")
     private String image;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "drugId")
-    private Set<Inventory> inventorySet;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "drugId")
     private Set<PrescriptionDetail> prescriptionDetailSet;
 
@@ -76,6 +98,14 @@ public class Drug implements Serializable {
 
     public void setDrugId(Integer drugId) {
         this.drugId = drugId;
+    }
+
+    public Category getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Category categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -102,20 +132,84 @@ public class Drug implements Serializable {
         this.price = price;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(int minQuantity) {
+        this.minQuantity = minQuantity;
+    }
+
+    public Date getProductionDate() {
+        return productionDate;
+    }
+
+    public void setProductionDate(Date productionDate) {
+        this.productionDate = productionDate;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public String getDosageForm() {
+        return dosageForm;
+    }
+
+    public void setDosageForm(String dosageForm) {
+        this.dosageForm = dosageForm;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getStrength() {
+        return strength;
+    }
+
+    public void setStrength(String strength) {
+        this.strength = strength;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getImage() {
         return image;
     }
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public Set<Inventory> getInventorySet() {
-        return inventorySet;
-    }
-
-    public void setInventorySet(Set<Inventory> inventorySet) {
-        this.inventorySet = inventorySet;
     }
 
     public Set<PrescriptionDetail> getPrescriptionDetailSet() {
@@ -135,20 +229,16 @@ public class Drug implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Drug)) {
             return false;
         }
         Drug other = (Drug) object;
-        if ((this.drugId == null && other.drugId != null) || (this.drugId != null && !this.drugId.equals(other.drugId))) {
-            return false;
-        }
-        return true;
+        return !((this.drugId == null && other.drugId != null)
+                || (this.drugId != null && !this.drugId.equals(other.drugId)));
     }
 
     @Override
     public String toString() {
         return "com.ttkp.pojo.Drug[ drugId=" + drugId + " ]";
     }
-    
 }

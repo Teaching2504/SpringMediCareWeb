@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.ttkp.services;
 
-/**
- *
- * @author MY PC
- */
-public class DoctorService {
-    
+import com.ttkp.pojo.Doctor;
+import java.util.List;
+
+public interface DoctorService {
+
+    List<Doctor> getDoctors();
+
+    Doctor getDoctorById(int id);
 }

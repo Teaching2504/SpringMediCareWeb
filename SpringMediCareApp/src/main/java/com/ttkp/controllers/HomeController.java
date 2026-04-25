@@ -1,9 +1,9 @@
 package com.ttkp.controllers;
 
 import com.ttkp.pojo.User;
-import com.ttkp.repositories.DoctorRepository;
-import com.ttkp.repositories.SpecialtyRepository;
-import com.ttkp.repositories.UserRepository;
+import com.ttkp.services.DoctorService;
+import com.ttkp.services.SpecialtyService;
+import com.ttkp.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,15 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class HomeController {
-    @Autowired
-    private DoctorRepository doctorRepository;
 
     @Autowired
-    private SpecialtyRepository specialtyRepository;
+    private DoctorService  doctorService;
 
     @Autowired
-    private UserRepository userRepository;
-    
+    private SpecialtyService  specialtyService;
+
+    @Autowired
+    private UserService userService;
+
     @RequestMapping({"/", "/home"})
     public String home() {
         return "index";
@@ -33,13 +34,13 @@ public class HomeController {
 
     @RequestMapping("/doctors")
     public String doctors(Model model) {
-        model.addAttribute("doctors", this.doctorRepository.getDoctors());
+        model.addAttribute("doctors", this.doctorService.getDoctors());
         return "doctor";
     }
 
     @RequestMapping("/specialties")
     public String specialties(Model model) {
-        model.addAttribute("specialties", this.specialtyRepository.getSpecialties());
+        model.addAttribute("specialties", this.specialtyService.getSpecialties());
         return "specialties";
     }
 
@@ -53,7 +54,7 @@ public class HomeController {
             @RequestParam("password") String password,
             Model model,
             HttpSession session) {
-        User user = this.userRepository.login(username, password);
+        User user = this.userService.login(username, password);
 
         if (user == null) {
             model.addAttribute("error", "Sai tên đăng nhập/email hoặc mật khẩu");
@@ -61,6 +62,7 @@ public class HomeController {
         }
 
         session.setAttribute("currentUser", user);
+
         return "redirect:/";
     }
 
@@ -87,12 +89,12 @@ public class HomeController {
             @RequestParam("address") String address,
             Model model) {
 
-        if (this.userRepository.existsUsername(username)) {
+        if (this.userService.existsUsername(username)) {
             model.addAttribute("error", "Tên đăng nhập đã tồn tại");
             return "register";
         }
 
-        if (this.userRepository.existsEmail(email)) {
+        if (this.userService.existsEmail(email)) {
             model.addAttribute("error", "Email đã tồn tại");
             return "register";
         }
@@ -101,7 +103,7 @@ public class HomeController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate dob = LocalDate.parse(dateOfBirth, formatter);
 
-            this.userRepository.registerPatient(
+            this.userService.registerPatient(
                     firstName,
                     lastName,
                     email,

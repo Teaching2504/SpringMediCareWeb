@@ -21,7 +21,7 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  *
  * @author MY PC
@@ -40,6 +40,11 @@ import java.util.Set;
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role"),
     @NamedQuery(name = "User.findByCreatedDate", query = "SELECT u FROM User u WHERE u.createdDate = :createdDate"),
     @NamedQuery(name = "User.findByImage", query = "SELECT u FROM User u WHERE u.image = :image")})
+@JsonIgnoreProperties(value = {
+    "doctor",
+    "patient",
+    "notificationSet"
+})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;

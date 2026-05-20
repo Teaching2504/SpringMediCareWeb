@@ -59,9 +59,11 @@ public class UserRepositoryImpl implements UserRepository {
             String phone, String username, String password,
             String dateOfBirth, String gender, String address) {
 
+        Session session = null;
         Transaction tx = null;
 
-        try (Session session = HibernateUtils.getFactory().openSession()) {
+        try {
+            session = HibernateUtils.getFactory().openSession();
             tx = session.beginTransaction();
 
             User user = new User();
@@ -72,7 +74,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setUsername(username);
             user.setPassword(password);
             user.setRole("patient");
-            user.setCreatedDate(new Date()); // QUAN TRỌNG
+            user.setCreatedDate(new Date());
 
             session.persist(user);
 
@@ -92,11 +94,17 @@ public class UserRepositoryImpl implements UserRepository {
             return true;
 
         } catch (Exception e) {
-            if (tx != null) {
+            if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
+
             e.printStackTrace();
             return false;
+
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 }

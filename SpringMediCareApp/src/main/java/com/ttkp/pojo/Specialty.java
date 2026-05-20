@@ -18,6 +18,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
@@ -30,6 +31,7 @@ import java.util.Set;
     @NamedQuery(name = "Specialty.findBySpecialtyId", query = "SELECT s FROM Specialty s WHERE s.specialtyId = :specialtyId"),
     @NamedQuery(name = "Specialty.findByName", query = "SELECT s FROM Specialty s WHERE s.name = :name"),
     @NamedQuery(name = "Specialty.findByImage", query = "SELECT s FROM Specialty s WHERE s.image = :image")})
+@JsonIgnoreProperties(value = {"doctorSet"})
 public class Specialty implements Serializable {
 
     private static final long serialVersionUID = 1L;

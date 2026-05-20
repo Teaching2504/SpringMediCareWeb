@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "drug")
 @NamedQueries({
@@ -15,6 +15,7 @@ import java.util.Set;
     @NamedQuery(name = "Drug.findByPrice", query = "SELECT d FROM Drug d WHERE d.price = :price"),
     @NamedQuery(name = "Drug.findByImage", query = "SELECT d FROM Drug d WHERE d.image = :image")
 })
+@JsonIgnoreProperties(value = {"prescriptionDetailSet"})
 public class Drug implements Serializable {
 
     private static final long serialVersionUID = 1L;

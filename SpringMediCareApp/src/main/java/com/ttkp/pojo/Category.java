@@ -1,5 +1,6 @@
 package com.ttkp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -32,6 +33,7 @@ public class Category implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categoryId")
     private Set<Drug> drugSet;
 

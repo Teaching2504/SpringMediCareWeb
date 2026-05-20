@@ -23,7 +23,7 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  *
  * @author MY PC
@@ -36,6 +36,7 @@ import java.util.Set;
     @NamedQuery(name = "Appointment.findByAppointmentDate", query = "SELECT a FROM Appointment a WHERE a.appointmentDate = :appointmentDate"),
     @NamedQuery(name = "Appointment.findByStatus", query = "SELECT a FROM Appointment a WHERE a.status = :status"),
     @NamedQuery(name = "Appointment.findByCreatedDate", query = "SELECT a FROM Appointment a WHERE a.createdDate = :createdDate")})
+@JsonIgnoreProperties(value = {"paymentSet"})
 public class Appointment implements Serializable {
 
     private static final long serialVersionUID = 1L;

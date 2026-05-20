@@ -4,6 +4,7 @@
  */
 package com.ttkp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,6 +34,11 @@ import java.util.Set;
     @NamedQuery(name = "Doctor.findByFullName", query = "SELECT d FROM Doctor d WHERE d.fullName = :fullName"),
     @NamedQuery(name = "Doctor.findByExperienceYears", query = "SELECT d FROM Doctor d WHERE d.experienceYears = :experienceYears"),
     @NamedQuery(name = "Doctor.findByImage", query = "SELECT d FROM Doctor d WHERE d.image = :image")})
+@JsonIgnoreProperties(value = {
+    "medicalRecordSet",
+    "appointmentSet",
+    "prescriptionSet"
+})
 public class Doctor implements Serializable {
 
     private static final long serialVersionUID = 1L;

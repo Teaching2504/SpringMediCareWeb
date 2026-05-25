@@ -1,75 +1,60 @@
 package com.ttkp.repositories.impl;
-
-import com.ttkp.configs.HibernateUtils;
 import com.ttkp.pojo.Appointment;
 import com.ttkp.repositories.AppointmentRepository;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class AppointmentRepositoryImpl implements AppointmentRepository {
 
+    @Autowired
+    private LocalSessionFactoryBean factory;
+    
     @Override
     public boolean addAppointment(Appointment appointment) {
-        Session session = null;
-        Transaction tx = null;
-
+        
         try {
-            session = HibernateUtils.getFactory().openSession();
-            tx = session.beginTransaction();
-
+            Session session =this.factory.getObject().getCurrentSession();
             session.persist(appointment);
-
-            tx.commit();
             return true;
 
         } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-
             e.printStackTrace();
             return false;
 
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-    }
+        } 
+}
 
     @Override
     public List<Appointment> getAppointmentsByPatientId(int patientId) {
-        try (Session session = HibernateUtils.getFactory().openSession()) {
-            Query<Appointment> q = session.createQuery(
-                    "FROM Appointment a WHERE a.patientId.patientId = :patientId",
-                    Appointment.class
-            );
-            q.setParameter("patientId", patientId);
+        Session session = this.factory.getObject().getCurrentSession();
+        Query<Appointment> q = session.createQuery(
+                "FROM Appointment a WHERE a.patientId.patientId = :patientId",
+                Appointment.class
+        );
+        q.setParameter("patientId", patientId);
 
-            return q.getResultList();
-        }
+        return q.getResultList();
     }
 
     @Override
     public Appointment getAppointmentById(int id) {
-        try (Session session = HibernateUtils.getFactory().openSession()) {
-            return session.get(Appointment.class, id);
-        }
+        Session session =this.factory.getObject().getCurrentSession();
+        return session.get(Appointment.class, id);
     }
 
     @Override
     public boolean updateAppointmentStatus(int id, String status) {
-        Session session = null;
-        Transaction tx = null;
 
         try {
-            session = HibernateUtils.getFactory().openSession();
-            tx = session.beginTransaction();
-
+            Session session =this.factory.getObject().getCurrentSession();
+         
             Appointment a = session.get(Appointment.class, id);
 
             if (a == null) {
@@ -79,21 +64,12 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
             a.setStatus(status);
             session.merge(a);
 
-            tx.commit();
             return true;
 
         } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-
             e.printStackTrace();
             return false;
 
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        } 
     }
 }

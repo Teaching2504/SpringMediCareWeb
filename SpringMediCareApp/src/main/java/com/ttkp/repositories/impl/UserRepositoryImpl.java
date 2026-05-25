@@ -1,6 +1,5 @@
 package com.ttkp.repositories.impl;
 
-import com.ttkp.configs.HibernateUtils;
 import com.ttkp.pojo.Patient;
 import com.ttkp.pojo.User;
 import com.ttkp.repositories.UserRepository;
@@ -8,50 +7,53 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class UserRepositoryImpl implements UserRepository {
+
+    @Autowired
+    private LocalSessionFactoryBean factory;
 
     @Override
     public User login(String username, String password) {
-        try (Session session = HibernateUtils.getFactory().openSession()) {
+        Session session = this.factory.getObject().getCurrentSession();
 
-            Query<User> q = session.createNamedQuery("User.findByUsername", User.class);
-            q.setParameter("username", username);
+        Query<User> q = session.createNamedQuery("User.findByUsername", User.class);
+        q.setParameter("username", username);
 
-            User u = q.uniqueResult();
+        User u = q.uniqueResult();
 
-            if (u != null && u.getPassword().equals(password)) {
-                return u;
-            }
-
-            return null;
+        if (u != null && u.getPassword().equals(password)) {
+            return u;
         }
+
+        return null;
     }
 
     @Override
     public boolean existsUsername(String username) {
-        try (Session session = HibernateUtils.getFactory().openSession()) {
+        Session session = this.factory.getObject().getCurrentSession();
 
-            Query<User> q = session.createNamedQuery("User.findByUsername", User.class);
-            q.setParameter("username", username);
+        Query<User> q = session.createNamedQuery("User.findByUsername", User.class);
+        q.setParameter("username", username);
 
-            return q.uniqueResult() != null;
-        }
+        return q.uniqueResult() != null;
     }
 
     @Override
     public boolean existsEmail(String email) {
-        try (Session session = HibernateUtils.getFactory().openSession()) {
+        Session session = this.factory.getObject().getCurrentSession();
 
-            Query<User> q = session.createNamedQuery("User.findByEmail", User.class);
-            q.setParameter("email", email);
+        Query<User> q = session.createNamedQuery("User.findByEmail", User.class);
+        q.setParameter("email", email);
 
-            return q.uniqueResult() != null;
-        }
+        return q.uniqueResult() != null;
     }
 
     @Override
@@ -59,12 +61,8 @@ public class UserRepositoryImpl implements UserRepository {
             String phone, String username, String password,
             String dateOfBirth, String gender, String address) {
 
-        Session session = null;
-        Transaction tx = null;
-
         try {
-            session = HibernateUtils.getFactory().openSession();
-            tx = session.beginTransaction();
+            Session session = this.factory.getObject().getCurrentSession();
 
             User user = new User();
             user.setFirstName(firstName);
@@ -90,21 +88,13 @@ public class UserRepositoryImpl implements UserRepository {
 
             session.persist(p);
 
-            tx.commit();
             return true;
 
         } catch (Exception e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
 
             e.printStackTrace();
             return false;
 
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
     }
 }

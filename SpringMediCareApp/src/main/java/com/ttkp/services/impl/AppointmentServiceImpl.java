@@ -1,10 +1,12 @@
 package com.ttkp.services.impl;
 
-import com.ttkp.configs.HibernateUtils;
+import com.ttkp.configs.HibernateConfigs;
 import com.ttkp.pojo.Appointment;
 import com.ttkp.pojo.Doctor;
 import com.ttkp.pojo.Patient;
+import com.ttkp.services.PatientService;
 import com.ttkp.repositories.AppointmentRepository;
+import com.ttkp.repositories.DoctorRepository;
 import com.ttkp.services.AppointmentService;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,20 +15,29 @@ import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepo;
 
+    @Autowired
+    private PatientService patientService;
+    
+    @Autowired
+    private DoctorRepository doctorRepo;
+    
     @Override
     public boolean addAppointment(int patientId, int doctorId,
             String appointmentDate, String notes) {
 
-        try (Session session = HibernateUtils.getFactory().openSession()) {
-            Patient patient = session.get(Patient.class, patientId);
-            Doctor doctor = session.get(Doctor.class, doctorId);
+        try {
+            
+            Patient patient = this.patientService.getPatientById(patientId);
+            Doctor doctor = this.doctorRepo.getDoctorById(doctorId);
 
             if (patient == null || doctor == null) {
                 return false;
@@ -44,6 +55,9 @@ public class AppointmentServiceImpl implements AppointmentService {
             a.setCreatedDate(new Date());
 
             return this.appointmentRepo.addAppointment(a);
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 

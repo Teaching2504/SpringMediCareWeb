@@ -626,6 +626,123 @@ a{
     font-weight: 700 !important;
 }
 
+.search-input-shared {
+    width: 100%;
+    height: 44px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    background: #ffffff;
+    font-size: 14px;
+    outline: none;
+}
+
+.btn-main-shared {
+    padding: 0 22px;
+    height: 44px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #59b6e3, #3ea3d4);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(62, 163, 212, 0.18);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-main-shared:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #4aaedf, #3499cb);
+    box-shadow: 0 8px 18px rgba(62, 163, 212, 0.28);
+}
+
+.btn-action-shared {
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e35959, #d43e3e);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(212, 62, 62, 0.15);
+    transition: all 0.2s ease;
+}
+
+.btn-action-shared:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #f06a6a, #e64c4c);
+    box-shadow: 0 8px 18px rgba(212, 62, 62, 0.25);
+}
+
+.btn-outline-shared {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--blue-dark);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--blue-dark);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-shared:hover {
+    background: var(--pastel-blue-2);
+    color: var(--blue-dark);
+}
+
+.card-title-shared {
+    font-size: 20px; 
+    margin: 10px 0 12px; 
+    color: var(--blue-dark); 
+    font-weight: bold;
+}
+
+.card-text-shared {
+    margin: 4px 0; 
+    color: #333; 
+    font-size: 14px;
+}
+.card-actions-shared {
+    margin-top: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px;
+}
+.card-value-highlight {
+    color: var(--blue-dark);
+    font-weight: bold;
+}
+
+.search-container-shared {
+    max-width: 500px;      
+    margin: 0 auto 40px;    
+}
+
+.search-form-shared {
+    display: flex;      
+    align-items: center;     
+    gap: 10px;            
+    width: 100%;
+}
+
+.search-input-shared {
+    flex: 1;              
+    height: 44px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    background: #ffffff;
+    font-size: 14px;
+    outline: none;
+}
 @media (max-width: 768px){
     .login-pastel-box{
         padding: 24px 20px !important;

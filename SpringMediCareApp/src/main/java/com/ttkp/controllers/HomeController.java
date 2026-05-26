@@ -34,7 +34,7 @@ public class HomeController {
 
     @RequestMapping("/doctors")
     public String doctors(Model model) {
-        model.addAttribute("doctors", this.doctorService.getDoctors());
+        model.addAttribute("doctors", this.doctorService.getDoctors(null));
         return "doctor";
     }
 

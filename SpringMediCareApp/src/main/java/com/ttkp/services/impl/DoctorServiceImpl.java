@@ -4,6 +4,7 @@ import com.ttkp.pojo.Doctor;
 import com.ttkp.repositories.DoctorRepository;
 import com.ttkp.services.DoctorService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ public class DoctorServiceImpl implements DoctorService {
     private DoctorRepository doctorRepository;
 
     @Override
-    public List<Doctor> getDoctors() {
-        return this.doctorRepository.getDoctors();
+    public List<Doctor> getDoctors(Map<String, String> params) {
+        return this.doctorRepository.getDoctors(params);
     }
 
     @Override

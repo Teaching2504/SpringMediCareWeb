@@ -23,20 +23,22 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author MY PC
  */
 @Configuration
-@PropertySource("classpath:databases.properties")
+@PropertySource({"classpath:databases.properties",
+    "classpath:configs.properties"
+})
 @EnableTransactionManagement
 public class HibernateConfigs {
-    
+
     @Autowired
     private Environment env;
-    
+
     @Bean
-    public LocalSessionFactoryBean getSessionFactory(){
+    public LocalSessionFactoryBean getSessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setPackagesToScan(new String[]{"com.ttkp.pojo"});
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setHibernateProperties(hibernateProperties());
-        
+
         return sessionFactory;
     }
 
@@ -56,8 +58,8 @@ public class HibernateConfigs {
         props.put(SHOW_SQL, env.getProperty("hibernate.showSql"));
         return props;
     }
-    
-     @Bean
+
+    @Bean
     public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(getSessionFactory().getObject());

@@ -13,6 +13,12 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
+    public boolean authenticate(String username, String password) {
+        User u = this.login(username, password);
+        return u != null;
+    }
+
+    @Override
     public User login(String username, String password) {
         return this.userRepository.login(username, password);
     }

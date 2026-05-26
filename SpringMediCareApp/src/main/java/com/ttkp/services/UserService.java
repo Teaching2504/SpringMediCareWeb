@@ -4,7 +4,7 @@ import com.ttkp.pojo.User;
 
 public interface UserService {
     User login(String username, String password);
-
+    boolean authenticate(String username, String password);
     boolean existsUsername(String username);
 
     boolean existsEmail(String email);

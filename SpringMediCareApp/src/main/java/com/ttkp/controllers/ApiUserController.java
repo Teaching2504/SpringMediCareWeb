@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
+import com.ttkp.utils.JwtUtils;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api")
@@ -24,19 +26,18 @@ public class ApiUserController {
     @PostMapping(value = "/login", consumes = "application/json")
     public ResponseEntity<?> login(@RequestBody User u) {
 
-        User user = this.userService.login(
-                u.getUsername(),
-                u.getPassword()
-        );
-
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        if (this.userService.authenticate(u.getUsername(), u.getPassword())) {
+            try {
+                String token = JwtUtils.generateToken(u.getUsername());
+                return ResponseEntity.ok().body(Collections.singletonMap("token", token));
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Lỗi khi tạo JWT");
+            }
         }
 
-        return new ResponseEntity<>(
-                "Sai thông tin đăng nhập",
-                HttpStatus.UNAUTHORIZED
-        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("Sai thông tin đăng nhập");
     }
 
     @PostMapping(value = "/register", consumes = "application/json")

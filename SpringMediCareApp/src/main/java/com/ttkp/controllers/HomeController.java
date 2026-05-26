@@ -19,10 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HomeController {
 
     @Autowired
-    private DoctorService  doctorService;
+    private DoctorService doctorService;
 
     @Autowired
-    private SpecialtyService  specialtyService;
+    private SpecialtyService specialtyService;
 
     @Autowired
     private UserService userService;
@@ -63,7 +63,7 @@ public class HomeController {
 
         session.setAttribute("currentUser", user);
 
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @GetMapping("/logout")

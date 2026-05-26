@@ -11,7 +11,9 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{
-            ThymeleafConfig.class
+            ThymeleafConfig.class,
+            HibernateConfigs.class,
+            SpringSecurityConfigs.class
         };
     }
 

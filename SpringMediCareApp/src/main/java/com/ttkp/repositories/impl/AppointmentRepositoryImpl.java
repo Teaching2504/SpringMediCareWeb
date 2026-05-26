@@ -1,4 +1,5 @@
 package com.ttkp.repositories.impl;
+
 import com.ttkp.pojo.Appointment;
 import com.ttkp.repositories.AppointmentRepository;
 import java.util.List;
@@ -15,21 +16,14 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Override
     public boolean addAppointment(Appointment appointment) {
-        
-        try {
-            Session session =this.factory.getObject().getCurrentSession();
-            session.persist(appointment);
-            return true;
+        Session session = this.factory.getObject().getCurrentSession();
+        session.persist(appointment);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-
-        } 
-}
+        return true;
+    }
 
     @Override
     public List<Appointment> getAppointmentsByPatientId(int patientId) {
@@ -45,31 +39,23 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Appointment getAppointmentById(int id) {
-        Session session =this.factory.getObject().getCurrentSession();
+        Session session = this.factory.getObject().getCurrentSession();
         return session.get(Appointment.class, id);
     }
 
     @Override
     public boolean updateAppointmentStatus(int id, String status) {
+        Session session = this.factory.getObject().getCurrentSession();
 
-        try {
-            Session session =this.factory.getObject().getCurrentSession();
-         
-            Appointment a = session.get(Appointment.class, id);
+        Appointment a = session.get(Appointment.class, id);
 
-            if (a == null) {
-                return false;
-            }
-
-            a.setStatus(status);
-            session.merge(a);
-
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (a == null) {
             return false;
+        }
 
-        } 
+        a.setStatus(status);
+        session.merge(a);
+
+        return true;
     }
 }

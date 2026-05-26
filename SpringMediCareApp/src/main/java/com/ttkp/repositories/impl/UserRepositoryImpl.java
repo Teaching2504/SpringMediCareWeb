@@ -21,19 +21,21 @@ public class UserRepositoryImpl implements UserRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
-    public User login(String username, String password) {
+    public User getUserByUsername(String username) {
         Session session = this.factory.getObject().getCurrentSession();
 
         Query<User> q = session.createNamedQuery("User.findByUsername", User.class);
         q.setParameter("username", username);
 
-        User u = q.uniqueResult();
+        return q.uniqueResult();
+    }
 
-        if (u != null && u.getPassword().equals(password)) {
-            return u;
-        }
+    @Override
+    public User addUser(User u) {
+        Session session = this.factory.getObject().getCurrentSession();
+        session.persist(u);
 
-        return null;
+        return u;
     }
 
     @Override
@@ -61,40 +63,32 @@ public class UserRepositoryImpl implements UserRepository {
             String phone, String username, String password,
             String dateOfBirth, String gender, String address) {
 
-        try {
-            Session session = this.factory.getObject().getCurrentSession();
+        Session session = this.factory.getObject().getCurrentSession();
 
-            User user = new User();
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setEmail(email);
-            user.setPhone(phone);
-            user.setUsername(username);
-            user.setPassword(password);
-            user.setRole("patient");
-            user.setCreatedDate(new Date());
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setRole("patient");
+        user.setCreatedDate(new Date());
 
-            session.persist(user);
+        session.persist(user);
 
-            LocalDate localDate = LocalDate.parse(dateOfBirth);
-            Date dob = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        LocalDate localDate = LocalDate.parse(dateOfBirth);
+        Date dob = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-            Patient p = new Patient();
-            p.setUserId(user);
-            p.setFullName(firstName + " " + lastName);
-            p.setDateOfBirth(dob);
-            p.setGender(gender);
-            p.setAddress(address);
+        Patient p = new Patient();
+        p.setUserId(user);
+        p.setFullName(firstName + " " + lastName);
+        p.setDateOfBirth(dob);
+        p.setGender(gender);
+        p.setAddress(address);
 
-            session.persist(p);
+        session.persist(p);
 
-            return true;
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            return false;
-
-        }
+        return true;
     }
 }

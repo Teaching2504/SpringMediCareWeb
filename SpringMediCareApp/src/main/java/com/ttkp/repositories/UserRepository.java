@@ -3,8 +3,10 @@ package com.ttkp.repositories;
 import com.ttkp.pojo.User;
 
 public interface UserRepository {
-
-    User login(String username, String password);
+    
+    User getUserByUsername(String username);
+    
+    User addUser(User u);
 
     boolean existsUsername(String username);
 

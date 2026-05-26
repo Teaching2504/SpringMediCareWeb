@@ -4,6 +4,7 @@
  */
 package com.ttkp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,6 +23,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Transient;
+import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author MY PC
@@ -80,6 +85,9 @@ public class User implements Serializable {
     private Date createdDate;
     @Column(name = "image")
     private String image;
+    @Transient
+    @JsonIgnore
+    private MultipartFile file;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "userId")
     private Doctor doctor;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -154,6 +162,7 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
         return password;
     }
@@ -184,6 +193,14 @@ public class User implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
     public Doctor getDoctor() {
@@ -234,5 +251,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.ttkp.pojo.User[ id=" + id + " ]";
     }
-    
+
 }

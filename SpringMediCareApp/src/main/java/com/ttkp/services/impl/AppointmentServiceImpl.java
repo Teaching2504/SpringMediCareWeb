@@ -1,6 +1,6 @@
 package com.ttkp.services.impl;
 
-import com.ttkp.configs.HibernateConfigs;
+
 import com.ttkp.pojo.Appointment;
 import com.ttkp.pojo.Doctor;
 import com.ttkp.pojo.Patient;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import org.hibernate.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

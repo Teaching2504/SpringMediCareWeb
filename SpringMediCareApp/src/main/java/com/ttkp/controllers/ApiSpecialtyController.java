@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api")
@@ -22,5 +23,16 @@ public class ApiSpecialtyController {
     @GetMapping("/specialties")
     public ResponseEntity<List<Specialty>> list() {
         return new ResponseEntity<>(this.specialtyService.getSpecialties(), HttpStatus.OK);
+    }
+
+    @GetMapping("/specialties/{id}")
+    public ResponseEntity<Specialty> retrieve(@PathVariable("id") int id) {
+        Specialty s = this.specialtyService.getSpecialtyById(id);
+
+        if (s == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(s, HttpStatus.OK);
     }
 }

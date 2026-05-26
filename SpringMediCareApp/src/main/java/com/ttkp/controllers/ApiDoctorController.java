@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api")
@@ -24,5 +25,16 @@ public class ApiDoctorController {
     @GetMapping("/doctors")
     public ResponseEntity<List<Doctor>> list(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.doctorService.getDoctors(params), HttpStatus.OK);
+    }
+
+    @GetMapping("/doctors/{id}")
+    public ResponseEntity<Doctor> retrieve(@PathVariable("id") int id) {
+        Doctor d = this.doctorService.getDoctorById(id);
+
+        if (d == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(d, HttpStatus.OK);
     }
 }

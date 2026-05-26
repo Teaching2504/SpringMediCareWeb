@@ -24,8 +24,8 @@ public class ApiAppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @PostMapping(value = "/appointments", consumes = "application/json")
-    public ResponseEntity<?> addAppointment(@RequestBody Map<String, String> params) {
+    @PostMapping("/appointments")
+    public ResponseEntity<?> create(@RequestBody Map<String, String> params) {
         boolean result = this.appointmentService.addAppointment(
                 Integer.parseInt(params.get("patientId")),
                 Integer.parseInt(params.get("doctorId")),
@@ -33,16 +33,15 @@ public class ApiAppointmentController {
                 params.get("notes")
         );
 
-        if (result)
+        if (result) {
             return new ResponseEntity<>("Đặt lịch thành công", HttpStatus.CREATED);
+        }
 
         return new ResponseEntity<>("Đặt lịch thất bại", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/patient/appointments/{patientId}")
-    public ResponseEntity<List<Appointment>> getPatientAppointments(
-            @PathVariable(value = "patientId") int patientId) {
-
+    @GetMapping("/appointments/patient/{patientId}")
+    public ResponseEntity<List<Appointment>> listByPatient(@PathVariable("patientId") int patientId) {
         return new ResponseEntity<>(
                 this.appointmentService.getAppointmentsByPatientId(patientId),
                 HttpStatus.OK
@@ -50,45 +49,31 @@ public class ApiAppointmentController {
     }
 
     @GetMapping("/appointments/{id}")
-    public ResponseEntity<Appointment> getAppointmentById(
-            @PathVariable(value = "id") int id) {
-
+    public ResponseEntity<Appointment> retrieve(@PathVariable("id") int id) {
         Appointment a = this.appointmentService.getAppointmentById(id);
 
-        if (a != null)
-            return new ResponseEntity<>(a, HttpStatus.OK);
+        if (a == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(a, HttpStatus.OK);
     }
 
     @PutMapping("/appointments/{id}/cancel")
-    public ResponseEntity<?> cancelAppointment(
-            @PathVariable(value = "id") int id) {
-
-        if (this.appointmentService.cancelAppointment(id))
+    public ResponseEntity<?> cancel(@PathVariable("id") int id) {
+        if (this.appointmentService.cancelAppointment(id)) {
             return new ResponseEntity<>("Hủy lịch thành công", HttpStatus.OK);
+        }
 
-        return new ResponseEntity<>("Hủy lịch thất bại", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Không tìm thấy lịch hẹn", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/appointments/{id}/confirm")
-    public ResponseEntity<?> confirmAppointment(
-            @PathVariable(value = "id") int id) {
-
-        if (this.appointmentService.confirmAppointment(id))
+    public ResponseEntity<?> confirm(@PathVariable("id") int id) {
+        if (this.appointmentService.confirmAppointment(id)) {
             return new ResponseEntity<>("Xác nhận lịch thành công", HttpStatus.OK);
+        }
 
-        return new ResponseEntity<>("Xác nhận lịch thất bại", HttpStatus.BAD_REQUEST);
-    }
-
-    @PutMapping(value = "/appointments/{id}/status", consumes = "application/json")
-    public ResponseEntity<?> updateStatus(
-            @PathVariable(value = "id") int id,
-            @RequestBody Map<String, String> params) {
-
-        if (this.appointmentService.updateAppointmentStatus(id, params.get("status")))
-            return new ResponseEntity<>("Cập nhật trạng thái thành công", HttpStatus.OK);
-
-        return new ResponseEntity<>("Cập nhật trạng thái thất bại", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Không tìm thấy lịch hẹn", HttpStatus.NOT_FOUND);
     }
 }

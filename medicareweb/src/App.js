@@ -5,6 +5,7 @@ import Home from "./screens/Home/Home";
 import Doctor from "./screens/Doctor/Doctor";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 import Register from "./screens/User/Register";
 import Login from "./screens/User/Login";
 import { useReducer } from "react";

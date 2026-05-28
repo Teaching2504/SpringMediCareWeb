@@ -37,7 +37,7 @@ public class DoctorRepositoryImpl implements DoctorRepository {
         Root root = q.from(Doctor.class);
         q.select(root);
 
-        if (params != null&& !params.isEmpty()) {
+        if (params != null && !params.isEmpty()) {
             List<Predicate> predicates = new ArrayList<>();
 
             String kw = params.get("kw");
@@ -69,6 +69,21 @@ public class DoctorRepositoryImpl implements DoctorRepository {
             query.setMaxResults(pageSize);
             query.setFirstResult(start);
         }
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Doctor> getAllDoctors() {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Doctor> q = b.createQuery(Doctor.class);
+        Root root = q.from(Doctor.class);
+
+        q.select(root);
+        q.orderBy(b.desc(root.get("doctorId")));
+
+        Query query = session.createQuery(q);
 
         return query.getResultList();
     }

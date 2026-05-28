@@ -27,6 +27,11 @@ public class ApiDoctorController {
         return new ResponseEntity<>(this.doctorService.getDoctors(params), HttpStatus.OK);
     }
 
+    @GetMapping("/doctors/all")
+    public ResponseEntity<List<Doctor>> listAll() {
+        return new ResponseEntity<>(this.doctorService.getAllDoctors(), HttpStatus.OK);
+    }
+
     @GetMapping("/doctors/{id}")
     public ResponseEntity<Doctor> retrieve(@PathVariable("id") int id) {
         Doctor d = this.doctorService.getDoctorById(id);

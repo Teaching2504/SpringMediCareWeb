@@ -14,41 +14,10 @@ const Booking = () => {
 
   const [doctor, setDoctor] = useState(null);
   const [workDate, setWorkDate] = useState("");
-  const [shift, setShift] = useState("morning");
-  const [appointmentTime, setAppointmentTime] = useState("07:00");
+  const [appointmentTime, setAppointmentTime] = useState("");
   const [notes, setNotes] = useState("");
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const timeSlots = {
-    morning: [
-      "07:00",
-      "07:30",
-      "08:00",
-      "08:30",
-      "09:00",
-      "09:30",
-      "10:00",
-      "10:30",
-      "11:00",
-    ],
-    afternoon: [
-      "13:00",
-      "13:30",
-      "14:00",
-      "14:30",
-      "15:00",
-      "15:30",
-      "16:00",
-      "16:30",
-    ],
-    evening: ["17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
-  };
-
-  const changeShift = (value) => {
-    setShift(value);
-    setAppointmentTime(timeSlots[value][0]);
-  };
 
   const loadDoctor = async () => {
     if (doctorId !== null) {
@@ -116,7 +85,7 @@ const Booking = () => {
       <div className="container">
         <div className="section-box">
           <h2>Đặt lịch hẹn khám</h2>
-          <p>Chọn ngày, ca khám và khung giờ phù hợp.</p>
+          <p>Chọn ngày khám và nhập giờ khám phù hợp với lịch làm việc của bác sĩ.</p>
         </div>
 
         {msg && <Alert variant="info">{msg}</Alert>}
@@ -144,29 +113,17 @@ const Booking = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Ca khám</Form.Label>
-              <Form.Select
-                value={shift}
-                onChange={(e) => changeShift(e.target.value)}
-              >
-                <option value="morning">Ca sáng: 07:00 - 11:30</option>
-                <option value="afternoon">Ca chiều: 13:00 - 17:00</option>
-                <option value="evening">Ca tối: 17:30 - 21:00</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
               <Form.Label>Giờ khám</Form.Label>
-              <Form.Select
+              <Form.Control
+                type="time"
                 value={appointmentTime}
                 onChange={(e) => setAppointmentTime(e.target.value)}
-              >
-                {timeSlots[shift].map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                ))}
-              </Form.Select>
+                required
+              />
+              <Form.Text>
+                Vui lòng nhập giờ nằm trong lịch làm việc của bác sĩ. Ca sáng:
+                07:00 - 11:30, ca chiều: 13:00 - 17:00, ca tối: 17:30 - 21:00.
+              </Form.Text>
             </Form.Group>
 
             <Form.Group className="mb-3">

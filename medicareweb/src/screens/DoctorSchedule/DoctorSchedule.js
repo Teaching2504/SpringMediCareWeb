@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
-import { Alert, Button, Form, Table } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Alert } from "react-bootstrap";
 import Apis, { authApis, endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
+import { MyUserContext } from "../../configs/Contexts";
+import DoctorScheduleForm from "../../components/DoctorScheduleForm";
+import DoctorScheduleTable from "../../components/DoctorScheduleTable";
 
 const DoctorSchedule = () => {
+  const [user] = useContext(MyUserContext);
+  const isAdminOrStaff =
+    user !== null && (user.role === "admin" || user.role === "staff");
   const [schedules, setSchedules] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,13 +18,15 @@ const DoctorSchedule = () => {
   const [scheduleId, setScheduleId] = useState(null);
   const [doctorId, setDoctorId] = useState("");
   const [workDate, setWorkDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+
+  const [shift, setShift] = useState("morning");
+  const [startTime, setStartTime] = useState("07:00");
+  const [endTime, setEndTime] = useState("11:30");
   const [status, setStatus] = useState("available");
   const [note, setNote] = useState("");
 
   const loadDoctors = async () => {
-    let res = await Apis.get(endpoints.doctors);
+    let res = await Apis.get(endpoints.allDoctors);
     setDoctors(res.data);
   };
 
@@ -31,12 +39,26 @@ const DoctorSchedule = () => {
     setScheduleId(null);
     setDoctorId("");
     setWorkDate("");
-    setStartTime("");
-    setEndTime("");
+    setShift("morning");
+    setStartTime("07:00");
+    setEndTime("11:30");
     setStatus("available");
     setNote("");
   };
+  const changeShift = (value) => {
+    setShift(value);
 
+    if (value === "morning") {
+      setStartTime("07:00");
+      setEndTime("11:30");
+    } else if (value === "afternoon") {
+      setStartTime("13:00");
+      setEndTime("17:00");
+    } else if (value === "evening") {
+      setStartTime("17:30");
+      setEndTime("21:00");
+    }
+  };
   const saveSchedule = async (e) => {
     e.preventDefault();
 
@@ -45,6 +67,7 @@ const DoctorSchedule = () => {
         doctorId: parseInt(doctorId),
       },
       workDate: workDate,
+      shift: shift,
       startTime: `${startTime}:00`,
       endTime: `${endTime}:00`,
       status: status,
@@ -81,10 +104,13 @@ const DoctorSchedule = () => {
     setWorkDate(
       s.workDate ? new Date(s.workDate).toISOString().slice(0, 10) : "",
     );
+    setShift(s.shift || "morning");
     setStartTime(
-      s.startTime ? new Date(s.startTime).toTimeString().slice(0, 5) : "",
+      s.startTime ? new Date(s.startTime).toTimeString().slice(0, 5) : "07:00",
     );
-    setEndTime(s.endTime ? new Date(s.endTime).toTimeString().slice(0, 5) : "");
+    setEndTime(
+      s.endTime ? new Date(s.endTime).toTimeString().slice(0, 5) : "11:30",
+    );
     setStatus(s.status || "available");
     setNote(s.note || "");
     window.scrollTo(0, 0);
@@ -108,19 +134,6 @@ const DoctorSchedule = () => {
     }
   };
 
-  const formatDate = (value) => {
-    if (!value) return "";
-    return new Date(value).toLocaleDateString("vi-VN");
-  };
-
-  const formatTime = (value) => {
-    if (!value) return "";
-    return new Date(value).toLocaleTimeString("vi-VN", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   useEffect(() => {
     setLoading(true);
 
@@ -131,7 +144,29 @@ const DoctorSchedule = () => {
       })
       .finally(() => setLoading(false));
   }, []);
+  if (user === null) {
+    return (
+      <div className="main-content">
+        <div className="container">
+          <Alert variant="warning">
+            Vui lòng đăng nhập để sử dụng chức năng này.
+          </Alert>
+        </div>
+      </div>
+    );
+  }
 
+  if (!isAdminOrStaff) {
+    return (
+      <div className="main-content">
+        <div className="container">
+          <Alert variant="danger">
+            Bạn không có quyền truy cập trang quản lý lịch làm việc.
+          </Alert>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="main-content">
       <div className="container">
@@ -142,148 +177,28 @@ const DoctorSchedule = () => {
 
         {msg && <Alert variant="info">{msg}</Alert>}
 
-        <div className="feature-card" style={{ marginBottom: "30px" }}>
-          <h3>
-            {scheduleId === null
-              ? "Thêm lịch làm việc"
-              : "Cập nhật lịch làm việc"}
-          </h3>
+        <DoctorScheduleForm
+          scheduleId={scheduleId}
+          doctors={doctors}
+          doctorId={doctorId}
+          setDoctorId={setDoctorId}
+          workDate={workDate}
+          setWorkDate={setWorkDate}
+          shift={shift}
+          changeShift={changeShift}
+          status={status}
+          setStatus={setStatus}
+          note={note}
+          setNote={setNote}
+          saveSchedule={saveSchedule}
+          resetForm={resetForm}
+        />
 
-          <Form onSubmit={saveSchedule}>
-            <Form.Group className="mb-3">
-              <Form.Label>Bác sĩ</Form.Label>
-              <Form.Select
-                value={doctorId}
-                onChange={(e) => setDoctorId(e.target.value)}
-                required
-              >
-                <option value="">-- Chọn bác sĩ --</option>
-                {doctors.map((d) => (
-                  <option key={d.doctorId} value={d.doctorId}>
-                    {d.fullName}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Ngày làm việc</Form.Label>
-              <Form.Control
-                type="date"
-                value={workDate}
-                onChange={(e) => setWorkDate(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Giờ bắt đầu</Form.Label>
-              <Form.Control
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Giờ kết thúc</Form.Label>
-              <Form.Control
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Trạng thái</Form.Label>
-              <Form.Select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="available">Có lịch làm việc</option>
-                <option value="unavailable">Không làm việc</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Ghi chú</Form.Label>
-              <Form.Control
-                type="text"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="Ví dụ: Ca sáng, ca chiều, nghỉ phép..."
-              />
-            </Form.Group>
-
-            <Button type="submit" variant="primary">
-              {scheduleId === null ? "Thêm lịch" : "Cập nhật"}
-            </Button>
-
-            {scheduleId !== null && (
-              <Button
-                type="button"
-                variant="secondary"
-                className="ms-2"
-                onClick={resetForm}
-              >
-                Hủy sửa
-              </Button>
-            )}
-          </Form>
-        </div>
-
-        <div className="feature-card">
-          <h3>Danh sách lịch làm việc</h3>
-
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Bác sĩ</th>
-                <th>Ngày</th>
-                <th>Bắt đầu</th>
-                <th>Kết thúc</th>
-                <th>Trạng thái</th>
-                <th>Ghi chú</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {schedules.map((s) => (
-                <tr key={s.scheduleId}>
-                  <td>{s.scheduleId}</td>
-                  <td>{s.doctorId?.fullName}</td>
-                  <td>{formatDate(s.workDate)}</td>
-                  <td>{formatTime(s.startTime)}</td>
-                  <td>{formatTime(s.endTime)}</td>
-                  <td>{s.status === "available" ? "Có lịch" : "Không làm"}</td>
-                  <td>{s.note}</td>
-                  <td>
-                    <Button
-                      variant="warning"
-                      size="sm"
-                      onClick={() => editSchedule(s)}
-                    >
-                      Sửa
-                    </Button>
-
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      className="ms-2"
-                      onClick={() => deleteSchedule(s.scheduleId)}
-                    >
-                      Xóa
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
+        <DoctorScheduleTable
+          schedules={schedules}
+          editSchedule={editSchedule}
+          deleteSchedule={deleteSchedule}
+        />
 
         {loading && <MySpinner />}
       </div>

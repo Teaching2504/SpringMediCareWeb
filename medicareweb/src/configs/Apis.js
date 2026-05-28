@@ -3,6 +3,7 @@ import cookies from "react-cookies";
 
 export const endpoints = {
   doctors: "/doctors",
+  allDoctors: "/doctors/all",
   login: "/login",
   "current-user": "/secure/profile",
   users: "/users",

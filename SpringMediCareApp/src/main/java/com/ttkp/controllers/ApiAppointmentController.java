@@ -40,6 +40,11 @@ public class ApiAppointmentController {
         return new ResponseEntity<>("Đặt lịch thất bại", HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/appointments")
+    public ResponseEntity<List<Appointment>> list() {
+        return new ResponseEntity<>(this.appointmentService.getAppointments(), HttpStatus.OK);
+    }
+
     @GetMapping("/appointments/patient/{patientId}")
     public ResponseEntity<List<Appointment>> listByPatient(@PathVariable("patientId") int patientId) {
         return new ResponseEntity<>(

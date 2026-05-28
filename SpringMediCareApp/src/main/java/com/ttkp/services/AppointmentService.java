@@ -10,6 +10,8 @@ public interface AppointmentService {
 
     List<Appointment> getAppointmentsByPatientId(int patientId);
 
+    List<Appointment> getAppointments();
+    
     Appointment getAppointmentById(int id);
 
     boolean cancelAppointment(int id);

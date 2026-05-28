@@ -14,6 +14,7 @@ import Specialty from "./screens/Specialty/Specialty";
 import cookie from "react-cookies";
 import { MyUserContext } from "./configs/Contexts";
 import MyUserReducer from "./reducers/MyUserReducer";
+import Booking from "./screens/Booking/Booking";
 const App = () => {
   const [user, dispatch] = useReducer(
     MyUserReducer,
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/doctor" element={<Doctor />} />
             <Route path="/specialty" element={<Specialty />} />
             <Route path="/doctor-schedules" element={<DoctorSchedule />} />
+            <Route path="/booking" element={<Booking />} />
           </Routes>
         </Container>
 

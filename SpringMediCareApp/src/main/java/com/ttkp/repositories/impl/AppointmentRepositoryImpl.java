@@ -27,6 +27,18 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
+    public List<Appointment> getAppointments() {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        Query<Appointment> q = session.createQuery(
+                "FROM Appointment a ORDER BY a.appointmentId DESC",
+                Appointment.class
+        );
+
+        return q.getResultList();
+    }
+
+    @Override
     public List<Appointment> getAppointmentsByPatientId(int patientId) {
         Session session = this.factory.getObject().getCurrentSession();
         Query<Appointment> q = session.createQuery(

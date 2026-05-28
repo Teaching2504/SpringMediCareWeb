@@ -8,6 +8,8 @@ public interface AppointmentRepository {
 
     boolean addAppointment(Appointment appointment);
 
+    List<Appointment> getAppointments();
+
     List<Appointment> getAppointmentsByPatientId(int patientId);
 
     Appointment getAppointmentById(int id);

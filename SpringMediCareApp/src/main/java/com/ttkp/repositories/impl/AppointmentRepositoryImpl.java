@@ -2,6 +2,7 @@ package com.ttkp.repositories.impl;
 
 import com.ttkp.pojo.Appointment;
 import com.ttkp.repositories.AppointmentRepository;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -41,6 +42,25 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     public Appointment getAppointmentById(int id) {
         Session session = this.factory.getObject().getCurrentSession();
         return session.get(Appointment.class, id);
+    }
+
+    @Override
+    public boolean isAppointmentTimeBooked(int doctorId, Date appointmentDate) {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        Query<Appointment> q = session.createQuery(
+                "FROM Appointment a "
+                + "WHERE a.doctorId.doctorId = :doctorId "
+                + "AND a.appointmentDate = :appointmentDate "
+                + "AND a.status <> :status",
+                Appointment.class
+        );
+
+        q.setParameter("doctorId", doctorId);
+        q.setParameter("appointmentDate", appointmentDate);
+        q.setParameter("status", "cancelled");
+
+        return !q.getResultList().isEmpty();
     }
 
     @Override

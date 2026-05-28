@@ -108,6 +108,38 @@ INSERT INTO `doctor` VALUES (1,2,'Tran Binh',1,8,'https://res.cloudinary.com/dcz
 UNLOCK TABLES;
 
 --
+-- Table structure for table `doctor_schedule`
+--
+
+DROP TABLE IF EXISTS `doctor_schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `doctor_schedule` (
+  `schedule_id` int NOT NULL AUTO_INCREMENT,
+  `doctor_id` int NOT NULL,
+  `work_date` date NOT NULL,
+  `shift` enum('morning','afternoon','evening') NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `status` enum('available','unavailable') NOT NULL DEFAULT 'available',
+  `note` text,
+  PRIMARY KEY (`schedule_id`),
+  KEY `fk_doctor_schedule_doctor` (`doctor_id`),
+  CONSTRAINT `fk_doctor_schedule_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `doctor` (`doctor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `doctor_schedule`
+--
+
+LOCK TABLES `doctor_schedule` WRITE;
+/*!40000 ALTER TABLE `doctor_schedule` DISABLE KEYS */;
+INSERT INTO `doctor_schedule` VALUES (1,1,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(2,1,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(3,1,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(4,2,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(5,2,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(6,2,'2026-04-11','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(7,3,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(8,3,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(9,3,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(10,4,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(11,4,'2026-04-11','afternoon','13:00:00','17:00:00','unavailable','Bác sĩ nghỉ ca chiều'),(12,4,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(13,1,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(14,1,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(15,1,'2026-04-12','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(16,2,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(17,2,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(18,2,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(19,3,'2026-04-12','morning','07:00:00','11:30:00','unavailable','Bác sĩ nghỉ ca sáng'),(20,3,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(21,3,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(22,4,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(23,4,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(24,4,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối');
+/*!40000 ALTER TABLE `doctor_schedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `drug`
 --
 
@@ -432,4 +464,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-26 13:59:37
+-- Dump completed on 2026-05-28 22:37:34

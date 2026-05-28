@@ -1,6 +1,7 @@
 package com.ttkp.repositories;
 
 import com.ttkp.pojo.Appointment;
+import java.util.Date;
 import java.util.List;
 
 public interface AppointmentRepository {
@@ -12,4 +13,6 @@ public interface AppointmentRepository {
     Appointment getAppointmentById(int id);
 
     boolean updateAppointmentStatus(int id, String status);
+
+    boolean isAppointmentTimeBooked(int doctorId, Date appointmentDate);
 }

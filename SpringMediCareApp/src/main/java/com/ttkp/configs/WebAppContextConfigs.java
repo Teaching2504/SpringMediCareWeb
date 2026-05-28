@@ -12,6 +12,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import com.ttkp.formatters.DoctorFormatter;
+import org.springframework.format.FormatterRegistry;
 
 @Configuration
 @EnableWebMvc
@@ -26,6 +28,11 @@ public class WebAppContextConfigs implements WebMvcConfigurer {
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new DoctorFormatter());
     }
 
     @Override

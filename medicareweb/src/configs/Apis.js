@@ -6,6 +6,15 @@ export const endpoints = {
   login: "/login",
   "current-user": "/secure/profile",
   users: "/users",
+
+  doctorSchedules: "/doctor-schedules",
+  doctorScheduleDetail: (id) => `/doctor-schedules/${id}`,
+  doctorSchedulesByDoctor: (doctorId) => `/doctors/${doctorId}/schedules`,
+
+  secureDoctorSchedules: "/secure/doctor-schedules",
+  secureDoctorScheduleDetail: (id) => `/secure/doctor-schedules/${id}`,
+
+  appointments: "/appointments",
 };
 
 export const authApis = () => {

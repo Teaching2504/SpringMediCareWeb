@@ -1,3 +1,4 @@
+import DoctorSchedule from "./screens/DoctorSchedule/DoctorSchedule";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/doctor" element={<Doctor />} />
             <Route path="/specialty" element={<Specialty />} />
+            <Route path="/doctor-schedules" element={<DoctorSchedule />} />
           </Routes>
         </Container>
 

@@ -30,6 +30,7 @@ const Header = () => {
           <Link to="/">Trang chủ</Link>
           <Link to="/doctor">Bác sĩ</Link>
           <Link to="/specialty">Chuyên khoa</Link>
+          <Link to="/doctor-schedules">Lịch làm việc</Link>
 
           {user === null ? (
             <>

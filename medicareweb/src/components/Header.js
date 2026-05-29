@@ -7,6 +7,11 @@ const Header = () => {
   const [user, dispatch] = useContext(MyUserContext);
   const nav = useNavigate();
 
+  const isAdminOrStaff =
+    user !== null && (user.role === "admin" || user.role === "staff");
+  const isDoctor = user !== null && user.role === "doctor";
+  const isPatient = user !== null && user.role === "patient";
+
   const logout = () => {
     dispatch({
       type: "LOGOUT",
@@ -28,8 +33,33 @@ const Header = () => {
 
         <nav className="main-nav">
           <Link to="/">Trang chủ</Link>
-          <Link to="/doctor">Bác sĩ</Link>
-          <Link to="/specialty">Chuyên khoa</Link>
+
+          {(user === null || isPatient || isAdminOrStaff) && (
+            <>
+              <Link to="/doctor">Bác sĩ</Link>
+              <Link to="/specialty">Chuyên khoa</Link>
+            </>
+          )}
+
+          {isAdminOrStaff && (
+            <>
+              <Link to="/doctor-schedules">Quản lý lịch làm việc</Link>
+              <Link to="/admin-appointments">Quản lý lịch hẹn</Link>
+            </>
+          )}
+
+          {isDoctor && (
+            <>
+              <Link to="/doctor-work-schedule">Lịch làm việc của tôi</Link>
+              <Link to="/doctor-appointments">Lịch hẹn bệnh nhân</Link>
+            </>
+          )}
+
+          {isPatient && (
+            <>
+              <Link to="/my-appointments">Lịch hẹn của tôi</Link>
+            </>
+          )}
 
           {user === null ? (
             <>

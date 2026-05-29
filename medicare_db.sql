@@ -380,7 +380,7 @@ CREATE TABLE `specialty` (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`specialty_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -389,7 +389,7 @@ CREATE TABLE `specialty` (
 
 LOCK TABLES `specialty` WRITE;
 /*!40000 ALTER TABLE `specialty` DISABLE KEYS */;
-INSERT INTO `specialty` VALUES (1,'Tim mach','Chuyên khoa chẩn đoán và điều trị các bệnh lý về hệ tuần hoàn, tim và mạch máu.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724816/timmach_wqaxmh.jpg'),(2,'Da lieu','Chăm sóc và điều trị các vấn đề về da, tóc, móng.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724839/khoadalieu_hipale.jpg'),(3,'Nhi khoa','Chăm sóc sức khỏe toàn diện và điều trị bệnh lý cho trẻ em từ sơ sinh đến tuổi vị thành niên.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724878/nhikhoa_jcnoao.jpg'),(4,'Khoa kham benh','Tiếp nhận, phân loại và thực hiện khám lâm sàng ban đầu cho mọi đối tượng bệnh nhân.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724972/khoakhambenh_ucexbz.jpg'),(5,'Rang ham mat','Khám và điều trị các bệnh lý về răng miệng, phục hình thẩm mỹ và phẫu thuật hàm mặt.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724971/ranghammat_jvwq9w.jpg'),(6,'San phu khoa','Chăm sóc sức khỏe phụ nữ, quản lý thai kỳ, sinh con và các bệnh lý phụ khoa.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725122/sanphukhoa_cdzidj.jpg'),(7,'Mat','Chẩn đoán, điều trị các bệnh lý về mắt và thực hiện các thủ thuật đo thị lực, nhãn khoa.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725131/khoamat_lnzmi9.jpg'),(8,'Tai mui hong','Điều trị chuyên sâu các bệnh về tai, mũi, xoang, họng và các cấu trúc vùng đầu cổ.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725184/khoataimuihong_gzaggj.jpg');
+INSERT INTO `specialty` VALUES (1,'Tim mach','Chuyên khoa chẩn đoán và điều trị các bệnh lý về hệ tuần hoàn, tim và mạch máu.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724816/timmach_wqaxmh.jpg'),(2,'Da lieu','Chăm sóc và điều trị các vấn đề về da, tóc, móng.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724839/khoadalieu_hipale.jpg'),(3,'Nhi khoa','Chăm sóc sức khỏe toàn diện và điều trị bệnh lý cho trẻ em từ sơ sinh đến tuổi vị thành niên.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724878/nhikhoa_jcnoao.jpg'),(4,'Khoa kham benh','Tiếp nhận, phân loại và thực hiện khám lâm sàng ban đầu cho mọi đối tượng bệnh nhân.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724972/khoakhambenh_ucexbz.jpg'),(5,'Rang ham mat','Khám và điều trị các bệnh lý về răng miệng, phục hình thẩm mỹ và phẫu thuật hàm mặt.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724971/ranghammat_jvwq9w.jpg'),(6,'San phu khoa','Chăm sóc sức khỏe phụ nữ, quản lý thai kỳ, sinh con và các bệnh lý phụ khoa.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725122/sanphukhoa_cdzidj.jpg'),(7,'Mat','Chẩn đoán, điều trị các bệnh lý về mắt và thực hiện các thủ thuật đo thị lực, nhãn khoa.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725131/khoamat_lnzmi9.jpg'),(8,'Tai mui hong','Điều trị chuyên sâu các bệnh về tai, mũi, xoang, họng và các cấu trúc vùng đầu cổ.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725184/khoataimuihong_gzaggj.jpg'),(9,'Y Học Cổ Truyền','Khám, điều trị và phục hồi sức khỏe bằng các phương pháp kết hợp Đông - Tây y như châm cứu, bấm huyệt, vật lý trị liệu cho các bệnh lý xương khớp, thần kinh.','https://res.cloudinary.com/dczz59gpu/image/upload/v1779612733/CheTrung_khanh-thanh-khu-chuyen-gia-10_rdfpsu.jpg'),(10,'Xét Nghiệm','Thực hiện các kỹ thuật cận lâm sàng tiên tiến như chụp X-quang, cắt lớp vi tính (CT), cộng hưởng từ (MRI), siêu âm và xét nghiệm máu để hỗ trợ chẩn đoán bệnh chính xác.','https://res.cloudinary.com/dczz59gpu/image/upload/v1779612880/co-so-vat-chat-tam-anh_ah9h5j.jpg');
 /*!40000 ALTER TABLE `specialty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -464,4 +464,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-29 13:47:37
+-- Dump completed on 2026-05-29 14:22:29

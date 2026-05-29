@@ -16,6 +16,10 @@ import { MyUserContext } from "./configs/Contexts";
 import MyUserReducer from "./reducers/MyUserReducer";
 import Booking from "./screens/Booking/Booking";
 import MyAppointment from "./screens/MyAppointment/MyAppointment";
+import AdminAppointment from "./screens/AdminAppointment/AdminAppointment";
+import DoctorWorkSchedule from "./screens/DoctorWorkSchedule/DoctorWorkSchedule";
+import DoctorAppointment from "./screens/DoctorAppointment/DoctorAppointment";
+
 const App = () => {
   const [user, dispatch] = useReducer(
     MyUserReducer,
@@ -36,6 +40,9 @@ const App = () => {
             <Route path="/doctor-schedules" element={<DoctorSchedule />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/my-appointments" element={<MyAppointment />} />
+            <Route path="/admin-appointments" element={<AdminAppointment />} />
+            <Route path="/doctor-work-schedule" element={<DoctorWorkSchedule />} />
+            <Route path="/doctor-appointments" element={<DoctorAppointment />} />
           </Routes>
         </Container>
 

@@ -53,6 +53,14 @@ public class ApiAppointmentController {
         );
     }
 
+    @GetMapping("/appointments/doctor/{doctorId}")
+    public ResponseEntity<List<Appointment>> listByDoctor(@PathVariable("doctorId") int doctorId) {
+        return new ResponseEntity<>(
+                this.appointmentService.getAppointmentsByDoctorId(doctorId),
+                HttpStatus.OK
+        );
+    }
+
     @GetMapping("/appointments/{id}")
     public ResponseEntity<Appointment> retrieve(@PathVariable("id") int id) {
         Appointment a = this.appointmentService.getAppointmentById(id);

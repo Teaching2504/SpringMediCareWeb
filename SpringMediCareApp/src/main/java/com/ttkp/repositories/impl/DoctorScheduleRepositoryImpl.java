@@ -61,21 +61,24 @@ public class DoctorScheduleRepositoryImpl implements DoctorScheduleRepository {
         java.sql.Date workDate = new java.sql.Date(appointmentDate.getTime());
         java.sql.Time appointmentTime = new java.sql.Time(appointmentDate.getTime());
 
-        Query q = s.createQuery(
-                "FROM DoctorSchedule ds "
-                + "WHERE ds.doctorId.doctorId = :doctorId "
-                + "AND ds.workDate = :workDate "
-                + "AND ds.status = :status "
-                + "AND ds.startTime <= :appointmentTime "
-                + "AND ds.endTime > :appointmentTime"
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<DoctorSchedule> q = b.createQuery(DoctorSchedule.class);
+        Root root = q.from(DoctorSchedule.class);
+
+        q.select(root);
+        q.where(
+                b.and(
+                        b.equal(root.get("doctorId").get("doctorId"), doctorId),
+                        b.equal(root.get("workDate"), workDate),
+                        b.equal(root.get("status"), "available"),
+                        b.lessThanOrEqualTo(root.get("startTime"), appointmentTime),
+                        b.greaterThan(root.get("endTime"), appointmentTime)
+                )
         );
 
-        q.setParameter("doctorId", doctorId);
-        q.setParameter("workDate", workDate);
-        q.setParameter("status", "available");
-        q.setParameter("appointmentTime", appointmentTime);
+        Query query = s.createQuery(q);
 
-        return !q.getResultList().isEmpty();
+        return !query.getResultList().isEmpty();
     }
 
     @Override

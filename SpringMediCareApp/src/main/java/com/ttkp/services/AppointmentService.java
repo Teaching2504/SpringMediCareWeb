@@ -9,6 +9,8 @@ public interface AppointmentService {
             String appointmentDate, String notes);
 
     List<Appointment> getAppointmentsByPatientId(int patientId);
+    
+    List<Appointment> getAppointmentsByDoctorId(int doctorId);
 
     List<Appointment> getAppointments();
     

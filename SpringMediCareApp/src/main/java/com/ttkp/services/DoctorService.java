@@ -11,4 +11,6 @@ public interface DoctorService {
     List<Doctor> getAllDoctors();
 
     Doctor getDoctorById(int id);
+    
+    Doctor getDoctorByUserId(int userId);
 }

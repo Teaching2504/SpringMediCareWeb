@@ -28,4 +28,9 @@ public class DoctorServiceImpl implements DoctorService {
     public Doctor getDoctorById(int id) {
         return this.doctorRepository.getDoctorById(id);
     }
+
+    @Override
+    public Doctor getDoctorByUserId(int userId) {
+        return this.doctorRepository.getDoctorByUserId(userId);
+    }
 }

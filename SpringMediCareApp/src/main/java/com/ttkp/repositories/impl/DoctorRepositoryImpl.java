@@ -93,4 +93,26 @@ public class DoctorRepositoryImpl implements DoctorRepository {
         Session session = this.factory.getObject().getCurrentSession();
         return session.get(Doctor.class, id);
     }
+
+    @Override
+    public Doctor getDoctorByUserId(int userId) {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Doctor> q = b.createQuery(Doctor.class);
+        Root root = q.from(Doctor.class);
+
+        q.select(root);
+        q.where(b.equal(root.get("userId").get("id"), userId));
+
+        Query query = session.createQuery(q);
+
+        List<Doctor> doctors = query.getResultList();
+
+        if (doctors.isEmpty()) {
+            return null;
+        }
+
+        return doctors.get(0);
+    }
 }

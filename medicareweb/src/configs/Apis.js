@@ -4,6 +4,7 @@ import cookies from "react-cookies";
 export const endpoints = {
   doctors: "/doctors",
   allDoctors: "/doctors/all",
+  doctorByUser: (userId) => `/doctors/user/${userId}`,
   login: "/login",
   "current-user": "/secure/profile",
   users: "/users",
@@ -16,6 +17,7 @@ export const endpoints = {
   secureDoctorScheduleDetail: (id) => `/secure/doctor-schedules/${id}`,
 
   appointments: "/appointments",
+  appointmentsByDoctor: (doctorId) => `/appointments/doctor/${doctorId}`,
 };
 
 export const authApis = () => {

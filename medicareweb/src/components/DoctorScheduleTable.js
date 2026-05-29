@@ -1,6 +1,11 @@
 import { Button, Table } from "react-bootstrap";
 
-const DoctorScheduleTable = ({ schedules, editSchedule, deleteSchedule }) => {
+const DoctorScheduleTable = ({
+  schedules,
+  editSchedule,
+  deleteSchedule,
+  showActions = true,
+}) => {
   const formatDate = (value) => {
     if (!value) return "";
     return new Date(value).toLocaleDateString("vi-VN");
@@ -8,6 +13,11 @@ const DoctorScheduleTable = ({ schedules, editSchedule, deleteSchedule }) => {
 
   const formatTime = (value) => {
     if (!value) return "";
+
+    if (typeof value === "string") {
+      return value.substring(0, 5);
+    }
+
     return new Date(value).toLocaleTimeString("vi-VN", {
       hour: "2-digit",
       minute: "2-digit",
@@ -35,7 +45,7 @@ const DoctorScheduleTable = ({ schedules, editSchedule, deleteSchedule }) => {
             <th>Kết thúc</th>
             <th>Trạng thái</th>
             <th>Ghi chú</th>
-            <th>Thao tác</th>
+            {showActions && <th>Thao tác</th>}
           </tr>
         </thead>
 
@@ -50,24 +60,26 @@ const DoctorScheduleTable = ({ schedules, editSchedule, deleteSchedule }) => {
               <td>{formatTime(s.endTime)}</td>
               <td>{s.status === "available" ? "Có lịch" : "Không làm"}</td>
               <td>{s.note}</td>
-              <td>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  onClick={() => editSchedule(s)}
-                >
-                  Sửa
-                </Button>
+              {showActions && (
+                <td>
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => editSchedule(s)}
+                  >
+                    Sửa
+                  </Button>
 
-                <Button
-                  variant="danger"
-                  size="sm"
-                  className="ms-2"
-                  onClick={() => deleteSchedule(s.scheduleId)}
-                >
-                  Xóa
-                </Button>
-              </td>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="ms-2"
+                    onClick={() => deleteSchedule(s.scheduleId)}
+                  >
+                    Xóa
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

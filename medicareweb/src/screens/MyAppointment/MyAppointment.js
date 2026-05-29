@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Table } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import Apis, { endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
 import { MyUserContext } from "../../configs/Contexts";
-
+import AppointmentTable from "../../components/AppointmentTable";
 const MyAppointment = () => {
   const [user] = useContext(MyUserContext);
   const [appointments, setAppointments] = useState([]);
@@ -17,19 +17,6 @@ const MyAppointment = () => {
 
     let res = await Apis.get(`/appointments/patient/${patientId}`);
     setAppointments(res.data);
-  };
-
-  const formatDateTime = (value) => {
-    if (!value) return "";
-    return new Date(value).toLocaleString("vi-VN");
-  };
-
-  const getStatusName = (status) => {
-    if (status === "pending") return "Chờ xác nhận";
-    if (status === "confirmed") return "Đã xác nhận";
-    if (status === "completed") return "Đã hoàn thành";
-    if (status === "cancelled") return "Đã hủy";
-    return status;
   };
 
   useEffect(() => {
@@ -78,29 +65,7 @@ const MyAppointment = () => {
         {msg && <Alert variant="info">{msg}</Alert>}
 
         <div className="feature-card">
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Bác sĩ</th>
-                <th>Thời gian khám</th>
-                <th>Trạng thái</th>
-                <th>Ghi chú</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {appointments.map((a) => (
-                <tr key={a.appointmentId}>
-                  <td>{a.appointmentId}</td>
-                  <td>{a.doctorId?.fullName}</td>
-                  <td>{formatDateTime(a.appointmentDate)}</td>
-                  <td>{getStatusName(a.status)}</td>
-                  <td>{a.notes}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <AppointmentTable appointments={appointments} showDoctor={true} />
 
           {appointments.length === 0 && !loading && (
             <Alert variant="info">Bạn chưa có lịch hẹn nào.</Alert>

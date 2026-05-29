@@ -108,6 +108,38 @@ INSERT INTO `doctor` VALUES (1,2,'Tran Binh',1,8,'https://res.cloudinary.com/dcz
 UNLOCK TABLES;
 
 --
+-- Table structure for table `doctor_schedule`
+--
+
+DROP TABLE IF EXISTS `doctor_schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `doctor_schedule` (
+  `schedule_id` int NOT NULL AUTO_INCREMENT,
+  `doctor_id` int NOT NULL,
+  `work_date` date NOT NULL,
+  `shift` enum('morning','afternoon','evening') NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `status` enum('available','unavailable') NOT NULL DEFAULT 'available',
+  `note` text,
+  PRIMARY KEY (`schedule_id`),
+  KEY `fk_doctor_schedule_doctor` (`doctor_id`),
+  CONSTRAINT `fk_doctor_schedule_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `doctor` (`doctor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `doctor_schedule`
+--
+
+LOCK TABLES `doctor_schedule` WRITE;
+/*!40000 ALTER TABLE `doctor_schedule` DISABLE KEYS */;
+INSERT INTO `doctor_schedule` VALUES (1,1,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(2,1,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(3,1,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(4,2,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(5,2,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(6,2,'2026-04-11','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(7,3,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(8,3,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(9,3,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(10,4,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(11,4,'2026-04-11','afternoon','13:00:00','17:00:00','unavailable','Bác sĩ nghỉ ca chiều'),(12,4,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(13,1,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(14,1,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(15,1,'2026-04-12','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(16,2,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(17,2,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(18,2,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(19,3,'2026-04-12','morning','07:00:00','11:30:00','unavailable','Bác sĩ nghỉ ca sáng'),(20,3,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(21,3,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(22,4,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(23,4,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(24,4,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối');
+/*!40000 ALTER TABLE `doctor_schedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `drug`
 --
 
@@ -348,7 +380,7 @@ CREATE TABLE `specialty` (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`specialty_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -357,7 +389,7 @@ CREATE TABLE `specialty` (
 
 LOCK TABLES `specialty` WRITE;
 /*!40000 ALTER TABLE `specialty` DISABLE KEYS */;
-INSERT INTO `specialty` VALUES (1,'Tim mach','Chuyên khoa chẩn đoán và điều trị các bệnh lý về hệ tuần hoàn, tim và mạch máu.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724816/timmach_wqaxmh.jpg'),(2,'Da lieu','Chăm sóc và điều trị các vấn đề về da, tóc, móng.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724839/khoadalieu_hipale.jpg'),(3,'Nhi khoa','Chăm sóc sức khỏe toàn diện và điều trị bệnh lý cho trẻ em từ sơ sinh đến tuổi vị thành niên.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724878/nhikhoa_jcnoao.jpg'),(4,'Khoa kham benh','Tiếp nhận, phân loại và thực hiện khám lâm sàng ban đầu cho mọi đối tượng bệnh nhân.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724972/khoakhambenh_ucexbz.jpg'),(5,'Rang ham mat','Khám và điều trị các bệnh lý về răng miệng, phục hình thẩm mỹ và phẫu thuật hàm mặt.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724971/ranghammat_jvwq9w.jpg'),(6,'San phu khoa','Chăm sóc sức khỏe phụ nữ, quản lý thai kỳ, sinh con và các bệnh lý phụ khoa.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725122/sanphukhoa_cdzidj.jpg'),(7,'Mat','Chẩn đoán, điều trị các bệnh lý về mắt và thực hiện các thủ thuật đo thị lực, nhãn khoa.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725131/khoamat_lnzmi9.jpg'),(8,'Tai mui hong','Điều trị chuyên sâu các bệnh về tai, mũi, xoang, họng và các cấu trúc vùng đầu cổ.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725184/khoataimuihong_gzaggj.jpg');
+INSERT INTO `specialty` VALUES (1,'Tim mach','Chuyên khoa chẩn đoán và điều trị các bệnh lý về hệ tuần hoàn, tim và mạch máu.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724816/timmach_wqaxmh.jpg'),(2,'Da lieu','Chăm sóc và điều trị các vấn đề về da, tóc, móng.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724839/khoadalieu_hipale.jpg'),(3,'Nhi khoa','Chăm sóc sức khỏe toàn diện và điều trị bệnh lý cho trẻ em từ sơ sinh đến tuổi vị thành niên.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724878/nhikhoa_jcnoao.jpg'),(4,'Khoa kham benh','Tiếp nhận, phân loại và thực hiện khám lâm sàng ban đầu cho mọi đối tượng bệnh nhân.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724972/khoakhambenh_ucexbz.jpg'),(5,'Rang ham mat','Khám và điều trị các bệnh lý về răng miệng, phục hình thẩm mỹ và phẫu thuật hàm mặt.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724971/ranghammat_jvwq9w.jpg'),(6,'San phu khoa','Chăm sóc sức khỏe phụ nữ, quản lý thai kỳ, sinh con và các bệnh lý phụ khoa.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725122/sanphukhoa_cdzidj.jpg'),(7,'Mat','Chẩn đoán, điều trị các bệnh lý về mắt và thực hiện các thủ thuật đo thị lực, nhãn khoa.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725131/khoamat_lnzmi9.jpg'),(8,'Tai mui hong','Điều trị chuyên sâu các bệnh về tai, mũi, xoang, họng và các cấu trúc vùng đầu cổ.','https://res.cloudinary.com/dczz59gpu/image/upload/v1775725184/khoataimuihong_gzaggj.jpg'),(9,'Y Học Cổ Truyền','Khám, điều trị và phục hồi sức khỏe bằng các phương pháp kết hợp Đông - Tây y như châm cứu, bấm huyệt, vật lý trị liệu cho các bệnh lý xương khớp, thần kinh.','https://res.cloudinary.com/dczz59gpu/image/upload/v1779612733/CheTrung_khanh-thanh-khu-chuyen-gia-10_rdfpsu.jpg'),(10,'Xét Nghiệm','Thực hiện các kỹ thuật cận lâm sàng tiên tiến như chụp X-quang, cắt lớp vi tính (CT), cộng hưởng từ (MRI), siêu âm và xét nghiệm máu để hỗ trợ chẩn đoán bệnh chính xác.','https://res.cloudinary.com/dczz59gpu/image/upload/v1779612880/co-so-vat-chat-tam-anh_ah9h5j.jpg');
 /*!40000 ALTER TABLE `specialty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -432,4 +464,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-26 13:59:37
+-- Dump completed on 2026-05-29 14:29:20

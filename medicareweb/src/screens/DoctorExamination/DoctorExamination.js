@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Alert, Button, Card, Col, Form, Image, Row } from "react-bootstrap";
+import { Alert, Card, Col, Image, Row } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { authApis, endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
+import MedicalRecordForm from "../../components/MedicalRecordForm";
 
 const DoctorExamination = () => {
   const [q] = useSearchParams();
@@ -180,45 +181,16 @@ const DoctorExamination = () => {
         {loading && <MySpinner />}
 
         {appointment && (
-          <Card className="shadow-sm border-0 mt-4">
-            <Card.Header className="bg-info-subtle py-3">
-              <h4 className="mb-0 text-primary">Ghi nhận kết quả khám</h4>
-            </Card.Header>
-
-            <Card.Body className="p-4">
-              <Form onSubmit={saveMedicalRecord}>
-                <Form.Group className="mb-4">
-                  <Form.Label className="fw-semibold">Chẩn đoán</Form.Label>
-
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    value={diagnosis}
-                    onChange={(e) => setDiagnosis(e.target.value)}
-                    placeholder="Nhập kết quả chẩn đoán"
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-4">
-                  <Form.Label className="fw-semibold">
-                    Hướng điều trị
-                  </Form.Label>
-
-                  <Form.Control
-                    as="textarea"
-                    rows={4}
-                    value={treatment}
-                    onChange={(e) => setTreatment(e.target.value)}
-                    placeholder="Nhập hướng điều trị"
-                  />
-                </Form.Group>
-
-                <Button variant="primary" type="submit" disabled={saving}>
-                  {saving ? "Đang lưu..." : "Lưu hồ sơ bệnh án"}
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
+          <MedicalRecordForm
+            title="Ghi nhận kết quả khám"
+            diagnosis={diagnosis}
+            treatment={treatment}
+            setDiagnosis={setDiagnosis}
+            setTreatment={setTreatment}
+            onSubmit={saveMedicalRecord}
+            saving={saving}
+            submitLabel="Lưu hồ sơ bệnh án"
+          />
         )}
       </div>
     </div>

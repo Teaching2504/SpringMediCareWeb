@@ -23,10 +23,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-/**
- *
- * @author MY PC
- */
 @Entity
 @Table(name = "patient")
 @NamedQueries({
@@ -185,7 +181,6 @@ public class Patient implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Patient)) {
             return false;
         }

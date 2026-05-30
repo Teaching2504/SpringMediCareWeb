@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.ttkp.pojo;
 
 import jakarta.persistence.Basic;
@@ -19,11 +15,6 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-/**
- *
- * @author MY PC
- */
 @Entity
 @Table(name = "specialty")
 @NamedQueries({
@@ -112,7 +103,6 @@ public class Specialty implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Specialty)) {
             return false;
         }

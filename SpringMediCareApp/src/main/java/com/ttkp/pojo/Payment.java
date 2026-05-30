@@ -20,11 +20,6 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
-/**
- *
- * @author MY PC
- */
 @Entity
 @Table(name = "payment")
 @NamedQueries({
@@ -42,7 +37,6 @@ public class Payment implements Serializable {
     @Basic(optional = false)
     @Column(name = "payment_id")
     private Integer paymentId;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @Column(name = "amount")
     private BigDecimal amount;
@@ -141,7 +135,6 @@ public class Payment implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Payment)) {
             return false;
         }

@@ -6,5 +6,7 @@ import java.util.Map;
 
 public interface DoctorRepository {
     List<Doctor> getDoctors(Map<String, String> params);
+    List<Doctor> getAllDoctors();
     Doctor getDoctorById(int id);
+    Doctor getDoctorByUserId(int userId);
 }

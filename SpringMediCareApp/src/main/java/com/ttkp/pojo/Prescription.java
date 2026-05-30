@@ -22,11 +22,6 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-
-/**
- *
- * @author MY PC
- */
 @Entity
 @Table(name = "prescription")
 @NamedQueries({
@@ -126,7 +121,6 @@ public class Prescription implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Prescription)) {
             return false;
         }

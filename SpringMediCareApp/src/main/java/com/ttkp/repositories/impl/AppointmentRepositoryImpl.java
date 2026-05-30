@@ -2,6 +2,10 @@ package com.ttkp.repositories.impl;
 
 import com.ttkp.pojo.Appointment;
 import com.ttkp.repositories.AppointmentRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -26,21 +30,81 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
+    public List<Appointment> getAppointments() {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Appointment> q = b.createQuery(Appointment.class);
+        Root root = q.from(Appointment.class);
+
+        q.select(root);
+        q.orderBy(b.desc(root.get("appointmentId")));
+
+        Query query = session.createQuery(q);
+
+        return query.getResultList();
+    }
+
+    @Override
     public List<Appointment> getAppointmentsByPatientId(int patientId) {
         Session session = this.factory.getObject().getCurrentSession();
-        Query<Appointment> q = session.createQuery(
-                "FROM Appointment a WHERE a.patientId.patientId = :patientId",
-                Appointment.class
-        );
-        q.setParameter("patientId", patientId);
 
-        return q.getResultList();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Appointment> q = b.createQuery(Appointment.class);
+        Root root = q.from(Appointment.class);
+
+        q.select(root);
+        q.where(b.equal(root.get("patientId").get("patientId"), patientId));
+        q.orderBy(b.desc(root.get("appointmentDate")));
+
+        Query query = session.createQuery(q);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsByDoctorId(int doctorId) {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Appointment> q = b.createQuery(Appointment.class);
+        Root root = q.from(Appointment.class);
+
+        q.select(root);
+        q.where(b.equal(root.get("doctorId").get("doctorId"), doctorId));
+        q.orderBy(b.desc(root.get("appointmentDate")));
+
+        Query query = session.createQuery(q);
+
+        return query.getResultList();
     }
 
     @Override
     public Appointment getAppointmentById(int id) {
         Session session = this.factory.getObject().getCurrentSession();
         return session.get(Appointment.class, id);
+    }
+
+    @Override
+    public boolean isAppointmentTimeBooked(int doctorId, Date appointmentDate) {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Appointment> q = b.createQuery(Appointment.class);
+        Root root = q.from(Appointment.class);
+
+        q.select(root);
+        q.where(
+                b.and(
+                        b.equal(root.get("doctorId").get("doctorId"), doctorId),
+                        b.equal(root.get("appointmentDate"), appointmentDate),
+                        b.notEqual(root.get("status"), "cancelled")
+                )
+        );
+
+        Query query = session.createQuery(q);
+
+        return !query.getResultList().isEmpty();
     }
 
     @Override

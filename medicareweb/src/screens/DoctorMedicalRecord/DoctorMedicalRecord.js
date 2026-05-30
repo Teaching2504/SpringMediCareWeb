@@ -152,6 +152,7 @@ const DoctorMedicalRecord = () => {
           <MedicalRecordDetail
             medicalRecord={medicalRecord}
             onEdit={openEditForm}
+            showEdit={true}
           />
         )}
 

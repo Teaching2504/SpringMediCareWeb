@@ -5,7 +5,9 @@ const MedicalRecordTable = ({
   showDoctor = false,
   showPatient = false,
   showActions = false,
+  showView = false,
   onEdit,
+  onView,
 }) => {
   const formatDateTime = (value) => {
     if (!value) return "";
@@ -33,7 +35,7 @@ const MedicalRecordTable = ({
           <th>Điều trị</th>
           <th>Ngày tạo</th>
 
-          {showActions && <th>Thao tác</th>}
+          {(showActions || showView) && <th>Thao tác</th>}
         </tr>
       </thead>
 
@@ -50,15 +52,29 @@ const MedicalRecordTable = ({
             <td>{record.treatment}</td>
             <td>{formatDateTime(record.createdDate)}</td>
 
-            {showActions && (
+            {(showActions || showView) && (
               <td>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  onClick={() => onEdit(record)}
-                >
-                  Sửa
-                </Button>
+                <div className="d-flex gap-2">
+                  {showView && (
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => onView(record)}
+                    >
+                      Xem chi tiết
+                    </Button>
+                  )}
+
+                  {showActions && (
+                    <Button
+                      variant="warning"
+                      size="sm"
+                      onClick={() => onEdit(record)}
+                    >
+                      Sửa
+                    </Button>
+                  )}
+                </div>
               </td>
             )}
           </tr>

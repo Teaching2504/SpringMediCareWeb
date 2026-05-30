@@ -5,8 +5,10 @@ const AppointmentTable = ({
   showPatient = false,
   showDoctor = false,
   showActions = false,
+  showMedicalRecordAction = false,
   onConfirm,
   onCancel,
+  onViewMedicalRecords,
 }) => {
   const formatDateTime = (value) => {
     if (!value) return "";
@@ -56,6 +58,8 @@ const AppointmentTable = ({
           <th>Ghi chú</th>
 
           {showActions && <th>Thao tác</th>}
+
+          {showMedicalRecordAction && <th>Hồ sơ bệnh án</th>}
         </tr>
       </thead>
 
@@ -96,6 +100,18 @@ const AppointmentTable = ({
                 ) : (
                   <span>{getStatusName(a.status)}</span>
                 )}
+              </td>
+            )}
+
+            {showMedicalRecordAction && (
+              <td>
+                <Button
+                  variant="info"
+                  size="sm"
+                  onClick={() => onViewMedicalRecords(a)}
+                >
+                  Xem hồ sơ
+                </Button>
               </td>
             )}
           </tr>

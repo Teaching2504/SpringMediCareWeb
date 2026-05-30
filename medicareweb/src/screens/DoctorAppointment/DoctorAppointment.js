@@ -4,6 +4,7 @@ import { MyUserContext } from "../../configs/Contexts";
 import { authApis, endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
 import AppointmentTable from "../../components/AppointmentTable";
+import { useNavigate } from "react-router-dom";
 
 const DoctorAppointment = () => {
   const [user] = useContext(MyUserContext);
@@ -11,6 +12,7 @@ const DoctorAppointment = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
+  const nav = useNavigate();
 
   const isDoctor = user !== null && user.role === "doctor";
 
@@ -25,7 +27,9 @@ const DoctorAppointment = () => {
     let res = await authApis().get(endpoints.appointmentsByDoctor(d.doctorId));
     setAppointments(res.data);
   };
-
+  const viewMedicalRecords = (appointment) => {
+    nav(`/doctor-medical-record?appointmentId=${appointment.appointmentId}`);
+  };
   useEffect(() => {
     if (user !== null && isDoctor) {
       setLoading(true);
@@ -85,6 +89,8 @@ const DoctorAppointment = () => {
             showPatient={true}
             showDoctor={false}
             showActions={false}
+            showMedicalRecordAction={true}
+            onViewMedicalRecords={viewMedicalRecords}
           />
 
           {appointments.length === 0 && !loading && (

@@ -23,17 +23,20 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.OneToOne;
 
-/**
- *
- * @author MY PC
- */
 @Entity
 @Table(name = "medical_record")
 @NamedQueries({
     @NamedQuery(name = "MedicalRecord.findAll", query = "SELECT m FROM MedicalRecord m"),
     @NamedQuery(name = "MedicalRecord.findByRecordId", query = "SELECT m FROM MedicalRecord m WHERE m.recordId = :recordId"),
-    @NamedQuery(name = "MedicalRecord.findByCreatedDate", query = "SELECT m FROM MedicalRecord m WHERE m.createdDate = :createdDate")})
+    @NamedQuery(name = "MedicalRecord.findByCreatedDate", query = "SELECT m FROM MedicalRecord m WHERE m.createdDate = :createdDate")
+})
+@JsonIgnoreProperties(value = {
+    "testResultSet",
+    "prescriptionSet"
+})
 public class MedicalRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,6 +62,9 @@ public class MedicalRecord implements Serializable {
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     @ManyToOne(optional = false)
     private Patient patientId;
+    @JoinColumn(name = "appointment_id", referencedColumnName = "appointment_id")
+    @OneToOne
+    private Appointment appointmentId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recordId")
     private Set<TestResult> testResultSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recordId")
@@ -125,6 +131,14 @@ public class MedicalRecord implements Serializable {
         this.patientId = patientId;
     }
 
+    public Appointment getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(Appointment appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
     public Set<TestResult> getTestResultSet() {
         return testResultSet;
     }
@@ -165,5 +179,5 @@ public class MedicalRecord implements Serializable {
     public String toString() {
         return "com.ttkp.pojo.MedicalRecord[ recordId=" + recordId + " ]";
     }
-    
+
 }

@@ -19,6 +19,7 @@ import MyAppointment from "./screens/MyAppointment/MyAppointment";
 import AdminAppointment from "./screens/AdminAppointment/AdminAppointment";
 import DoctorWorkSchedule from "./screens/DoctorWorkSchedule/DoctorWorkSchedule";
 import DoctorAppointment from "./screens/DoctorAppointment/DoctorAppointment";
+import DoctorMedicalRecord from "./screens/DoctorMedicalRecord/DoctorMedicalRecord";
 
 const App = () => {
   const [user, dispatch] = useReducer(
@@ -41,8 +42,18 @@ const App = () => {
             <Route path="/booking" element={<Booking />} />
             <Route path="/my-appointments" element={<MyAppointment />} />
             <Route path="/admin-appointments" element={<AdminAppointment />} />
-            <Route path="/doctor-work-schedule" element={<DoctorWorkSchedule />} />
-            <Route path="/doctor-appointments" element={<DoctorAppointment />} />
+            <Route
+              path="/doctor-work-schedule"
+              element={<DoctorWorkSchedule />}
+            />
+            <Route
+              path="/doctor-appointments"
+              element={<DoctorAppointment />}
+            />
+            <Route
+              path="/doctor-medical-record"
+              element={<DoctorMedicalRecord />}
+            />
           </Routes>
         </Container>
 

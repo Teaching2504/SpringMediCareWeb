@@ -18,8 +18,14 @@ export const endpoints = {
 
   appointments: "/appointments",
   appointmentsByDoctor: (doctorId) => `/appointments/doctor/${doctorId}`,
-};
 
+  medicalRecords: "/medical-records",
+  medicalRecordsByPatient: (patientId) =>
+    `/medical-records/patient/${patientId}`,
+  medicalRecordDetail: (id) => `/medical-records/${id}`,
+  medicalRecordByAppointment: (appointmentId) =>
+    `/medical-records/appointment/${appointmentId}`,
+};
 export const authApis = () => {
   return axios.create({
     baseURL: "http://localhost:8080/SpringMediCareApp/api/",

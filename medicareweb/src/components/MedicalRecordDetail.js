@@ -1,6 +1,6 @@
 import { Badge, Button, Card, Col, Image, Row } from "react-bootstrap";
 
-const MedicalRecordDetail = ({ medicalRecord, onEdit }) => {
+const MedicalRecordDetail = ({ medicalRecord, onEdit, showEdit = false }) => {
   const formatDateTime = (value) => {
     if (!value) return "";
 
@@ -22,9 +22,11 @@ const MedicalRecordDetail = ({ medicalRecord, onEdit }) => {
           <div className="d-flex align-items-center gap-2">
             <Badge bg="primary">Hồ sơ #{medicalRecord.recordId}</Badge>
 
-            <Button variant="outline-primary" size="sm" onClick={onEdit}>
-              Cập nhật hồ sơ
-            </Button>
+            {showEdit && (
+              <Button variant="outline-primary" size="sm" onClick={onEdit}>
+                Cập nhật hồ sơ
+              </Button>
+            )}
           </div>
         </div>
       </Card.Header>

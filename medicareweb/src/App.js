@@ -19,9 +19,11 @@ import MyAppointment from "./screens/MyAppointment/MyAppointment";
 import AdminAppointment from "./screens/AdminAppointment/AdminAppointment";
 import DoctorWorkSchedule from "./screens/DoctorWorkSchedule/DoctorWorkSchedule";
 import DoctorAppointment from "./screens/DoctorAppointment/DoctorAppointment";
+import DoctorMedicalRecord from "./screens/DoctorMedicalRecord/DoctorMedicalRecord";
 import DoctorBySpecialty from "./screens/Specialty/DoctorBySpecialty";
 import SpecialtyDetails from "./screens/Specialty/SpecialtyDetails";
 import Drug from "./screens/Drug/Drug";
+import DoctorExamination from "./screens/DoctorExamination/DoctorExamination";
 
 const App = () => {
   const [user, dispatch] = useReducer(
@@ -44,10 +46,30 @@ const App = () => {
             <Route path="/booking" element={<Booking />} />
             <Route path="/my-appointments" element={<MyAppointment />} />
             <Route path="/admin-appointments" element={<AdminAppointment />} />
-            <Route path="/doctor-work-schedule" element={<DoctorWorkSchedule />} />
-            <Route path="/doctor-appointments" element={<DoctorAppointment />} />
-            <Route path="/specialties/:specialtyId/doctors" element={<DoctorBySpecialty/>} />
-            <Route path="/specialties/:specialtyId" element={<SpecialtyDetails />} />
+            <Route path="/doctor-work-schedule"element={<DoctorWorkSchedule />}/>
+            <Route path="/doctor-appointments"element={<DoctorAppointment />}/>
+            <Route
+              path="/doctor-medical-record"
+              element={<DoctorMedicalRecord />}
+            />
+            <Route path="/doctor-examination" element={<DoctorExamination />} />
+            
+            <Route
+              path="/doctor-work-schedule"
+              element={<DoctorWorkSchedule />}
+            />
+            <Route
+              path="/doctor-appointments"
+              element={<DoctorAppointment />}
+            />
+            <Route
+              path="/specialties/:specialtyId/doctors"
+              element={<DoctorBySpecialty />}
+            />
+            <Route
+              path="/specialties/:specialtyId"
+              element={<SpecialtyDetails />}
+            />
             <Route path="/admin-drugs" element={<Drug />} />
           </Routes>
         </Container>

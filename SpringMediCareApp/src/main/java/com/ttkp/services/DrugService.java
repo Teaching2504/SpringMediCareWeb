@@ -9,4 +9,8 @@ public interface DrugService {
     List<Drug> getDrugs(Map<String, String> params);
 
     Drug getDrugById(int id);
+
+    boolean addOrUpdateDrug(Drug drug);
+
+    boolean deleteDrug(int id);
 }

@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
@@ -36,5 +40,68 @@ public class ApiDrugController {
         }
 
         return new ResponseEntity<>(d, HttpStatus.OK);
+    }
+
+    @PostMapping("/drugs")
+    public ResponseEntity<?> create(
+            @RequestBody Drug drug) {
+
+        boolean success
+                = this.drugService.addOrUpdateDrug(drug);
+
+        if (!success) {
+            return new ResponseEntity<>(
+                    "Không thể thêm thuốc",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(
+                drug,
+                HttpStatus.CREATED);
+    }
+
+    @PutMapping("/drugs/{id}")
+    public ResponseEntity<?> update(
+            @PathVariable("id") int id,
+            @RequestBody Drug drug) {
+
+        Drug current
+                = this.drugService.getDrugById(id);
+
+        if (current == null) {
+            return new ResponseEntity<>(
+                    HttpStatus.NOT_FOUND);
+        }
+
+        drug.setDrugId(id);
+
+        boolean success
+                = this.drugService.addOrUpdateDrug(drug);
+
+        if (!success) {
+            return new ResponseEntity<>(
+                    "Không thể cập nhật thuốc",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(
+                drug,
+                HttpStatus.OK);
+    }
+
+    @DeleteMapping("/drugs/{id}")
+    public ResponseEntity<?> delete(
+            @PathVariable("id") int id) {
+
+        boolean success
+                = this.drugService.deleteDrug(id);
+
+        if (!success) {
+            return new ResponseEntity<>(
+                    HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(
+                HttpStatus.NO_CONTENT);
     }
 }

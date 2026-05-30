@@ -23,4 +23,13 @@ public class DrugServiceImpl implements DrugService {
     public Drug getDrugById(int id) {
         return this.drugRepository.getDrugById(id);
     }
+    @Override
+    public boolean addOrUpdateDrug(Drug drug) {
+        return this.drugRepository.addOrUpdateDrug(drug);
+    }
+
+    @Override
+    public boolean deleteDrug(int id) {
+        return this.drugRepository.deleteDrug(id);
+    }
 }

@@ -92,7 +92,6 @@ public class Specialty implements Serializable {
     public void setImage(String image) {
         this.image = image;
     }
-
     public Set<Doctor> getDoctorSet() {
         return doctorSet;
     }

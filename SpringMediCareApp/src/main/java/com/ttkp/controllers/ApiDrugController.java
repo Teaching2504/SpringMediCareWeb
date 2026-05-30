@@ -3,6 +3,7 @@ package com.ttkp.controllers;
 import com.ttkp.pojo.Drug;
 import com.ttkp.services.DrugService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api")
@@ -21,8 +23,8 @@ public class ApiDrugController {
     private DrugService drugService;
 
     @GetMapping("/drugs")
-    public ResponseEntity<List<Drug>> list() {
-        return new ResponseEntity<>(this.drugService.getDrugs(), HttpStatus.OK);
+    public ResponseEntity<List<Drug>> list(@RequestParam Map<String, String> params) {
+        return new ResponseEntity<>(this.drugService.getDrugs(params), HttpStatus.OK);
     }
 
     @GetMapping("/drugs/{id}")

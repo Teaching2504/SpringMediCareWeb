@@ -45,6 +45,16 @@ const Header = () => {
             <>
               <Link to="/doctor-schedules">Quản lý lịch làm việc</Link>
               <Link to="/admin-appointments">Quản lý lịch hẹn</Link>
+              <div className="nav-dropdown">
+                  <span className="dropdown-trigger">Quản lý Kho thuốc ▾</span>
+                  
+                  <div className="dropdown-menu-content">
+                    <Link to="/admin-drugs">Danh mục thuốc</Link>
+                    <Link to="/admin-drugs?tab=stats">Thống kê thuốc</Link>
+                  </div>
+              </div>
+
+                <Link to="/admin-statistics">Thống kê</Link>
             </>
           )}
 

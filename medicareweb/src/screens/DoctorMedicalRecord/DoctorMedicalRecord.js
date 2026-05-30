@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { MyUserContext } from "../../configs/Contexts";
 import { authApis, endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
+import MedicalRecordDetail from "../../components/MedicalRecordDetail";
 
 const DoctorMedicalRecord = () => {
   const [user] = useContext(MyUserContext);
@@ -14,18 +15,6 @@ const DoctorMedicalRecord = () => {
 
   const appointmentId = q.get("appointmentId");
   const isDoctor = user !== null && user.role === "doctor";
-
-  const formatDateTime = (value) => {
-    if (!value) return "";
-
-    return new Date(value).toLocaleString("vi-VN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };
 
   const loadMedicalRecord = async () => {
     setMsg("");
@@ -96,41 +85,15 @@ const DoctorMedicalRecord = () => {
         <div className="section-box">
           <h2>Chi tiết hồ sơ bệnh án</h2>
 
-          <p>
-            Mã lịch hẹn: <strong>{appointmentId}</strong>
+          <p className="text-secondary mb-4">
+            Mã lịch hẹn:{" "}
+            <span className="fw-semibold text-dark">{appointmentId}</span>
           </p>
         </div>
 
         {msg && <Alert variant="info">{msg}</Alert>}
 
-        {medicalRecord && (
-          <div className="feature-card">
-            <p>
-              <strong>Mã hồ sơ:</strong> {medicalRecord.recordId}
-            </p>
-
-            <p>
-              <strong>Bệnh nhân:</strong> {medicalRecord.patientId?.fullName}
-            </p>
-
-            <p>
-              <strong>Bác sĩ:</strong> {medicalRecord.doctorId?.fullName}
-            </p>
-
-            <p>
-              <strong>Chẩn đoán:</strong> {medicalRecord.diagnosis}
-            </p>
-
-            <p>
-              <strong>Điều trị:</strong> {medicalRecord.treatment}
-            </p>
-
-            <p>
-              <strong>Ngày tạo:</strong>{" "}
-              {formatDateTime(medicalRecord.createdDate)}
-            </p>
-          </div>
-        )}
+        {medicalRecord && <MedicalRecordDetail medicalRecord={medicalRecord} />}
 
         {loading && <MySpinner />}
       </div>

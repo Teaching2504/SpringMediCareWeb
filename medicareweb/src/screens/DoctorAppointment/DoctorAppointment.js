@@ -30,6 +30,9 @@ const DoctorAppointment = () => {
   const viewMedicalRecords = (appointment) => {
     nav(`/doctor-medical-record?appointmentId=${appointment.appointmentId}`);
   };
+  const examine = (appointment) => {
+    nav(`/doctor-examination?appointmentId=${appointment.appointmentId}`);
+  };
   useEffect(() => {
     if (user !== null && isDoctor) {
       setLoading(true);
@@ -91,6 +94,7 @@ const DoctorAppointment = () => {
             showActions={false}
             showMedicalRecordAction={true}
             onViewMedicalRecords={viewMedicalRecords}
+            onExamine={examine}
           />
 
           {appointments.length === 0 && !loading && (

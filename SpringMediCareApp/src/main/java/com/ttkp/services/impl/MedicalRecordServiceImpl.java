@@ -48,6 +48,10 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
             return false;
         }
 
+        if (!"confirmed".equals(appointment.getStatus())) {
+            return false;
+        }
+
         MedicalRecord existingMedicalRecord
                 = this.medicalRecordRepo
                         .getMedicalRecordByAppointmentId(appointmentId);
@@ -67,7 +71,8 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
         this.medicalRecordRepo.addOrUpdateMedicalRecord(medicalRecord);
 
-        return true;
+        return this.appointmentService
+                .updateAppointmentStatus(appointmentId, "completed");
     }
 
     @Override

@@ -9,6 +9,7 @@ const AppointmentTable = ({
   onConfirm,
   onCancel,
   onViewMedicalRecords,
+  onExamine,
 }) => {
   const formatDateTime = (value) => {
     if (!value) return "";
@@ -105,13 +106,33 @@ const AppointmentTable = ({
 
             {showMedicalRecordAction && (
               <td>
-                <Button
-                  variant="info"
-                  size="sm"
-                  onClick={() => onViewMedicalRecords(a)}
-                >
-                  Xem hồ sơ
-                </Button>
+                {a.status === "confirmed" && (
+                  <Button
+                    variant="success"
+                    size="sm"
+                    onClick={() => onExamine(a)}
+                  >
+                    Khám bệnh
+                  </Button>
+                )}
+
+                {a.status === "completed" && (
+                  <Button
+                    variant="info"
+                    size="sm"
+                    onClick={() => onViewMedicalRecords(a)}
+                  >
+                    Xem hồ sơ
+                  </Button>
+                )}
+
+                {a.status === "pending" && (
+                  <span className="text-secondary">Chờ xác nhận</span>
+                )}
+
+                {a.status === "cancelled" && (
+                  <span className="text-danger">Đã hủy</span>
+                )}
               </td>
             )}
           </tr>

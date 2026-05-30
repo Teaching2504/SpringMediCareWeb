@@ -23,6 +23,8 @@ export const endpoints = {
   appointments: "/appointments",
   appointmentsByDoctor: (doctorId) => `/appointments/doctor/${doctorId}`,
 
+  appointmentDetail: (id) => `/appointments/${id}`,
+
   medicalRecords: "/medical-records",
   medicalRecordsByPatient: (patientId) =>
     `/medical-records/patient/${patientId}`,

@@ -2,12 +2,16 @@ import axios from "axios";
 import cookies from "react-cookies";
 
 export const endpoints = {
-  doctors: "/doctors",
+
+  'doctors': "/doctors",
+  'login': "/login",
+  'current-user': '/secure/profile',
+  'users': "/users",
+  'specialties': '/specialties',
+  'categories': '/drug-categories',
+  'drugs': '/drugs',
   allDoctors: "/doctors/all",
   doctorByUser: (userId) => `/doctors/user/${userId}`,
-  login: "/login",
-  "current-user": "/secure/profile",
-  users: "/users",
 
   doctorSchedules: "/doctor-schedules",
   doctorScheduleDetail: (id) => `/doctor-schedules/${id}`,

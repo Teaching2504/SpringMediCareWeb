@@ -20,6 +20,9 @@ import AdminAppointment from "./screens/AdminAppointment/AdminAppointment";
 import DoctorWorkSchedule from "./screens/DoctorWorkSchedule/DoctorWorkSchedule";
 import DoctorAppointment from "./screens/DoctorAppointment/DoctorAppointment";
 import DoctorMedicalRecord from "./screens/DoctorMedicalRecord/DoctorMedicalRecord";
+import DoctorBySpecialty from "./screens/Specialty/DoctorBySpecialty";
+import SpecialtyDetails from "./screens/Specialty/SpecialtyDetails";
+import Drug from "./screens/Drug/Drug";
 
 const App = () => {
   const [user, dispatch] = useReducer(
@@ -54,6 +57,11 @@ const App = () => {
               path="/doctor-medical-record"
               element={<DoctorMedicalRecord />}
             />
+            <Route path="/doctor-work-schedule" element={<DoctorWorkSchedule />} />
+            <Route path="/doctor-appointments" element={<DoctorAppointment />} />
+            <Route path="/specialties/:specialtyId/doctors" element={<DoctorBySpecialty/>} />
+            <Route path="/specialties/:specialtyId" element={<SpecialtyDetails />} />
+            <Route path="/admin-drugs" element={<Drug />} />
           </Routes>
         </Container>
 

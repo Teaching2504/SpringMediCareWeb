@@ -40,7 +40,7 @@ public class HomeController {
 
     @RequestMapping("/specialties")
     public String specialties(Model model) {
-        model.addAttribute("specialties", this.specialtyService.getSpecialties());
+        model.addAttribute("specialties", this.specialtyService.getSpecialties(null));
         return "specialties";
     }
 

@@ -4,6 +4,7 @@ import com.ttkp.pojo.Drug;
 import com.ttkp.repositories.DrugRepository;
 import com.ttkp.services.DrugService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ public class DrugServiceImpl implements DrugService {
     private DrugRepository drugRepository;
 
     @Override
-    public List<Drug> getDrugs() {
-        return this.drugRepository.getDrugs();
+    public List<Drug> getDrugs(Map<String, String> params) {
+        return this.drugRepository.getDrugs(params);
     }
 
     @Override

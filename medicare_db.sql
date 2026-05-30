@@ -299,7 +299,7 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
-INSERT INTO `patient` VALUES (1,1,'Nguyen An','2002-05-10','Nam','Da Nang','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724408/image11_haldjd.jpg'),(2,3,'Le Chi','2001-11-20','Nu','Quang Nam','https://res.cloudinary.com/dczz59gpu/image/upload/v1775722654/image_4_zo9nhr.png'),(3,7,'Dang Thu','2006-09-15','Nu','Ha Noi','https://res.cloudinary.com/dczz59gpu/image/upload/v1775723040/Lighthearted_z1fwdi.jpg'),(4,9,'Bui Nam','1990-04-30','Nam','Thanh pho Ho Chi Minh','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724409/image12_ocjsfs.jpg'),(5,11,'Do Hung','2000-12-04','Nam','Dong Nai','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724411/image9_yjzrqb.jpg'),(6,13,'Nguyen Thi Tuyet Trinh','2005-04-25','Nu','Can Tho','https://res.cloudinary.com/dczz59gpu/image/upload/v1775722814/image1_zbpauf.png'),(7,14,'Duong Le Kim Phung','2005-02-17','Nu','Soc Trang','https://res.cloudinary.com/dczz59gpu/image/upload/v1775723083/z7701887361673_45790b4fa6072813384cfd6dfca22887_fdvg9p.jpg'),(8,15,'Tran Anh Tuan','2005-09-23','Nam','Can Tho','https://res.cloudinary.com/dczz59gpu/image/upload/v1775723319/image5_bptquf.jpg');
+INSERT INTO `patient` VALUES (1,1,'Nguyen An','2002-05-10','Nam','Da Nang','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724408/image11_haldjd.jpg'),(2,3,'Le Chi','2015-08-12','Nu','Quang Nam','https://res.cloudinary.com/dczz59gpu/image/upload/v1775722654/image_4_zo9nhr.png'),(3,7,'Dang Thu','2006-09-15','Nu','Ha Noi','https://res.cloudinary.com/dczz59gpu/image/upload/v1775723040/Lighthearted_z1fwdi.jpg'),(4,9,'Bui Nam','1985-03-20','Nam','Thanh pho Ho Chi Minh','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724409/image12_ocjsfs.jpg'),(5,11,'Do Hung','1970-11-05','Nam','Dong Nai','https://res.cloudinary.com/dczz59gpu/image/upload/v1775724411/image9_yjzrqb.jpg'),(6,13,'Nguyen Thi Tuyet Trinh','2005-04-25','Nu','Can Tho','https://res.cloudinary.com/dczz59gpu/image/upload/v1775722814/image1_zbpauf.png'),(7,14,'Duong Le Kim Phung','2005-02-17','Nu','Soc Trang','https://res.cloudinary.com/dczz59gpu/image/upload/v1775723083/z7701887361673_45790b4fa6072813384cfd6dfca22887_fdvg9p.jpg'),(8,15,'Tran Anh Tuan','1958-09-23','Nam','Can Tho','https://res.cloudinary.com/dczz59gpu/image/upload/v1775723319/image5_bptquf.jpg');
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -497,4 +497,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-30 20:52:22
+-- Dump completed on 2026-05-30 22:27:05

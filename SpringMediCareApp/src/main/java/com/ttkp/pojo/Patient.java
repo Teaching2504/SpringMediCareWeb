@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
     @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p"),
     @NamedQuery(name = "Patient.findByPatientId", query = "SELECT p FROM Patient p WHERE p.patientId = :patientId"),
     @NamedQuery(name = "Patient.findByFullName", query = "SELECT p FROM Patient p WHERE p.fullName = :fullName"),
+    @NamedQuery(name = "Patient.findByUserId", query = "SELECT p FROM Patient p WHERE p.userId.id = :userId"),
     @NamedQuery(name = "Patient.findByDateOfBirth", query = "SELECT p FROM Patient p WHERE p.dateOfBirth = :dateOfBirth"),
     @NamedQuery(name = "Patient.findByGender", query = "SELECT p FROM Patient p WHERE p.gender = :gender"),
     @NamedQuery(name = "Patient.findByAddress", query = "SELECT p FROM Patient p WHERE p.address = :address"),

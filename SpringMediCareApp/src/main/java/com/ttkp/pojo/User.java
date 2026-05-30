@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Transient;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "user")
 @NamedQueries({
@@ -216,6 +217,12 @@ public class User implements Serializable {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    @Transient
+    @JsonProperty("patientId")
+    public Integer getPatientId() {
+        return this.patient != null ? this.patient.getPatientId() : null;
     }
 
     @Override

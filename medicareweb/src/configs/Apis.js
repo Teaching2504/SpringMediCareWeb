@@ -2,14 +2,13 @@ import axios from "axios";
 import cookies from "react-cookies";
 
 export const endpoints = {
-
-  'doctors': "/doctors",
-  'login': "/login",
-  'current-user': '/secure/profile',
-  'users': "/users",
-  'specialties': '/specialties',
-  'categories': '/drug-categories',
-  'drugs': '/drugs',
+  doctors: "/doctors",
+  login: "/login",
+  "current-user": "/secure/profile",
+  users: "/users",
+  specialties: "/specialties",
+  categories: "/drug-categories",
+  drugs: "/drugs",
   allDoctors: "/doctors/all",
   doctorByUser: (userId) => `/doctors/user/${userId}`,
 
@@ -31,6 +30,11 @@ export const endpoints = {
   medicalRecordDetail: (id) => `/medical-records/${id}`,
   medicalRecordByAppointment: (appointmentId) =>
     `/medical-records/appointment/${appointmentId}`,
+
+  testResultsByMedicalRecord: (recordId) =>
+    `/test-results/medical-record/${recordId}`,
+
+  testResults: "/test-results",
 };
 export const authApis = () => {
   return axios.create({

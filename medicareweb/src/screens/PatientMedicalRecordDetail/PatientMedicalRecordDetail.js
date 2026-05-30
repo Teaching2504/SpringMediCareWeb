@@ -5,16 +5,26 @@ import { MyUserContext } from "../../configs/Contexts";
 import { authApis, endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
 import MedicalRecordDetail from "../../components/MedicalRecordDetail";
+import TestResultList from "../../components/TestResultList";
 
 const PatientMedicalRecordDetail = () => {
   const [user] = useContext(MyUserContext);
   const { recordId } = useParams();
 
   const [medicalRecord, setMedicalRecord] = useState(null);
+  const [testResults, setTestResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
   const isPatient = user !== null && user.role === "patient";
+
+  const loadTestResults = async () => {
+    let res = await authApis().get(
+      endpoints.testResultsByMedicalRecord(recordId),
+    );
+
+    setTestResults(res.data);
+  };
 
   const loadMedicalRecord = async () => {
     let res = await authApis().get(endpoints.medicalRecordDetail(recordId));
@@ -25,6 +35,8 @@ const PatientMedicalRecordDetail = () => {
     }
 
     setMedicalRecord(res.data);
+
+    await loadTestResults();
   };
 
   useEffect(() => {
@@ -90,9 +102,9 @@ const PatientMedicalRecordDetail = () => {
           <p>Thông tin chẩn đoán và hướng điều trị trong lần khám bệnh.</p>
         </div>
 
-        {msg && <Alert variant="info">{msg}</Alert>}
-
         {medicalRecord && <MedicalRecordDetail medicalRecord={medicalRecord} />}
+
+        {medicalRecord && <TestResultList testResults={testResults} />}
 
         {loading && <MySpinner />}
       </div>

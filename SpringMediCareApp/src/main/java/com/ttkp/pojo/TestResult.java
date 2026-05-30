@@ -16,13 +16,19 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
+
 @Entity
 @Table(name = "test_result")
 @NamedQueries({
     @NamedQuery(name = "TestResult.findAll", query = "SELECT t FROM TestResult t"),
     @NamedQuery(name = "TestResult.findByTestId", query = "SELECT t FROM TestResult t WHERE t.testId = :testId"),
+    @NamedQuery(
+            name = "TestResult.findByRecordId",
+            query = "SELECT t FROM TestResult t WHERE t.recordId.recordId = :recordId ORDER BY t.createdDate DESC"
+    ),
     @NamedQuery(name = "TestResult.findByTestName", query = "SELECT t FROM TestResult t WHERE t.testName = :testName"),
-    @NamedQuery(name = "TestResult.findByCreatedDate", query = "SELECT t FROM TestResult t WHERE t.createdDate = :createdDate")})
+    @NamedQuery(name = "TestResult.findByCreatedDate", query = "SELECT t FROM TestResult t WHERE t.createdDate = :createdDate")
+})
 public class TestResult implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -123,5 +129,5 @@ public class TestResult implements Serializable {
     public String toString() {
         return "com.ttkp.pojo.TestResult[ testId=" + testId + " ]";
     }
-    
+
 }

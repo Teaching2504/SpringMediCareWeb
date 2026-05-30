@@ -6,6 +6,8 @@ import { authApis, endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
 import MedicalRecordDetail from "../../components/MedicalRecordDetail";
 import MedicalRecordForm from "../../components/MedicalRecordForm";
+import TestResultList from "../../components/TestResultList";
+import TestResultForm from "../../components/TestResultForm";
 
 const DoctorMedicalRecord = () => {
   const [user] = useContext(MyUserContext);
@@ -20,6 +22,11 @@ const DoctorMedicalRecord = () => {
   const [diagnosis, setDiagnosis] = useState("");
   const [treatment, setTreatment] = useState("");
 
+  const [testResults, setTestResults] = useState([]);
+  const [testName, setTestName] = useState("");
+  const [testResult, setTestResult] = useState("");
+  const [savingTestResult, setSavingTestResult] = useState(false);
+
   const appointmentId = q.get("appointmentId");
   const isDoctor = user !== null && user.role === "doctor";
 
@@ -29,6 +36,47 @@ const DoctorMedicalRecord = () => {
     );
 
     setMedicalRecord(res.data);
+
+    await loadTestResults(res.data.recordId);
+  };
+
+  const loadTestResults = async (recordId) => {
+    let res = await authApis().get(
+      endpoints.testResultsByMedicalRecord(recordId),
+    );
+
+    setTestResults(res.data);
+  };
+
+  const addTestResult = async (e) => {
+    e.preventDefault();
+
+    if (!testName.trim() || !testResult.trim()) {
+      setMsg("Vui lòng nhập đầy đủ tên xét nghiệm và kết quả.");
+      return;
+    }
+
+    setSavingTestResult(true);
+    setMsg("");
+
+    try {
+      await authApis().post(endpoints.testResults, {
+        recordId: medicalRecord.recordId,
+        testName,
+        result: testResult,
+      });
+
+      await loadTestResults(medicalRecord.recordId);
+
+      setTestName("");
+      setTestResult("");
+      setMsg("Thêm kết quả xét nghiệm thành công.");
+    } catch (err) {
+      console.error(err);
+      setMsg("Thêm kết quả xét nghiệm thất bại.");
+    } finally {
+      setSavingTestResult(false);
+    }
   };
 
   const openEditForm = () => {
@@ -169,7 +217,18 @@ const DoctorMedicalRecord = () => {
             onCancel={cancelEdit}
           />
         )}
+        {medicalRecord && <TestResultList testResults={testResults} />}
 
+        {medicalRecord && (
+          <TestResultForm
+            testName={testName}
+            result={testResult}
+            setTestName={setTestName}
+            setResult={setTestResult}
+            onSubmit={addTestResult}
+            saving={savingTestResult}
+          />
+        )}
         {loading && <MySpinner />}
       </div>
     </div>

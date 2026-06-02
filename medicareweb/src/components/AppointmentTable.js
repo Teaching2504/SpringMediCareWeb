@@ -10,6 +10,9 @@ const AppointmentTable = ({
   onCancel,
   onViewMedicalRecords,
   onExamine,
+  showPaymentAction = false,
+  onPay,
+  payments = [],
 }) => {
   const formatDateTime = (value) => {
     if (!value) return "";
@@ -43,7 +46,11 @@ const AppointmentTable = ({
 
     return "";
   };
-
+  const getPaymentByAppointmentId = (appointmentId) => {
+    return payments.find(
+      (payment) => payment.appointmentId?.appointmentId === appointmentId,
+    );
+  };
   return (
     <Table striped bordered hover responsive>
       <thead>
@@ -61,6 +68,8 @@ const AppointmentTable = ({
           {showActions && <th>Thao tác</th>}
 
           {showMedicalRecordAction && <th>Hồ sơ bệnh án</th>}
+
+          {showPaymentAction && <th>Thanh toán</th>}
         </tr>
       </thead>
 
@@ -133,6 +142,45 @@ const AppointmentTable = ({
                 {a.status === "cancelled" && (
                   <span className="text-danger">Đã hủy</span>
                 )}
+              </td>
+            )}
+            {showPaymentAction && (
+              <td>
+                {(() => {
+                  const payment = getPaymentByAppointmentId(a.appointmentId);
+
+                  if (payment?.status === "paid") {
+                    return (
+                      <span className="text-success fw-semibold">
+                        Đã thanh toán
+                      </span>
+                    );
+                  }
+
+                  if (payment?.status === "pending") {
+                    return (
+                      <span className="text-warning fw-semibold">
+                        Chờ thanh toán
+                      </span>
+                    );
+                  }
+
+                  if (a.status === "completed") {
+                    return (
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => onPay(a)}
+                      >
+                        Thanh toán
+                      </Button>
+                    );
+                  }
+
+                  return (
+                    <span className="text-secondary">Chưa thể thanh toán</span>
+                  );
+                })()}
               </td>
             )}
           </tr>

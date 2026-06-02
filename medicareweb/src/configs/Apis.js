@@ -40,6 +40,9 @@ export const endpoints = {
 
   prescriptionDetailsByPrescription: (prescriptionId) =>
     `/prescription-details/prescription/${prescriptionId}`,
+
+  pay: "/secure/pay",
+  payments: "/secure/payments",
 };
 export const authApis = () => {
   return axios.create({

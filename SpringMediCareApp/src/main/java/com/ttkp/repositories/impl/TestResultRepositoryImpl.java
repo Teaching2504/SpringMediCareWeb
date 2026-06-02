@@ -4,7 +4,7 @@ import com.ttkp.pojo.TestResult;
 import com.ttkp.repositories.TestResultRepository;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
@@ -21,14 +21,14 @@ public class TestResultRepositoryImpl implements TestResultRepository {
     public List<TestResult> getTestResultsByRecordId(int recordId) {
         Session session = this.factory.getObject().getCurrentSession();
 
-        Query<TestResult> q = session.createNamedQuery(
+        Query query = session.createNamedQuery(
                 "TestResult.findByRecordId",
                 TestResult.class
         );
 
-        q.setParameter("recordId", recordId);
+        query.setParameter("recordId", recordId);
 
-        return q.getResultList();
+        return query.getResultList();
     }
 
     @Override

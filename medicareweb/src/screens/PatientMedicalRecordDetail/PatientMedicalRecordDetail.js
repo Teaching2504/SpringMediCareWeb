@@ -6,6 +6,7 @@ import { authApis, endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
 import MedicalRecordDetail from "../../components/MedicalRecordDetail";
 import TestResultList from "../../components/TestResultList";
+import PrescriptionList from "../../components/PrescriptionList";
 
 const PatientMedicalRecordDetail = () => {
   const [user] = useContext(MyUserContext);
@@ -13,7 +14,9 @@ const PatientMedicalRecordDetail = () => {
 
   const [medicalRecord, setMedicalRecord] = useState(null);
   const [testResults, setTestResults] = useState([]);
+  const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const [msg, setMsg] = useState("");
 
   const isPatient = user !== null && user.role === "patient";
@@ -25,7 +28,28 @@ const PatientMedicalRecordDetail = () => {
 
     setTestResults(res.data);
   };
+  const loadPrescriptions = async () => {
+    let res = await authApis().get(
+      endpoints.prescriptionsByMedicalRecord(recordId),
+    );
 
+    let prescriptionList = [];
+
+    for (let prescription of res.data) {
+      let detailRes = await authApis().get(
+        endpoints.prescriptionDetailsByPrescription(
+          prescription.prescriptionId,
+        ),
+      );
+
+      prescriptionList.push({
+        ...prescription,
+        details: detailRes.data,
+      });
+    }
+
+    setPrescriptions(prescriptionList);
+  };
   const loadMedicalRecord = async () => {
     let res = await authApis().get(endpoints.medicalRecordDetail(recordId));
 
@@ -37,6 +61,7 @@ const PatientMedicalRecordDetail = () => {
     setMedicalRecord(res.data);
 
     await loadTestResults();
+    await loadPrescriptions();
   };
 
   useEffect(() => {
@@ -105,6 +130,8 @@ const PatientMedicalRecordDetail = () => {
         {medicalRecord && <MedicalRecordDetail medicalRecord={medicalRecord} />}
 
         {medicalRecord && <TestResultList testResults={testResults} />}
+
+        {medicalRecord && <PrescriptionList prescriptions={prescriptions} />}
 
         {loading && <MySpinner />}
       </div>

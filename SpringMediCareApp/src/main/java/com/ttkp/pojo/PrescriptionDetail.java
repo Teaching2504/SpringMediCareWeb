@@ -12,13 +12,17 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "prescription_detail")
 @NamedQueries({
-    @NamedQuery(name = "PrescriptionDetail.findAll", query = "SELECT p FROM PrescriptionDetail p"),
-    @NamedQuery(name = "PrescriptionDetail.findById", query = "SELECT p FROM PrescriptionDetail p WHERE p.id = :id"),
-    @NamedQuery(name = "PrescriptionDetail.findByQuantity", query = "SELECT p FROM PrescriptionDetail p WHERE p.quantity = :quantity"),
-    @NamedQuery(name = "PrescriptionDetail.findByDosage", query = "SELECT p FROM PrescriptionDetail p WHERE p.dosage = :dosage")})
+    @NamedQuery(name = "PrescriptionDetail.findAll",query = "SELECT p FROM PrescriptionDetail p"),
+    @NamedQuery(name = "PrescriptionDetail.findById",query = "SELECT p FROM PrescriptionDetail p WHERE p.id = :id"),
+    @NamedQuery(name = "PrescriptionDetail.findByPrescriptionId",query = "SELECT p FROM PrescriptionDetail p WHERE p.prescriptionId.prescriptionId = :prescriptionId"),
+    @NamedQuery(name = "PrescriptionDetail.findByQuantity",query = "SELECT p FROM PrescriptionDetail p WHERE p.quantity = :quantity"),
+    @NamedQuery(name = "PrescriptionDetail.findByDosage",query = "SELECT p FROM PrescriptionDetail p WHERE p.dosage = :dosage")
+})
+@JsonIgnoreProperties(value = {"prescriptionId"})
 public class PrescriptionDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;

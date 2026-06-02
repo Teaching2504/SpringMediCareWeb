@@ -22,12 +22,16 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "prescription")
 @NamedQueries({
-    @NamedQuery(name = "Prescription.findAll", query = "SELECT p FROM Prescription p"),
-    @NamedQuery(name = "Prescription.findByPrescriptionId", query = "SELECT p FROM Prescription p WHERE p.prescriptionId = :prescriptionId"),
-    @NamedQuery(name = "Prescription.findByCreatedDate", query = "SELECT p FROM Prescription p WHERE p.createdDate = :createdDate")})
+    @NamedQuery(name = "Prescription.findAll",query = "SELECT p FROM Prescription p"),
+    @NamedQuery(name = "Prescription.findByPrescriptionId",query = "SELECT p FROM Prescription p WHERE p.prescriptionId = :prescriptionId"),
+    @NamedQuery(name = "Prescription.findByRecordId",query = "SELECT p FROM Prescription p WHERE p.recordId.recordId = :recordId ORDER BY p.createdDate DESC"),
+    @NamedQuery(name = "Prescription.findByCreatedDate",query = "SELECT p FROM Prescription p WHERE p.createdDate = :createdDate")
+})
+@JsonIgnoreProperties(value = {"prescriptionDetailSet"})
 public class Prescription implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -135,5 +139,5 @@ public class Prescription implements Serializable {
     public String toString() {
         return "com.ttkp.pojo.Prescription[ prescriptionId=" + prescriptionId + " ]";
     }
-    
+
 }

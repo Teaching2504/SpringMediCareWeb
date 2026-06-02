@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Tab, Tabs } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { MyUserContext } from "../../configs/Contexts";
 import { authApis, endpoints } from "../../configs/Apis";
@@ -8,6 +8,8 @@ import MedicalRecordDetail from "../../components/MedicalRecordDetail";
 import MedicalRecordForm from "../../components/MedicalRecordForm";
 import TestResultList from "../../components/TestResultList";
 import TestResultForm from "../../components/TestResultForm";
+import PrescriptionList from "../../components/PrescriptionList";
+import PrescriptionForm from "../../components/PrescriptionForm";
 
 const DoctorMedicalRecord = () => {
   const [user] = useContext(MyUserContext);
@@ -27,6 +29,11 @@ const DoctorMedicalRecord = () => {
   const [testResult, setTestResult] = useState("");
   const [savingTestResult, setSavingTestResult] = useState(false);
 
+  const [prescriptions, setPrescriptions] = useState([]);
+  const [drugs, setDrugs] = useState([]);
+  const [prescriptionItems, setPrescriptionItems] = useState([]);
+  const [savingPrescription, setSavingPrescription] = useState(false);
+
   const appointmentId = q.get("appointmentId");
   const isDoctor = user !== null && user.role === "doctor";
 
@@ -38,6 +45,8 @@ const DoctorMedicalRecord = () => {
     setMedicalRecord(res.data);
 
     await loadTestResults(res.data.recordId);
+    await loadPrescriptions(res.data.recordId);
+    await loadDrugs();
   };
 
   const loadTestResults = async (recordId) => {
@@ -47,7 +56,60 @@ const DoctorMedicalRecord = () => {
 
     setTestResults(res.data);
   };
+  const loadPrescriptions = async (recordId) => {
+    let res = await authApis().get(
+      endpoints.prescriptionsByMedicalRecord(recordId),
+    );
 
+    let prescriptionList = [];
+
+    for (let prescription of res.data) {
+      let detailRes = await authApis().get(
+        endpoints.prescriptionDetailsByPrescription(
+          prescription.prescriptionId,
+        ),
+      );
+
+      prescriptionList.push({
+        ...prescription,
+        details: detailRes.data,
+      });
+    }
+
+    setPrescriptions(prescriptionList);
+  };
+  const loadDrugs = async () => {
+    let res = await authApis().get(endpoints.drugs);
+
+    setDrugs(Array.isArray(res.data) ? res.data : []);
+  };
+  const addPrescription = async () => {
+    if (prescriptionItems.length === 0) {
+      setMsg("Vui lòng chọn ít nhất một thuốc.");
+      return;
+    }
+
+    setSavingPrescription(true);
+    setMsg("");
+
+    try {
+      await authApis().post(
+        endpoints.prescriptionsByMedicalRecord(medicalRecord.recordId),
+        prescriptionItems,
+      );
+
+      await loadPrescriptions(medicalRecord.recordId);
+      await loadDrugs();
+
+      setPrescriptionItems([]);
+      setMsg("Kê đơn thuốc thành công.");
+    } catch (err) {
+      console.error(err);
+      setMsg("Không thể kê đơn thuốc. Vui lòng kiểm tra số lượng tồn kho.");
+    } finally {
+      setSavingPrescription(false);
+    }
+  };
   const addTestResult = async (e) => {
     e.preventDefault();
 
@@ -217,18 +279,38 @@ const DoctorMedicalRecord = () => {
             onCancel={cancelEdit}
           />
         )}
-        {medicalRecord && <TestResultList testResults={testResults} />}
-
         {medicalRecord && (
-          <TestResultForm
-            testName={testName}
-            result={testResult}
-            setTestName={setTestName}
-            setResult={setTestResult}
-            onSubmit={addTestResult}
-            saving={savingTestResult}
-          />
+          <Tabs
+            defaultActiveKey="test-results"
+            className="mt-4 mb-3 medicare-tabs"
+          >
+            <Tab eventKey="test-results" title="Xét nghiệm">
+              <TestResultList testResults={testResults} />
+
+              <TestResultForm
+                testName={testName}
+                result={testResult}
+                setTestName={setTestName}
+                setResult={setTestResult}
+                onSubmit={addTestResult}
+                saving={savingTestResult}
+              />
+            </Tab>
+
+            <Tab eventKey="prescriptions" title="Đơn thuốc">
+              <PrescriptionList prescriptions={prescriptions} />
+
+              <PrescriptionForm
+                drugs={drugs}
+                items={prescriptionItems}
+                setItems={setPrescriptionItems}
+                onSubmit={addPrescription}
+                saving={savingPrescription}
+              />
+            </Tab>
+          </Tabs>
         )}
+
         {loading && <MySpinner />}
       </div>
     </div>

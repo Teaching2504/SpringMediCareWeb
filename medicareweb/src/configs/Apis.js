@@ -35,6 +35,11 @@ export const endpoints = {
     `/test-results/medical-record/${recordId}`,
 
   testResults: "/test-results",
+  prescriptionsByMedicalRecord: (recordId) =>
+    `/prescriptions/medical-record/${recordId}`,
+
+  prescriptionDetailsByPrescription: (prescriptionId) =>
+    `/prescription-details/prescription/${prescriptionId}`,
 };
 export const authApis = () => {
   return axios.create({

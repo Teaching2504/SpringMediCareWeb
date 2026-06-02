@@ -25,10 +25,13 @@ import java.util.Date;
 @NamedQueries({
     @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
     @NamedQuery(name = "Payment.findByPaymentId", query = "SELECT p FROM Payment p WHERE p.paymentId = :paymentId"),
+    @NamedQuery(name = "Payment.findByPatientId", query = "SELECT p FROM Payment p WHERE p.patientId.patientId = :patientId ORDER BY p.createdDate DESC"),
+    @NamedQuery(name = "Payment.findByAppointmentId", query = "SELECT p FROM Payment p WHERE p.appointmentId.appointmentId = :appointmentId"),
     @NamedQuery(name = "Payment.findByAmount", query = "SELECT p FROM Payment p WHERE p.amount = :amount"),
     @NamedQuery(name = "Payment.findByPaymentMethod", query = "SELECT p FROM Payment p WHERE p.paymentMethod = :paymentMethod"),
     @NamedQuery(name = "Payment.findByStatus", query = "SELECT p FROM Payment p WHERE p.status = :status"),
-    @NamedQuery(name = "Payment.findByCreatedDate", query = "SELECT p FROM Payment p WHERE p.createdDate = :createdDate")})
+    @NamedQuery(name = "Payment.findByCreatedDate", query = "SELECT p FROM Payment p WHERE p.createdDate = :createdDate")
+})
 public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;

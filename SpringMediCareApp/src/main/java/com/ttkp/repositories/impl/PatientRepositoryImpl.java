@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.hibernate.query.Query;
+import jakarta.persistence.Query;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -26,9 +27,19 @@ public class PatientRepositoryImpl implements PatientRepository {
     public Patient getPatientByUserId(int userId) {
         Session session = this.factory.getObject().getCurrentSession();
 
-        Query<Patient> q = session.createNamedQuery("Patient.findByUserId", Patient.class);
-        q.setParameter("userId", userId);
+        Query query = session.createNamedQuery(
+                "Patient.findByUserId",
+                Patient.class
+        );
 
-        return q.uniqueResult();
+        query.setParameter("userId", userId);
+
+        List<Patient> patients = query.getResultList();
+
+        if (patients.isEmpty()) {
+            return null;
+        }
+
+        return patients.get(0);
     }
 }

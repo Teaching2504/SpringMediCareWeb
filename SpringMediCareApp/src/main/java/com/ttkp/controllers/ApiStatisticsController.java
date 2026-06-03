@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api")
@@ -46,6 +47,14 @@ public class ApiStatisticsController {
     public ResponseEntity<List<Object[]>> countPatientsByDiagnosis() {
         return new ResponseEntity<>(
                 this.statisticsService.countPatientsByDiagnosis(),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/statistics/revenue-total")
+    public ResponseEntity<BigDecimal> getTotalRevenue() {
+        return new ResponseEntity<>(
+                this.statisticsService.getTotalRevenue(),
                 HttpStatus.OK
         );
     }

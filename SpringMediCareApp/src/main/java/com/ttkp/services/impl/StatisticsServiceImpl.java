@@ -5,6 +5,7 @@ import com.ttkp.services.StatisticsService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
@@ -30,5 +31,10 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public List<Object[]> countPatientsByDiagnosis() {
         return this.statisticsRepo.countPatientsByDiagnosis();
+    }
+
+    @Override
+    public BigDecimal getTotalRevenue() {
+        return this.statisticsRepo.getTotalRevenue();
     }
 }

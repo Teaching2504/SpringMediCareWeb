@@ -21,6 +21,8 @@ import com.ttkp.pojo.MedicalRecord;
 import com.ttkp.pojo.Specialty;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
+import com.ttkp.pojo.Payment;
+import java.math.BigDecimal;
 
 @Repository
 @Transactional
@@ -172,4 +174,23 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
         Query query = session.createQuery(q);
         return query.getResultList();
     }
+
+    @Override
+    public BigDecimal getTotalRevenue() {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<BigDecimal> q = b.createQuery(BigDecimal.class);
+
+        Root root = q.from(Payment.class);
+
+        q.select(b.sum(root.<BigDecimal>get("amount")));
+        q.where(b.equal(root.get("status"), "paid"));
+
+        Query query = session.createQuery(q);
+        BigDecimal total = (BigDecimal) query.getSingleResult();
+
+        return total != null ? total : BigDecimal.ZERO;
+    }
+
 }

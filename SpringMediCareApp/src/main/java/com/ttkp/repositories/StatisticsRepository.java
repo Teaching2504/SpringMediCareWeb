@@ -2,6 +2,8 @@ package com.ttkp.repositories;
 
 import java.util.List;
 
+import java.math.BigDecimal;
+
 public interface StatisticsRepository {
 
     List<Object[]> countPatientsByGender();
@@ -11,4 +13,6 @@ public interface StatisticsRepository {
     List<Object[]> countPatientsBySpecialty();
 
     List<Object[]> countPatientsByDiagnosis();
+    
+    BigDecimal getTotalRevenue();
 }

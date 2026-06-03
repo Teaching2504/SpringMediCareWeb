@@ -8,9 +8,10 @@ const StatisticsTable = ({
   loading,
   renderRow,
   children,
+  className = "",
 }) => {
   return (
-    <div className="feature-card mt-4">
+    <div className={`feature-card mt-4 ${className}`}>
       <h3>{title}</h3>
 
       {children}

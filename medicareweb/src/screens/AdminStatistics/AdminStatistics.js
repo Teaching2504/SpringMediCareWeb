@@ -4,6 +4,8 @@ import { MyUserContext } from "../../configs/Contexts";
 import { authApis, endpoints } from "../../configs/Apis";
 import MySpinner from "../../components/MySpinner";
 import StatisticsTable from "../../components/StatisticsTable";
+import StatisticsBarChart from "../../components/StatisticsBarChart";
+import StatisticsLineChart from "../../components/StatisticsLineChart";
 
 const AdminStatistics = () => {
   const [user] = useContext(MyUserContext);
@@ -129,7 +131,9 @@ const AdminStatistics = () => {
             data={patientsByGender}
             emptyMessage="Chưa có dữ liệu bệnh nhân."
             loading={loading}
-          />
+          >
+            <StatisticsBarChart data={patientsByGender} barColor="#7fc8a9" />
+          </StatisticsTable>
 
           <StatisticsTable
             title="Bệnh nhân theo nhóm tuổi"
@@ -137,7 +141,9 @@ const AdminStatistics = () => {
             data={patientsByAgeGroup}
             emptyMessage="Chưa có dữ liệu nhóm tuổi."
             loading={loading}
-          />
+          >
+            <StatisticsBarChart data={patientsByAgeGroup} barColor="#7fc8a9" />
+          </StatisticsTable>
 
           <StatisticsTable
             title="Bệnh nhân theo chuyên khoa"
@@ -145,7 +151,9 @@ const AdminStatistics = () => {
             data={patientsBySpecialty}
             emptyMessage="Chưa có dữ liệu chuyên khoa."
             loading={loading}
-          />
+          >
+            <StatisticsBarChart data={patientsBySpecialty} barColor="#7fc8a9" />
+          </StatisticsTable>
 
           <StatisticsTable
             title="Doanh thu theo tháng"
@@ -176,6 +184,13 @@ const AdminStatistics = () => {
                 Xem doanh thu
               </button>
             </form>
+
+            <StatisticsLineChart
+              data={revenueByMonth}
+              valueFormatter={(value) =>
+                `${Number(value).toLocaleString("vi-VN")} VNĐ`
+              }
+            />
           </StatisticsTable>
         </div>
 
@@ -185,6 +200,7 @@ const AdminStatistics = () => {
           data={patientsByDiagnosis}
           emptyMessage="Chưa có dữ liệu chẩn đoán."
           loading={loading}
+          className="diagnosis-statistics-card"
         />
 
         {loading && <MySpinner />}

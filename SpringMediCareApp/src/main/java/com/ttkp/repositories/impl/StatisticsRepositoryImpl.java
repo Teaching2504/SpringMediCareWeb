@@ -16,6 +16,11 @@ import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import com.ttkp.pojo.Doctor;
+import com.ttkp.pojo.MedicalRecord;
+import com.ttkp.pojo.Specialty;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 
 @Repository
 @Transactional
@@ -120,5 +125,30 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
 
         Query query = session.createQuery(q);
         return (Long) query.getSingleResult();
+    }
+
+    @Override
+    public List<Object[]> countPatientsBySpecialty() {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+
+        Root root = q.from(MedicalRecord.class);
+        Join<MedicalRecord, Doctor> doctorJoin = root.join("doctorId", JoinType.INNER);
+        Join<Doctor, Specialty> specialtyJoin = doctorJoin.join("specialtyId", JoinType.INNER);
+
+        q.multiselect(
+                specialtyJoin.get("name"),
+                b.countDistinct(root.get("patientId").get("patientId"))
+        );
+
+        q.groupBy(
+                specialtyJoin.get("specialtyId"),
+                specialtyJoin.get("name")
+        );
+
+        Query query = session.createQuery(q);
+        return query.getResultList();
     }
 }

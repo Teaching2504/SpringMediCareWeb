@@ -7,4 +7,6 @@ public interface StatisticsService {
     List<Object[]> countPatientsByGender();
 
     List<Object[]> countPatientsByAgeGroup();
+
+    List<Object[]> countPatientsBySpecialty();
 }

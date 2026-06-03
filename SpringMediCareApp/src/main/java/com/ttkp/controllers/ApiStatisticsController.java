@@ -33,4 +33,12 @@ public class ApiStatisticsController {
                 HttpStatus.OK
         );
     }
+
+    @GetMapping("/statistics/patients-by-specialty")
+    public ResponseEntity<List<Object[]>> countPatientsBySpecialty() {
+        return new ResponseEntity<>(
+                this.statisticsService.countPatientsBySpecialty(),
+                HttpStatus.OK
+        );
+    }
 }

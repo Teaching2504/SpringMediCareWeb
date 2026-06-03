@@ -21,4 +21,9 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<Object[]> countPatientsByAgeGroup() {
         return this.statisticsRepo.countPatientsByAgeGroup();
     }
+
+    @Override
+    public List<Object[]> countPatientsBySpecialty() {
+        return this.statisticsRepo.countPatientsBySpecialty();
+    }
 }

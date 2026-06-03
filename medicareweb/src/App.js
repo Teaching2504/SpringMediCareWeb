@@ -23,6 +23,8 @@ import DoctorMedicalRecord from "./screens/DoctorMedicalRecord/DoctorMedicalReco
 import DoctorBySpecialty from "./screens/Specialty/DoctorBySpecialty";
 import SpecialtyDetails from "./screens/Specialty/SpecialtyDetails";
 import Drug from "./screens/Drug/Drug";
+import DrugAdd from "./screens/Drug/DrugAdd";
+import DrugEdit from "./screens/Drug/DrugEdit";
 import DoctorExamination from "./screens/DoctorExamination/DoctorExamination";
 import PatientMedicalHistory from "./screens/PatientMedicalHistory/PatientMedicalHistory";
 import PatientMedicalRecordDetail from "./screens/PatientMedicalRecordDetail/PatientMedicalRecordDetail";
@@ -92,6 +94,8 @@ const App = () => {
               element={<SpecialtyDetails />}
             />
             <Route path="/admin-drugs" element={<Drug />} />
+            <Route path="/drugs/add" element={<DrugAdd />} />
+            <Route path="/drugs/edit/:drugId" element={<DrugEdit />} />
           </Routes>
         </Container>
 

@@ -5,4 +5,6 @@ import java.util.List;
 public interface StatisticsRepository {
 
     List<Object[]> countPatientsByGender();
+
+    List<Object[]> countPatientsByAgeGroup();
 }

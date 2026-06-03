@@ -25,4 +25,12 @@ public class ApiStatisticsController {
                 HttpStatus.OK
         );
     }
+
+    @GetMapping("/statistics/patients-by-age-group")
+    public ResponseEntity<List<Object[]>> countPatientsByAgeGroup() {
+        return new ResponseEntity<>(
+                this.statisticsService.countPatientsByAgeGroup(),
+                HttpStatus.OK
+        );
+    }
 }

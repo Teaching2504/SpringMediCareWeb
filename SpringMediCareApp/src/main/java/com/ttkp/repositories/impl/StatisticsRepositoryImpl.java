@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 @Repository
 @Transactional
@@ -34,5 +38,87 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
 
         Query query = session.createQuery(q);
         return query.getResultList();
+    }
+
+    @Override
+    public List<Object[]> countPatientsByAgeGroup() {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        cal.add(Calendar.YEAR, -18);
+        Date eighteenYearsAgo = cal.getTime();
+
+        cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.YEAR, -31);
+        Date thirtyOneYearsAgo = cal.getTime();
+
+        cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.YEAR, -46);
+        Date fortySixYearsAgo = cal.getTime();
+
+        List<Object[]> results = new ArrayList<>();
+
+        results.add(new Object[]{
+            "Dưới 18",
+            this.countPatientsByDateOfBirth(session, eighteenYearsAgo, null)
+        });
+
+        results.add(new Object[]{
+            "18 - 30",
+            this.countPatientsByDateOfBirth(session, thirtyOneYearsAgo, eighteenYearsAgo)
+        });
+
+        results.add(new Object[]{
+            "31 - 45",
+            this.countPatientsByDateOfBirth(session, fortySixYearsAgo, thirtyOneYearsAgo)
+        });
+
+        results.add(new Object[]{
+            "Trên 45",
+            this.countPatientsByDateOfBirth(session, null, fortySixYearsAgo)
+        });
+
+        return results;
+    }
+
+    private Long countPatientsByDateOfBirth(Session session, Date minDate, Date maxDate) {
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Long> q = b.createQuery(Long.class);
+
+        Root root = q.from(Patient.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(b.isNotNull(root.get("dateOfBirth")));
+
+        if (minDate != null) {
+            predicates.add(
+                    b.greaterThan(root.<Date>get("dateOfBirth"), minDate)
+            );
+        }
+
+        if (maxDate != null) {
+            predicates.add(
+                    b.lessThanOrEqualTo(root.<Date>get("dateOfBirth"), maxDate)
+            );
+        }
+
+        q.select(b.count(root));
+        q.where(predicates.toArray(new Predicate[0]));
+
+        Query query = session.createQuery(q);
+        return (Long) query.getSingleResult();
     }
 }

@@ -891,3 +891,29 @@ a {
 .medicare-tabs .nav-link:focus {
   box-shadow: none;
 }
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.statistics-grid > * {
+  min-width: 0;
+}
+
+@media (max-width: 992px) {
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.diagnosis-statistics-card .table-responsive {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.diagnosis-statistics-card thead th {
+  position: sticky;
+  top: 0;
+  background: #edf8fd;
+  z-index: 1;
+}

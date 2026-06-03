@@ -40,6 +40,14 @@ export const endpoints = {
 
   prescriptionDetailsByPrescription: (prescriptionId) =>
     `/prescription-details/prescription/${prescriptionId}`,
+
+  statisticsPatientsByGender: "/statistics/patients-by-gender",
+  statisticsPatientsByAgeGroup: "/statistics/patients-by-age-group",
+  statisticsPatientsBySpecialty: "/statistics/patients-by-specialty",
+  statisticsPatientsByDiagnosis: "/statistics/patients-by-diagnosis",
+  statisticsRevenueTotal: "/statistics/revenue-total",
+  statisticsRevenueByMonth: (year) =>
+    `/statistics/revenue-by-month?year=${year}`,
 };
 export const authApis = () => {
   return axios.create({

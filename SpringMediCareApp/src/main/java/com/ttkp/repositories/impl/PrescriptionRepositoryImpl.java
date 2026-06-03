@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
+import com.ttkp.pojo.Notification;
 
 @Repository
 @Transactional
@@ -123,7 +124,19 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
 
             session.merge(drug);
         }
+        Notification notification = new Notification();
+        notification.setUserId(medicalRecord.getPatientId().getUserId());
+        String message = String.format(
+                "Ban co don thuoc moi #%d trong ho so kham benh #%d",
+                prescription.getPrescriptionId(),
+                medicalRecord.getRecordId()
+        );
 
+        notification.setMessage(message);
+        notification.setIsRead(false);
+        notification.setCreatedDate(new Date());
+
+        session.persist(notification);
         return true;
     }
 }

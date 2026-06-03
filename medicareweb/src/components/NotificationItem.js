@@ -5,7 +5,9 @@ const NotificationItem = ({ notification }) => {
     if (message.includes("xet nghiem")) {
       return "[Kết quả xét nghiệm] ";
     }
-
+    if (message.includes("don thuoc")) {
+      return "[Đơn thuốc] ";
+    }
     if (message.includes("lich hen")) {
       return "[Lịch hẹn] ";
     }

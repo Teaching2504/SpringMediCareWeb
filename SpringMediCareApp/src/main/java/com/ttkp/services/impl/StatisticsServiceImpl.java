@@ -37,4 +37,9 @@ public class StatisticsServiceImpl implements StatisticsService {
     public BigDecimal getTotalRevenue() {
         return this.statisticsRepo.getTotalRevenue();
     }
+
+    @Override
+    public List<Object[]> getRevenueByMonth(int year) {
+        return this.statisticsRepo.getRevenueByMonth(year);
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api")
@@ -55,6 +56,15 @@ public class ApiStatisticsController {
     public ResponseEntity<BigDecimal> getTotalRevenue() {
         return new ResponseEntity<>(
                 this.statisticsService.getTotalRevenue(),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/statistics/revenue-by-month")
+    public ResponseEntity<List<Object[]>> getRevenueByMonth(
+            @RequestParam("year") int year) {
+        return new ResponseEntity<>(
+                this.statisticsService.getRevenueByMonth(year),
                 HttpStatus.OK
         );
     }

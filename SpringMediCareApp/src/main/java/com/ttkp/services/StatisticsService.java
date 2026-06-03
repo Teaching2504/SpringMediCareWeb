@@ -12,6 +12,8 @@ public interface StatisticsService {
     List<Object[]> countPatientsBySpecialty();
 
     List<Object[]> countPatientsByDiagnosis();
-    
+
     BigDecimal getTotalRevenue();
+
+    List<Object[]> getRevenueByMonth(int year);
 }

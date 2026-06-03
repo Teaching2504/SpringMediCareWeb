@@ -193,4 +193,34 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
         return total != null ? total : BigDecimal.ZERO;
     }
 
+    @Override
+    public List<Object[]> getRevenueByMonth(int year) {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+
+        Root root = q.from(Payment.class);
+
+        q.multiselect(
+                b.function("MONTH", Integer.class, root.get("createdDate")),
+                b.sum(root.<BigDecimal>get("amount"))
+        );
+
+        q.where(
+                b.equal(root.get("status"), "paid"),
+                b.equal(
+                        b.function("YEAR", Integer.class, root.get("createdDate")),
+                        year
+                )
+        );
+
+        q.groupBy(
+                b.function("MONTH", Integer.class, root.get("createdDate"))
+        );
+
+        Query query = session.createQuery(q);
+        return query.getResultList();
+    }
+
 }

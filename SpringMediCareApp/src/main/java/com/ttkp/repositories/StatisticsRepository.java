@@ -9,4 +9,6 @@ public interface StatisticsRepository {
     List<Object[]> countPatientsByAgeGroup();
 
     List<Object[]> countPatientsBySpecialty();
+
+    List<Object[]> countPatientsByDiagnosis();
 }

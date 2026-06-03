@@ -151,4 +151,25 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
         Query query = session.createQuery(q);
         return query.getResultList();
     }
+
+    @Override
+    public List<Object[]> countPatientsByDiagnosis() {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+
+        Root root = q.from(MedicalRecord.class);
+
+        q.multiselect(
+                root.get("diagnosis"),
+                b.countDistinct(root.get("patientId").get("patientId"))
+        );
+
+        q.where(b.isNotNull(root.get("diagnosis")));
+        q.groupBy(root.get("diagnosis"));
+
+        Query query = session.createQuery(q);
+        return query.getResultList();
+    }
 }

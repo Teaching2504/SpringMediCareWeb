@@ -122,27 +122,63 @@ const AdminStatistics = () => {
             <strong>{Number(totalRevenue).toLocaleString("vi-VN")} VNĐ</strong>
           </p>
         </div>
-        <StatisticsTable
-          title="Bệnh nhân theo giới tính"
-          headers={["Giới tính", "Số lượng bệnh nhân"]}
-          data={patientsByGender}
-          emptyMessage="Chưa có dữ liệu bệnh nhân."
-          loading={loading}
-        />
-        <StatisticsTable
-          title="Bệnh nhân theo nhóm tuổi"
-          headers={["Nhóm tuổi", "Số lượng bệnh nhân"]}
-          data={patientsByAgeGroup}
-          emptyMessage="Chưa có dữ liệu nhóm tuổi."
-          loading={loading}
-        />
-        <StatisticsTable
-          title="Bệnh nhân theo chuyên khoa"
-          headers={["Chuyên khoa", "Số lượng bệnh nhân"]}
-          data={patientsBySpecialty}
-          emptyMessage="Chưa có dữ liệu chuyên khoa."
-          loading={loading}
-        />
+        <div className="statistics-grid">
+          <StatisticsTable
+            title="Bệnh nhân theo giới tính"
+            headers={["Giới tính", "Số lượng bệnh nhân"]}
+            data={patientsByGender}
+            emptyMessage="Chưa có dữ liệu bệnh nhân."
+            loading={loading}
+          />
+
+          <StatisticsTable
+            title="Bệnh nhân theo nhóm tuổi"
+            headers={["Nhóm tuổi", "Số lượng bệnh nhân"]}
+            data={patientsByAgeGroup}
+            emptyMessage="Chưa có dữ liệu nhóm tuổi."
+            loading={loading}
+          />
+
+          <StatisticsTable
+            title="Bệnh nhân theo chuyên khoa"
+            headers={["Chuyên khoa", "Số lượng bệnh nhân"]}
+            data={patientsBySpecialty}
+            emptyMessage="Chưa có dữ liệu chuyên khoa."
+            loading={loading}
+          />
+
+          <StatisticsTable
+            title="Doanh thu theo tháng"
+            headers={["Tháng", "Doanh thu đã thanh toán"]}
+            data={revenueByMonth}
+            emptyMessage="Chưa có doanh thu trong năm này."
+            loading={loading}
+            renderRow={(item, index) => (
+              <tr key={index}>
+                <td>Tháng {item[0]}</td>
+                <td>{Number(item[1]).toLocaleString("vi-VN")} VNĐ</td>
+              </tr>
+            )}
+          >
+            <form
+              className="search-form-shared mb-3"
+              onSubmit={searchRevenueByMonth}
+            >
+              <input
+                type="number"
+                className="search-input-shared"
+                value={year}
+                onChange={(event) => setYear(event.target.value)}
+                placeholder="Nhập năm cần xem"
+              />
+
+              <button type="submit" className="btn-main-shared">
+                Xem doanh thu
+              </button>
+            </form>
+          </StatisticsTable>
+        </div>
+
         <StatisticsTable
           title="Bệnh phổ biến trong cộng đồng"
           headers={["Chẩn đoán", "Số lượng bệnh nhân"]}
@@ -150,36 +186,7 @@ const AdminStatistics = () => {
           emptyMessage="Chưa có dữ liệu chẩn đoán."
           loading={loading}
         />
-        <StatisticsTable
-          title="Doanh thu theo tháng"
-          headers={["Tháng", "Doanh thu đã thanh toán"]}
-          data={revenueByMonth}
-          emptyMessage="Chưa có doanh thu trong năm này."
-          loading={loading}
-          renderRow={(item, index) => (
-            <tr key={index}>
-              <td>Tháng {item[0]}</td>
-              <td>{Number(item[1]).toLocaleString("vi-VN")} VNĐ</td>
-            </tr>
-          )}
-        >
-          <form
-            className="search-form-shared mb-3"
-            onSubmit={searchRevenueByMonth}
-          >
-            <input
-              type="number"
-              className="search-input-shared"
-              value={year}
-              onChange={(event) => setYear(event.target.value)}
-              placeholder="Nhập năm cần xem"
-            />
 
-            <button type="submit" className="btn-main-shared">
-              Xem doanh thu
-            </button>
-          </form>
-        </StatisticsTable>
         {loading && <MySpinner />}
       </div>
     </div>

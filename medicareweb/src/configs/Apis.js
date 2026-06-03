@@ -24,6 +24,8 @@ export const endpoints = {
 
   appointmentDetail: (id) => `/appointments/${id}`,
 
+  notificationsByUser: (userId) => `/notifications/user/${userId}`,
+
   medicalRecords: "/medical-records",
   medicalRecordsByPatient: (patientId) =>
     `/medical-records/patient/${patientId}`,

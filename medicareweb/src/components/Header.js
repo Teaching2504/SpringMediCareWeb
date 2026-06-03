@@ -69,6 +69,7 @@ const Header = () => {
             <>
               <Link to="/my-appointments">Lịch hẹn của tôi</Link>
               <Link to="/patient-medical-history">Lịch sử khám bệnh</Link>
+              <Link to="/notifications">Thông báo</Link>
             </>
           )}
 

@@ -917,3 +917,42 @@ a {
   background: #edf8fd;
   z-index: 1;
 }
+.notification-item {
+  position: relative;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border: 1px solid #e3edf2;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.notification-item:last-child {
+  margin-bottom: 0;
+}
+
+.notification-item p {
+  margin-bottom: 6px;
+  font-size: 16px;
+  color: #27475a;
+}
+
+.notification-item span {
+  color: #7b8b94;
+  font-size: 13px;
+}
+
+.notification-unread {
+  padding-left: 34px;
+  background-color: #f8fcfe;
+}
+
+.notification-unread::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 21px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #59b6e3;
+}

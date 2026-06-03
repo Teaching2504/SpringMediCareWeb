@@ -17,6 +17,8 @@ public interface AppointmentRepository {
     Appointment getAppointmentById(int id);
 
     boolean updateAppointmentStatus(int id, String status);
+    
+    boolean confirmAppointment(int id);
 
     boolean isAppointmentTimeBooked(int doctorId, Date appointmentDate);
 }

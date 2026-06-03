@@ -26,6 +26,7 @@ import Drug from "./screens/Drug/Drug";
 import DoctorExamination from "./screens/DoctorExamination/DoctorExamination";
 import PatientMedicalHistory from "./screens/PatientMedicalHistory/PatientMedicalHistory";
 import PatientMedicalRecordDetail from "./screens/PatientMedicalRecordDetail/PatientMedicalRecordDetail";
+import PatientNotification from "./screens/PatientNotification/PatientNotification";
 import AdminStatistics from "./screens/AdminStatistics/AdminStatistics";
 
 const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
             <Route path="/doctor-schedules" element={<DoctorSchedule />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/my-appointments" element={<MyAppointment />} />
+            <Route path="/notifications" element={<PatientNotification />} />
             <Route
               path="/patient-medical-history"
               element={<PatientMedicalHistory />}

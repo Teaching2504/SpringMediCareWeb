@@ -31,7 +31,8 @@ import java.util.Date;
     @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
     @NamedQuery(name = "Notification.findByNotificationId", query = "SELECT n FROM Notification n WHERE n.notificationId = :notificationId"),
     @NamedQuery(name = "Notification.findByIsRead", query = "SELECT n FROM Notification n WHERE n.isRead = :isRead"),
-    @NamedQuery(name = "Notification.findByCreatedDate", query = "SELECT n FROM Notification n WHERE n.createdDate = :createdDate")})
+    @NamedQuery(name = "Notification.findByCreatedDate", query = "SELECT n FROM Notification n WHERE n.createdDate = :createdDate"),
+    @NamedQuery(name = "Notification.findByUserId", query = "SELECT n FROM Notification n WHERE n.userId.id = :userId ORDER BY n.createdDate DESC")})
 public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;

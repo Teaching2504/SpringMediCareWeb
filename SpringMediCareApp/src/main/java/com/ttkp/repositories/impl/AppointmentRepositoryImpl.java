@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import com.ttkp.pojo.Notification;
+import java.text.SimpleDateFormat;
 
 @Repository
 @Transactional
@@ -119,6 +121,43 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
         a.setStatus(status);
         session.merge(a);
+
+        return true;
+    }
+
+    @Override
+    public boolean confirmAppointment(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        Appointment a = session.get(Appointment.class, id);
+
+        if (a == null) {
+            return false;
+        }
+
+        if ("confirmed".equals(a.getStatus())) {
+            return true;
+        }
+
+        a.setStatus("confirmed");
+        session.merge(a);
+
+        Notification n = new Notification();
+        n.setUserId(a.getPatientId().getUserId());
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+
+        String message = String.format(
+                "Lich hen #%d voi bac si %s vao %s da duoc xac nhan",
+                a.getAppointmentId(),
+                a.getDoctorId().getFullName(),
+                formatter.format(a.getAppointmentDate())
+        );
+
+        n.setMessage(message);
+        n.setIsRead(false);
+        n.setCreatedDate(new Date());
+
+        session.persist(n);
 
         return true;
     }

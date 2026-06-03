@@ -35,7 +35,7 @@ CREATE TABLE `appointment` (
   KEY `idx_appointment_doctor_id` (`doctor_id`),
   CONSTRAINT `fk_appointment_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `doctor` (`doctor_id`),
   CONSTRAINT `fk_appointment_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `appointment` (
 
 LOCK TABLES `appointment` WRITE;
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
-INSERT INTO `appointment` VALUES (1,1,1,'2026-04-10 09:00:00','confirmed','Mệt khi vận động, khó thở nhẹ.','2026-04-09 09:00:00'),(2,2,2,'2026-04-10 10:30:00','pending','Kham da lieu','2026-04-09 09:15:00'),(3,3,2,'2026-04-10 12:00:00','confirmed','Kham benh ngoai da','2026-04-09 09:30:00'),(4,4,3,'2026-04-10 13:30:00','pending','Kham rang','2026-04-09 09:45:00'),(5,5,2,'2026-04-10 15:00:00','confirmed','Kham noi mut mong nuoc','2026-04-09 10:00:00'),(6,6,4,'2026-04-10 16:30:00','pending','Kham mat','2026-04-09 10:15:00'),(7,7,3,'2026-04-10 18:00:00','confirmed','KIem tra sau rang','2026-04-09 10:30:00'),(8,8,4,'2026-04-10 19:30:00','cancelled','Do do can va kham mat','2026-04-09 10:45:00'),(9,2,2,'2026-04-10 13:00:00','confirmed','Lich hen bo sung tu thong bao NC7','2026-04-10 08:20:00'),(10,1,1,'2026-04-10 14:00:00','completed','Hồi hộp, đau tức ngực nhẹ.','2026-04-10 08:40:00'),(11,1,1,'2026-04-11 08:00:00','completed','Đau ngực khi gắng sức, khó thở.','2026-05-29 14:53:58'),(12,1,1,'2026-04-11 09:00:00','cancelled','Đau tức ngực thoáng qua, mệt mỏi.','2026-05-29 15:01:03'),(13,1,1,'2026-04-11 10:00:00','pending','Mệt khi vận động nhiều.','2026-05-29 16:02:27'),(14,1,1,'2026-04-11 10:30:00','pending','Tim đập mạnh, lo lắng, mất ngủ.','2026-05-29 16:21:51'),(15,1,1,'2026-04-12 09:10:00','pending','Hay tức ngực khó chịu','2026-05-29 16:48:12'),(16,3,4,'2026-04-11 10:00:00','pending','Đỏ mắt, chảy nước mắt, ngứa, có ghèn','2026-05-30 19:39:12'),(17,3,2,'2026-04-11 10:00:00','pending','Ngứa, nổi mẩn đỏ','2026-05-30 19:40:34');
+INSERT INTO `appointment` VALUES (1,1,1,'2026-04-10 09:00:00','confirmed','Mệt khi vận động, khó thở nhẹ.','2026-04-09 09:00:00'),(2,2,2,'2026-04-10 10:30:00','pending','Kham da lieu','2026-04-09 09:15:00'),(3,3,2,'2026-04-10 12:00:00','confirmed','Kham benh ngoai da','2026-04-09 09:30:00'),(4,4,3,'2026-04-10 13:30:00','pending','Kham rang','2026-04-09 09:45:00'),(5,5,2,'2026-04-10 15:00:00','confirmed','Kham noi mut mong nuoc','2026-04-09 10:00:00'),(6,6,4,'2026-04-10 16:30:00','pending','Kham mat','2026-04-09 10:15:00'),(7,7,3,'2026-04-10 18:00:00','confirmed','KIem tra sau rang','2026-04-09 10:30:00'),(8,8,4,'2026-04-10 19:30:00','cancelled','Do do can va kham mat','2026-04-09 10:45:00'),(9,2,2,'2026-04-10 13:00:00','confirmed','Lich hen bo sung tu thong bao NC7','2026-04-10 08:20:00'),(10,1,1,'2026-04-10 14:00:00','completed','Hồi hộp, đau tức ngực nhẹ.','2026-04-10 08:40:00'),(11,1,1,'2026-04-11 08:00:00','completed','Đau ngực khi gắng sức, khó thở.','2026-05-29 14:53:58'),(12,1,1,'2026-04-11 09:00:00','cancelled','Đau tức ngực thoáng qua, mệt mỏi.','2026-05-29 15:01:03'),(13,1,1,'2026-04-11 10:00:00','pending','Mệt khi vận động nhiều.','2026-05-29 16:02:27'),(14,1,1,'2026-04-11 10:30:00','pending','Tim đập mạnh, lo lắng, mất ngủ.','2026-05-29 16:21:51'),(15,1,1,'2026-04-12 09:10:00','pending','Hay tức ngực khó chịu','2026-05-29 16:48:12'),(16,3,4,'2026-04-11 10:00:00','pending','Đỏ mắt, chảy nước mắt, ngứa, có ghèn','2026-05-30 19:39:12'),(17,3,2,'2026-04-11 10:00:00','confirmed','Ngứa, nổi mẩn đỏ','2026-05-30 19:40:34'),(18,3,2,'2026-06-07 14:00:00','pending','Mụn đầu đen, Mụn viêm, Da nhờn','2026-06-03 18:37:19'),(19,1,2,'2026-06-07 15:00:00','confirmed','Ngứa, Nổi mẩn đỏ, Khô da','2026-06-03 18:45:43');
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +126,7 @@ CREATE TABLE `doctor_schedule` (
   PRIMARY KEY (`schedule_id`),
   KEY `fk_doctor_schedule_doctor` (`doctor_id`),
   CONSTRAINT `fk_doctor_schedule_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `doctor` (`doctor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +135,7 @@ CREATE TABLE `doctor_schedule` (
 
 LOCK TABLES `doctor_schedule` WRITE;
 /*!40000 ALTER TABLE `doctor_schedule` DISABLE KEYS */;
-INSERT INTO `doctor_schedule` VALUES (1,1,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(2,1,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(3,1,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(4,2,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(5,2,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(6,2,'2026-04-11','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(7,3,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(8,3,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(9,3,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(10,4,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(11,4,'2026-04-11','afternoon','13:00:00','17:00:00','unavailable','Bác sĩ nghỉ ca chiều'),(12,4,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(13,1,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(14,1,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(15,1,'2026-04-12','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(16,2,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(17,2,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(18,2,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(19,3,'2026-04-12','morning','07:00:00','11:30:00','unavailable','Bác sĩ nghỉ ca sáng'),(20,3,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(21,3,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(22,4,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(23,4,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(24,4,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối');
+INSERT INTO `doctor_schedule` VALUES (1,1,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(2,1,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(3,1,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(4,2,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(5,2,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(6,2,'2026-04-11','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(7,3,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(8,3,'2026-04-11','afternoon','13:00:00','17:00:00','available','Ca chiều'),(9,3,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(10,4,'2026-04-11','morning','07:00:00','11:30:00','available','Ca sáng'),(11,4,'2026-04-11','afternoon','13:00:00','17:00:00','unavailable','Bác sĩ nghỉ ca chiều'),(12,4,'2026-04-11','evening','17:30:00','21:00:00','available','Ca tối'),(13,1,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(14,1,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(15,1,'2026-04-12','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(16,2,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(17,2,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(18,2,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(19,3,'2026-04-12','morning','07:00:00','11:30:00','unavailable','Bác sĩ nghỉ ca sáng'),(20,3,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(21,3,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(22,4,'2026-04-12','morning','07:00:00','11:30:00','available','Ca sáng'),(23,4,'2026-04-12','afternoon','13:00:00','17:00:00','available','Ca chiều'),(24,4,'2026-04-12','evening','17:30:00','21:00:00','available','Ca tối'),(25,1,'2026-06-07','morning','07:00:00','11:30:00','available','Ca sáng'),(26,1,'2026-06-07','afternoon','13:00:00','17:00:00','available','Ca chiều'),(27,1,'2026-06-07','evening','17:30:00','21:00:00','available','Ca tối'),(28,2,'2026-06-07','morning','07:00:00','11:30:00','available','Ca sáng'),(29,2,'2026-06-07','afternoon','13:00:00','17:00:00','available','Ca chiều'),(30,2,'2026-06-07','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(31,1,'2026-06-08','morning','07:00:00','11:30:00','available','Ca sáng'),(32,1,'2026-06-08','afternoon','13:00:00','17:00:00','available','Ca chiều'),(33,1,'2026-06-08','evening','17:30:00','21:00:00','unavailable','Bác sĩ không trực ca tối'),(34,2,'2026-06-08','morning','07:00:00','11:30:00','available','Ca sáng'),(35,2,'2026-06-08','afternoon','13:00:00','17:00:00','available','Ca chiều'),(36,2,'2026-06-08','evening','17:30:00','21:00:00','available','Ca tối'),(37,1,'2026-06-09','morning','07:00:00','11:30:00','available','Ca sáng'),(38,1,'2026-06-09','afternoon','13:00:00','17:00:00','available','Ca chiều'),(39,2,'2026-06-09','morning','07:00:00','11:30:00','available','Ca sáng'),(40,2,'2026-06-09','afternoon','13:00:00','17:00:00','available','Ca chiều');
 /*!40000 ALTER TABLE `doctor_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,6 +214,36 @@ INSERT INTO `medical_record` VALUES (1,1,1,'Nghi viem hong','Da tung cam cum','2
 UNLOCK TABLES;
 
 --
+-- Table structure for table `medical_record_service`
+--
+
+DROP TABLE IF EXISTS `medical_record_service`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `medical_record_service` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `record_id` int NOT NULL,
+  `service_id` int NOT NULL,
+  `quantity` int NOT NULL DEFAULT '1',
+  `unit_price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_medical_record_service_record_id` (`record_id`),
+  KEY `idx_medical_record_service_service_id` (`service_id`),
+  CONSTRAINT `fk_medical_record_service_record` FOREIGN KEY (`record_id`) REFERENCES `medical_record` (`record_id`),
+  CONSTRAINT `fk_medical_record_service_service` FOREIGN KEY (`service_id`) REFERENCES `medical_service` (`service_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `medical_record_service`
+--
+
+LOCK TABLES `medical_record_service` WRITE;
+/*!40000 ALTER TABLE `medical_record_service` DISABLE KEYS */;
+/*!40000 ALTER TABLE `medical_record_service` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `medical_service`
 --
 
@@ -222,11 +252,11 @@ DROP TABLE IF EXISTS `medical_service`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `medical_service` (
   `service_id` int NOT NULL AUTO_INCREMENT,
-  `service_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `service_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `specialty_id` int NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `unit_price` decimal(10,2) NOT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
   PRIMARY KEY (`service_id`),
   KEY `idx_medical_service_specialty_id` (`specialty_id`),
   CONSTRAINT `fk_medical_service_specialty` FOREIGN KEY (`specialty_id`) REFERENCES `specialty` (`specialty_id`)
@@ -259,7 +289,7 @@ CREATE TABLE `notification` (
   PRIMARY KEY (`notification_id`),
   KEY `idx_notification_user_id` (`user_id`),
   CONSTRAINT `fk_notification_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +298,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (1,1,'Ban co lich hen vao 09:00 ngay 10/04/2026',0,'2026-04-09 18:00:00'),(2,3,'Ban co lich hen vao 10:30 ngay 10/04/2026',0,'2026-04-09 18:05:00'),(3,2,'Ban co lich kham voi benh nhan Nguyen An',1,'2026-04-09 18:10:00'),(4,4,'Ban co lich kham voi benh nhan Le Chi',0,'2026-04-09 18:15:00'),(5,1,'Ban co ket qua xet nghiem moi',1,'2026-04-10 08:00:00'),(6,2,'Ban da duoc phan cong lich kham moi',0,'2026-04-10 08:10:00'),(7,3,'Ban co lich hen vao 13:00 ngay 10/04/2026',0,'2026-04-10 08:20:00'),(8,4,'Don thuoc cua ban da duoc cap nhat',1,'2026-04-10 08:30:00'),(9,1,'Ban co lich hen vao 14:00 ngay 10/04/2026',0,'2026-04-10 08:40:00'),(10,2,'Ho so benh an da duoc cap nhat',1,'2026-04-10 08:50:00');
+INSERT INTO `notification` VALUES (1,1,'Ban co lich hen vao 09:00 ngay 10/04/2026',0,'2026-04-09 18:00:00'),(2,3,'Ban co lich hen vao 10:30 ngay 10/04/2026',0,'2026-04-09 18:05:00'),(3,2,'Ban co lich kham voi benh nhan Nguyen An',1,'2026-04-09 18:10:00'),(4,4,'Ban co lich kham voi benh nhan Le Chi',0,'2026-04-09 18:15:00'),(5,1,'Ban co ket qua xet nghiem moi',1,'2026-04-10 08:00:00'),(6,2,'Ban da duoc phan cong lich kham moi',0,'2026-04-10 08:10:00'),(7,3,'Ban co lich hen vao 13:00 ngay 10/04/2026',0,'2026-04-10 08:20:00'),(8,4,'Don thuoc cua ban da duoc cap nhat',1,'2026-04-10 08:30:00'),(9,1,'Ban co lich hen vao 14:00 ngay 10/04/2026',0,'2026-04-10 08:40:00'),(10,2,'Ho so benh an da duoc cap nhat',1,'2026-04-10 08:50:00'),(11,7,'Lich hen cua ban da duoc xac nhan',0,'2026-06-03 18:07:08'),(12,1,'Lich hen #19 voi bac si Pham Dung vao 15:00 07/06/2026 da duoc xac nhan',0,'2026-06-03 18:51:00');
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -497,4 +527,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-30 22:27:05
+-- Dump completed on 2026-06-03 18:54:38

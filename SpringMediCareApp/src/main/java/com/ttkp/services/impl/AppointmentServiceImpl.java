@@ -93,7 +93,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public boolean confirmAppointment(int id) {
-        return this.appointmentRepo.updateAppointmentStatus(id, "confirmed");
+        return this.appointmentRepo.confirmAppointment(id);
     }
 
     @Override

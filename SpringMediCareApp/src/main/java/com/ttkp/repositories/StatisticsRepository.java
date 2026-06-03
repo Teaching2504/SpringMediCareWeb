@@ -1,0 +1,8 @@
+package com.ttkp.repositories;
+
+import java.util.List;
+
+public interface StatisticsRepository {
+
+    List<Object[]> countPatientsByGender();
+}

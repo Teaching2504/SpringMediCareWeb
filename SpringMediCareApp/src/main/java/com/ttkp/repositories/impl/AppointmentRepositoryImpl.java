@@ -14,6 +14,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.ttkp.pojo.Notification;
+import java.text.SimpleDateFormat;
 
 @Repository
 @Transactional
@@ -143,7 +144,16 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
         Notification n = new Notification();
         n.setUserId(a.getPatientId().getUserId());
-        n.setMessage("Lich hen cua ban da duoc xac nhan");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+
+        String message = String.format(
+                "Lich hen #%d voi bac si %s vao %s da duoc xac nhan",
+                a.getAppointmentId(),
+                a.getDoctorId().getFullName(),
+                formatter.format(a.getAppointmentDate())
+        );
+
+        n.setMessage(message);
         n.setIsRead(false);
         n.setCreatedDate(new Date());
 

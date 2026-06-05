@@ -25,6 +25,7 @@ import SpecialtyDetails from "./screens/Specialty/SpecialtyDetails";
 import Drug from "./screens/Drug/Drug";
 import DrugAdd from "./screens/Drug/DrugAdd";
 import DrugEdit from "./screens/Drug/DrugEdit";
+import DrugStatistics from "./screens/Drug/DrugStatistics";
 import DoctorExamination from "./screens/DoctorExamination/DoctorExamination";
 import PatientMedicalHistory from "./screens/PatientMedicalHistory/PatientMedicalHistory";
 import PatientMedicalRecordDetail from "./screens/PatientMedicalRecordDetail/PatientMedicalRecordDetail";
@@ -96,6 +97,7 @@ const App = () => {
             <Route path="/admin-drugs" element={<Drug />} />
             <Route path="/drugs/add" element={<DrugAdd />} />
             <Route path="/drugs/edit/:drugId" element={<DrugEdit />} />
+            <Route path="/admin-drugs/statistics" element={<DrugStatistics />} />
           </Routes>
         </Container>
 

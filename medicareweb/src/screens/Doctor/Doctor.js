@@ -126,13 +126,6 @@ const Doctor = () => {
                 >
                   Đặt lịch hẹn
                 </button>
-
-                <button
-                  onClick={() => nav(`/doctor/${d.doctorId}`)}
-                  className="btn-outline-shared"
-                >
-                  Xem chi tiết
-                </button>
               </div>
             </div>
           ))}

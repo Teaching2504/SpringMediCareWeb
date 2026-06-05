@@ -50,7 +50,7 @@ const Header = () => {
 
                 <div className="dropdown-menu-content">
                   <Link to="/admin-drugs">Danh mục thuốc</Link>
-                  <Link to="/admin-drugs?tab=stats">Thống kê thuốc</Link>
+                  <Link to="/admin-drugs/statistics">Thống kê thuốc</Link>
                 </div>
               </div>
 

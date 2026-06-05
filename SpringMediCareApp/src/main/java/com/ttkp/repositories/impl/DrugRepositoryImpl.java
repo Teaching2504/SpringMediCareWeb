@@ -86,4 +86,39 @@ public class DrugRepositoryImpl implements DrugRepository {
 
         return false;
     }
+
+    @Override
+    public Long countDrugs() {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Long> q = b.createQuery(Long.class);
+
+        Root<Drug> root = q.from(Drug.class);
+
+        q.select(b.count(root));
+
+        return session.createQuery(q).getSingleResult();
+    }
+
+    @Override
+    public List<Object[]> countDrugsByCategory() {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+
+        Root<Drug> root = q.from(Drug.class);
+
+        q.multiselect(
+                root.get("categoryId").get("categoryName"),
+                b.count(root.get("drugId"))
+        );
+
+        q.groupBy(
+                root.get("categoryId").get("categoryName")
+        );
+
+        return session.createQuery(q).getResultList();
+    }
 }

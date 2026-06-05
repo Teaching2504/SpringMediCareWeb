@@ -48,6 +48,8 @@ export const endpoints = {
   statisticsPatientsBySpecialty: "/statistics/patients-by-specialty",
   statisticsPatientsByDiagnosis: "/statistics/patients-by-diagnosis",
   statisticsRevenueTotal: "/statistics/revenue-total",
+  statisticsDrugsTotal: "/statistics/drugs-total",
+  statisticsDrugsByCategory: "/statistics/drugs-by-category",
   statisticsRevenueByMonth: (year) =>
     `/statistics/revenue-by-month?year=${year}`,
 };

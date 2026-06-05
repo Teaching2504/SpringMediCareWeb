@@ -29,11 +29,6 @@ const Home = () => {
                                 Hệ thống hỗ trợ bệnh nhân đăng ký khám bệnh trực tuyến, đặt lịch hẹn với bác sĩ, 
                                 lưu trữ hồ sơ bệnh án điện tử, quản lý thuốc, thanh toán trực tuyến và thống kê báo cáo hoạt động phòng khám.
                             </p>
-                            <div className="hero-actions">
-                                <button onClick={() => nav("/doctor")} className="btn-main-shared" style={{ padding: "0 28px" }}>
-                                    Đặt lịch với Bác sĩ ngay
-                                </button>
-                            </div>
                         </div>
                         
                         <div className="hero-right">

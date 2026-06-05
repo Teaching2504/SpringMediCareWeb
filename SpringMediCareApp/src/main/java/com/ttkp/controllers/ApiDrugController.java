@@ -104,4 +104,20 @@ public class ApiDrugController {
         return new ResponseEntity<>(
                 HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/statistics/drugs-total")
+    public ResponseEntity<Long> countDrugs() {
+        return new ResponseEntity<>(
+                this.drugService.countDrugs(),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/statistics/drugs-by-category")
+    public ResponseEntity<List<Object[]>> countDrugsByCategory() {
+        return new ResponseEntity<>(
+                this.drugService.countDrugsByCategory(),
+                HttpStatus.OK
+        );
+    }
 }

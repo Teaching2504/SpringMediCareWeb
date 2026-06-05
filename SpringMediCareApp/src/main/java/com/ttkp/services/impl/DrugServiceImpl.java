@@ -23,6 +23,7 @@ public class DrugServiceImpl implements DrugService {
     public Drug getDrugById(int id) {
         return this.drugRepository.getDrugById(id);
     }
+
     @Override
     public boolean addOrUpdateDrug(Drug drug) {
         return this.drugRepository.addOrUpdateDrug(drug);
@@ -32,4 +33,15 @@ public class DrugServiceImpl implements DrugService {
     public boolean deleteDrug(int id) {
         return this.drugRepository.deleteDrug(id);
     }
+
+    @Override
+    public Long countDrugs() {
+        return this.drugRepository.countDrugs();
+    }
+
+    @Override
+    public List<Object[]> countDrugsByCategory() {
+        return this.drugRepository.countDrugsByCategory();
+    }
+
 }

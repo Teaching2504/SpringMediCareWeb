@@ -13,4 +13,8 @@ public interface DrugRepository {
     boolean addOrUpdateDrug(Drug drug);
 
     boolean deleteDrug(int id);
+    
+    public Long countDrugs();
+    
+    public List<Object[]> countDrugsByCategory();
 }
